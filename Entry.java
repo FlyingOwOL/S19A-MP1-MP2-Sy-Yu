@@ -1,3 +1,4 @@
 public class Entry {
-    String details;
+    String details, title;
+    int entryID;
 }
