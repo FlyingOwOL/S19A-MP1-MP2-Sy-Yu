@@ -15,7 +15,7 @@ public class Accounts {
         this.isActive = true; // Default to active
     }
 
-
+    // Getters for account details
     public String getAccountName() {
         return accountName;
     }
