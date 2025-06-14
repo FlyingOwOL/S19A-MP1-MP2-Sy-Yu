@@ -8,6 +8,10 @@ public class Calendar {
     private ArrayList<Entry> calendarEntry;
     private Month [] months;
 
+
+    /**
+     * Constructor to create a Calendar object.
+     */
     public Calendar (String calendarName, boolean isPubliclyAvailable, int calendarYear){
         this.calendarName = calendarName;
         this.isPubliclyAvailable = isPubliclyAvailable;
@@ -17,9 +21,9 @@ public class Calendar {
         this.months = new Month[FixedValues.NO_OF_MONTHS];
     }
 
-
+    // Getters
     public String getCalendarName() {
-        return calendarName;
+        return calendarName + " " + calendarYear;
     }
 
     public int getNumberOfMonths() {
@@ -27,7 +31,14 @@ public class Calendar {
     }
 
     public Month getMonth (String name){
-        return null;
+        Month monthToReturn = null;
+        for (Month month : months) {
+            if (month != null &&
+                month.getMonthName().equalsIgnoreCase(name)) {
+                monthToReturn = month;
+            }
+        }
+        return monthToReturn;
     }
 
     public boolean getAvailability() {
@@ -35,15 +46,32 @@ public class Calendar {
     }
 
     public boolean addEntry (Entry entry) {
-        return false;
+        boolean isSuccessful = false;
+        if (entry != null) {
+            calendarEntry.add(entry);
+            isSuccessful = true;
+        }
+        return isSuccessful;
     }
 
     public boolean deleteEntry (Entry entry) {
-        return false;
+        boolean isSuccessful = false;
+        if (entry != null && calendarEntry.contains(entry)) {
+            calendarEntry.remove(entry);
+            isSuccessful = true;
+        }
+        return isSuccessful;
     }
 
     public boolean editEntry (int entryID, Entry newEntry) {
-        return false;
+        boolean isSuccessful = false;
+        for (int i = 0; i < calendarEntry.size(); i++) {
+            if (calendarEntry.get(i).getEntryID() == entryID) {
+                calendarEntry.set(i, newEntry);
+                isSuccessful = true;
+                i = calendarEntry.size(); // Exit loop after finding the entry
+            }
+        }
+        return isSuccessful;
     }
-
 }

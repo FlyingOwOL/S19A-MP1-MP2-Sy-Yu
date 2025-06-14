@@ -5,7 +5,7 @@ public class Accounts {
     private String accountPasword;
     private ArrayList<Calendar> privateCalendars;
     private ArrayList<Calendar> publicCalendars;
-    private boolean isActive;
+    private final boolean isActive;
 
     public Accounts(String accountName, String accountPassword) {
         this.accountName = accountName;
@@ -33,11 +33,29 @@ public class Accounts {
         return isActive;
     }
 
-    public boolean addCalendar(){
-        return false;
+    public boolean addCalendar(Calendar calendar) {
+        boolean isSuccessful = false;
+        if (calendar != null) {
+            if (calendar.getAvailability()) {
+                publicCalendars.add(calendar);
+            } else {
+                privateCalendars.add(calendar);
+            }
+            isSuccessful = true;
+        }
+        return isSuccessful;
     }
 
     public boolean removeCalendar (Calendar calendar) {
-        return false;
+        boolean isSuccessful = false;
+        if (calendar != null) {
+            if (publicCalendars.contains(calendar)) {
+                publicCalendars.remove(calendar);
+            } else if (privateCalendars.contains(calendar)) {
+                privateCalendars.remove(calendar);
+            }
+            isSuccessful = true;
+        }
+        return isSuccessful;
     }
 }
