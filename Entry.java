@@ -98,6 +98,7 @@ public class Entry {
     }
 
     // Just a formatting method to display the entry information in a readable format
+    @Override
     public String toString() {
         return String.format("Entry: %s [%s - %s]: %s", date, startTime, endTime, title);
     }
