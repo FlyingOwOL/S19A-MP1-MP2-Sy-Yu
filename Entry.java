@@ -54,8 +54,13 @@ public class Entry {
 
     // Setters
 
-    public void setEntryID(int entryID) {
-        this.entryID = entryID;
+    public boolean setEntryID(int entryID) {
+        boolean isSuccessful = false;
+        if (entryID > 0) {
+            this.entryID = entryID;
+            isSuccessful = true;
+        }
+        return isSuccessful;
     }
 
     public boolean setTitle(String title) {
