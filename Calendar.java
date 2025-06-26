@@ -2,48 +2,69 @@ import java.util.ArrayList;
 
 public class Calendar {
     private String calendarName;
-    private int calendarYear;
-    private int numberOfMonths;
     private boolean isPubliclyAvailable;
-    private ArrayList<Entry> calendarEntry;
-    private Month [] months;
+    private Account owner; // Track who created the calendar
+    private ArrayList<Entry> calendarEntries;
 
-    public Calendar (String calendarName, boolean isPubliclyAvailable, int calendarYear){
+    /**
+     * Constructor: Initializes the calendar with a name, availability, and owner.
+     */
+    public Calendar(String calendarName, boolean isPubliclyAvailable, Account owner) {
         this.calendarName = calendarName;
         this.isPubliclyAvailable = isPubliclyAvailable;
-        this.calendarYear = calendarYear;
-        this.numberOfMonths = FixedValues.NO_OF_MONTHS;
-        this.calendarEntry = new ArrayList<>();
-        this.months = new Month[FixedValues.NO_OF_MONTHS];
+        this.owner = owner;
+        this.calendarEntries = new ArrayList<>();
     }
 
-
-    public String getCalendarName() {
+    // Getters
+    public String getName() {
         return calendarName;
     }
 
-    public int getNumberOfMonths() {
-        return numberOfMonths;
-    }
-
-    public Month getMonth (String name){
-        return null;
-    }
-
-    public boolean getAvailability() {
+    public boolean isPubliclyAvailable() {
         return isPubliclyAvailable;
     }
 
-    public boolean addEntry (Entry entry) {
+    public Account getOwner() {
+        return owner;
+    }
+
+    public ArrayList<Entry> getCalendarEntries() {
+        return calendarEntries;
+    }
+
+    /**
+     * Adds an entry to the calendar if it does not already exist.
+     */
+    public boolean addEntry(Entry entry) {
+        if (entry != null && !calendarEntries.contains(entry)) {
+            calendarEntries.add(entry);
+            return true;
+        }
         return false;
     }
 
-    public boolean deleteEntry (Entry entry) {
+    /**
+     * Deletes an entry from the calendar.
+     */
+    public boolean deleteEntry(Entry entry) {
+        if (entry != null && calendarEntries.contains(entry)) {
+            calendarEntries.remove(entry);
+            return true;
+        }
         return false;
     }
 
-    public boolean editEntry (int entryID, Entry newEntry) {
+    /**
+     * Edits an existing entry in the calendar by matching entryID.
+     */
+    public boolean editEntry(int entryID, Entry newEntry) {
+        for (int i = 0; i < calendarEntries.size(); i++) {
+            if (calendarEntries.get(i).getEntryID() == entryID) {
+                calendarEntries.set(i, newEntry);
+                return true;
+            }
+        }
         return false;
     }
-
 }
