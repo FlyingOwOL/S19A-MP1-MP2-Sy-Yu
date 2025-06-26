@@ -14,21 +14,27 @@ public class Main {
     }
 
     private static void createAccount(Scanner userInput) {
-        Account newAccount = MainMethods.createAccount(userInput, activeAccounts);
+    Account newAccount = MainMethods.createAccount(userInput, activeAccounts);
         if (newAccount != null) {
             activeAccounts.add(newAccount);
-            System.out.println("Account created successfully!");
+            System.out.println("Account created successfully!\n");
+
+        //  Automatically go to the User Menu
+            UserMenu.userMenu(userInput, newAccount);
         } else {
-            System.out.println("Account creation failed.");
+            System.out.println("Account creation failed.\n");
         }
     }
 
-    public static void main(String[] args) {
-        Scanner userInput = new Scanner(System.in);
-        int menuChoice;
 
-        do {
-            MainMethods.displayMenu();
+ public static void main(String[] args) {
+    Scanner userInput = new Scanner(System.in);
+    int menuChoice = -1;
+
+    do {
+        MainMethods.displayMenu();
+
+        if (userInput.hasNextInt()) { // Check if input is an integer
             menuChoice = userInput.nextInt();
 
             if (menuChoice == 1) {
@@ -39,7 +45,6 @@ public class Main {
                     if (loggedInAccount != null) {
                         System.out.println("Welcome, " + loggedInAccount.getAccountName() + "!");
                         UserMenu.userMenu(userInput, loggedInAccount);
-
                     } else {
                         System.out.println("Login failed. Please try again.");
                     }
@@ -47,12 +52,20 @@ public class Main {
                     System.out.println("No accounts available. Please create an account first.");
                 }
             } else if (menuChoice != 0) {
-                System.out.println("Invalid choice. Please try again.");
+                System.out.println("\nInvalid choice. Please try again.\n");
             }
 
-        } while (menuChoice != 0);
 
-        System.out.println("Thank you for using the Calendar Application!");
-        userInput.close();
-    }
+        }   else {
+            // If input is not an integer, display error and discard it
+            System.out.println("\nInvalid input. Please enter a number.\n");
+            userInput.nextLine(); // Consume the invalid input
+            menuChoice = -1; // Stay in the loop
+        }
+
+    } while (menuChoice != 0);
+
+    System.out.println("Thank you for using the Calendar Application!");
+    userInput.close();
+}
 }

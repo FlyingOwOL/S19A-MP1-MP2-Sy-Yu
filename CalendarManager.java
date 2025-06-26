@@ -3,30 +3,37 @@ import java.util.Scanner;
 
 public class CalendarManager {
 
-    // 📅 View Calendars and Navigate Entries
+    // View Calendars and Navigate Entries
     public static void viewCalendars(Scanner userInput, Account account) {
         ArrayList<Calendar> calendars = account.getCalendars();
+
         if (calendars.isEmpty()) {
-            System.out.println("No calendars to display.");
-            return;
-        }
+            System.out.println("No calendars to display.\n");
+        } else {
+            for (int i = 0; i < calendars.size(); i++) {
+                String availabilityStatus;
+                if (calendars.get(i).isPubliclyAvailable()) {
+                    availabilityStatus = " (Public)";
+                } else {
+                    availabilityStatus = " (Private)";
+                }
+                System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName() + availabilityStatus);
+            }
 
-        for (int i = 0; i < calendars.size(); i++) {
-            System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName() +
-                    (calendars.get(i).isPubliclyAvailable() ? " (Public)" : " (Private)"));
-        }
+            System.out.print("Enter calendar number to view entries or 0 to go back: ");
+            int choice = userInput.nextInt();
+            userInput.nextLine();
 
-        System.out.print("Enter calendar number to view entries or 0 to go back: ");
-        int choice = userInput.nextInt();
-        userInput.nextLine();
-
-        if (choice >= 1 && choice <= calendars.size()) {
-            Calendar selectedCalendar = calendars.get(choice - 1);
-            MonthlyDisplay.calendarNavigation(userInput, selectedCalendar);
+            if (choice >= 1 && choice <= calendars.size()) {
+                Calendar selectedCalendar = calendars.get(choice - 1);
+                MonthlyDisplay.calendarNavigation(userInput, selectedCalendar);
+            } else if (choice != 0) {
+                System.out.println("Invalid calendar selection. Please try again.\n");
+            }
         }
     }
 
-    // 📅 Add a new calendar
+    // Add a new calendar
     public static void addCalendar(Scanner userInput, Account account) {
         System.out.println("Enter calendar name: ");
         String calendarName = userInput.nextLine();
@@ -43,65 +50,74 @@ public class CalendarManager {
         }
 
         System.out.println("Calendar added successfully.");
+        if (isPublic) {
+            System.out.println("This calendar is Public.\n");
+        } else {
+            System.out.println("This calendar is Private.\n");
+        }
     }
 
-    // 📅 Delete a calendar
+    // Delete a calendar
     public static void deleteCalendar(Scanner userInput, Account account) {
         ArrayList<Calendar> calendars = account.getCalendars();
+
         if (calendars.isEmpty()) {
-            System.out.println("No calendars to delete.");
-            return;
-        }
-
-        System.out.println("Select calendar to delete:");
-        for (int i = 0; i < calendars.size(); i++) {
-            System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
-        }
-
-        System.out.print("Enter calendar number or 0 to cancel: ");
-        int choice = userInput.nextInt();
-        userInput.nextLine();
-
-        if (choice >= 1 && choice <= calendars.size()) {
-            Calendar selectedCalendar = calendars.get(choice - 1);
-
-            if (selectedCalendar.getName().equals(account.getAccountName())) {
-                System.out.println("Default calendar cannot be deleted.");
-                return;
+            System.out.println("No calendars to delete.\n");
+        } else {
+            System.out.println("Select calendar to delete:");
+            for (int i = 0; i < calendars.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
             }
 
-            if (account.removeCalendar(selectedCalendar)) {
-                if (selectedCalendar.isPubliclyAvailable()) {
-                    Main.publicCalendars.remove(selectedCalendar);
+            System.out.print("Enter calendar number or 0 to cancel: ");
+            int choice = userInput.nextInt();
+            userInput.nextLine();
+
+            if (choice >= 1 && choice <= calendars.size()) {
+                Calendar selectedCalendar = calendars.get(choice - 1);
+
+                if (selectedCalendar.getName().equals(account.getAccountName())) {
+                    System.out.println("Default calendar cannot be deleted.\n");
+                } else {
+                    if (account.removeCalendar(selectedCalendar)) {
+                        if (selectedCalendar.isPubliclyAvailable()) {
+                            Main.publicCalendars.remove(selectedCalendar);
+                        }
+                        System.out.println("Calendar deleted successfully.\n");
+                    } else {
+                        System.out.println("You do not have permission to delete this calendar.\n");
+                    }
                 }
-                System.out.println("Calendar deleted successfully.");
-            } else {
-                System.out.println("You do not have permission to delete this calendar.");
+            } else if (choice != 0) {
+                System.out.println("Invalid calendar selection.\n");
             }
         }
     }
 
-    // 📅 Helper to select a calendar
+    // Helper to select a calendar
     public static Calendar selectCalendar(Scanner userInput, Account account) {
         ArrayList<Calendar> calendars = account.getCalendars();
+        Calendar selectedCalendar = null;
+
         if (calendars.isEmpty()) {
-            System.out.println("No calendars available.");
-            return null;
-        }
-
-        System.out.println("Select a calendar:");
-        for (int i = 0; i < calendars.size(); i++) {
-            System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
-        }
-
-        System.out.print("Enter calendar number or 0 to cancel: ");
-        int choice = userInput.nextInt();
-        userInput.nextLine();
-
-        if (choice >= 1 && choice <= calendars.size()) {
-            return calendars.get(choice - 1);
+            System.out.println("No calendars available.\n");
         } else {
-            return null;
+            System.out.println("Select a calendar:");
+            for (int i = 0; i < calendars.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
+            }
+
+            System.out.print("Enter calendar number or 0 to cancel: ");
+            int choice = userInput.nextInt();
+            userInput.nextLine();
+
+            if (choice >= 1 && choice <= calendars.size()) {
+                selectedCalendar = calendars.get(choice - 1);
+            } else if (choice != 0) {
+                System.out.println("Invalid calendar selection.\n");
+            }
         }
+
+        return selectedCalendar;
     }
 }
