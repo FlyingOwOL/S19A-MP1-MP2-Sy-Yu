@@ -1,12 +1,13 @@
-import java.time.LocalDate;
-import java.time.YearMonth;
+import java.time.LocalDate; /*  This import is necessary for handling dates in the MonthlyDisplay class. 
+It is the current date (year, month, day). */
+import java.time.YearMonth; // We import YearMonth for month/year handling
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MonthlyDisplay {
 
     public static void calendarNavigation(Scanner userInput, Calendar calendar) {
-        YearMonth currentMonth = YearMonth.now(); // Start with current month
+        YearMonth currentMonth = YearMonth.now();
         int navigationChoice;
 
         do {
@@ -37,32 +38,30 @@ public class MonthlyDisplay {
                     if (month >= 1 && month <= 12) {
                         currentMonth = YearMonth.of(year, month);
                     } else {
-                        System.out.println("Invalid month.");
+                        System.out.println("Invalid month.\n");
                     }
                     break;
                 case 4:
                     selectDateToView(userInput, calendar, currentMonth);
                     break;
                 case 0:
-                    System.out.println("Returning to calendar menu...");
+                    System.out.println("Returning to calendar menu...\n");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Invalid choice. Please try again.\n");
             }
         } while (navigationChoice != 0);
     }
 
-    // Display the calendar month with entries per day
     public static void displayMonthView(Calendar calendar, YearMonth yearMonth) {
         System.out.println("\n" + yearMonth.getMonth() + " " + yearMonth.getYear());
         System.out.println("Sun Mon Tue Wed Thu Fri Sat");
 
         LocalDate firstDay = yearMonth.atDay(1);
-        int dayOfWeek = firstDay.getDayOfWeek().getValue(); // Monday=1, Sunday=7
+        int dayOfWeek = firstDay.getDayOfWeek().getValue();
 
-        int currentPosition = dayOfWeek % 7; // Adjust so Sunday=0
+        int currentPosition = dayOfWeek % 7;
 
-        // Print leading spaces
         for (int i = 0; i < currentPosition; i++) {
             System.out.print("    ");
         }
@@ -73,14 +72,14 @@ public class MonthlyDisplay {
             boolean hasEntry = checkEntryExists(calendar, currentDate);
 
             if (hasEntry) {
-                System.out.printf("[%2d]", day); // Day with entry
+                System.out.printf("[%2d]", day);
             } else {
-                System.out.printf(" %2d ", day); // Day without entry
+                System.out.printf(" %2d ", day);
             }
 
             currentPosition++;
             if (currentPosition % 7 == 0) {
-                System.out.println(); // New week
+                System.out.println();
             } else {
                 System.out.print(" ");
             }
@@ -88,71 +87,73 @@ public class MonthlyDisplay {
         System.out.println();
     }
 
-    // Check if there are entries on a specific date
     public static boolean checkEntryExists(Calendar calendar, LocalDate date) {
         ArrayList<Entry> entries = calendar.getCalendarEntries();
+        boolean found = false;
+
         for (int i = 0; i < entries.size(); i++) {
             if (entries.get(i).getDate().equals(date)) {
-                return true;
+                found = true;
             }
         }
-        return false;
+
+        return found;
     }
 
-    // Select a date and display its entries
     public static void selectDateToView(Scanner userInput, Calendar calendar, YearMonth yearMonth) {
         System.out.print("Enter the day you want to view (example: 5 for the 5th day): ");
         int day = userInput.nextInt();
         userInput.nextLine();
 
-        if (day < 1 || day > yearMonth.lengthOfMonth()) {
-            System.out.println("Invalid day.\n");
-        } else {
+        if (day >= 1 && day <= yearMonth.lengthOfMonth()) {
+
             System.out.println("Displaying entries for day: " + day);
-        }
 
+            LocalDate selectedDate = yearMonth.atDay(day);
+            ArrayList<Entry> entries = calendar.getCalendarEntries();
+            ArrayList<Entry> entriesOnDate = new ArrayList<>();
 
-        LocalDate selectedDate = yearMonth.atDay(day);
-        ArrayList<Entry> entries = calendar.getCalendarEntries();
-        ArrayList<Entry> entriesOnDate = new ArrayList<>();
-
-        // Find entries for the selected date
-        for (int i = 0; i < entries.size(); i++) {
-            if (entries.get(i).getDate().equals(selectedDate)) {
-                entriesOnDate.add(entries.get(i));
-            }
-        }
-
-        if (entriesOnDate.isEmpty()) {
-            System.out.println("No entries on this date.\n");
-        } else {
-            // Only proceed if there are entries
-            for (Entry entry : entriesOnDate) {
-                System.out.println(entry);
-            }
-        }
-
-System.out.println("Press Enter to continue.");
-userInput.nextLine();
-
-        // Manual Bubble Sort by Start Time
-        for (int i = 0; i < entriesOnDate.size() - 1; i++) {
-            for (int j = 0; j < entriesOnDate.size() - i - 1; j++) {
-                if (entriesOnDate.get(j).getStartTime().isAfter(entriesOnDate.get(j + 1).getStartTime())) {
-                    Entry temp = entriesOnDate.get(j);
-                    entriesOnDate.set(j, entriesOnDate.get(j + 1));
-                    entriesOnDate.set(j + 1, temp);
+            for (int i = 0; i < entries.size(); i++) {
+                if (entries.get(i).getDate().equals(selectedDate)) {
+                    entriesOnDate.add(entries.get(i));
                 }
             }
-        }
 
-        System.out.println("\nEntries on " + selectedDate + ":");
-        for (int i = 0; i < entriesOnDate.size(); i++) {
-            Entry entry = entriesOnDate.get(i);
-            System.out.println(entry); // Uses your Entry.toString()
-        }
+            if (entriesOnDate.isEmpty()) {
+                System.out.println("No entries on this date.\n");
+            } else {
+                for (Entry entry : entriesOnDate) {
+                    System.out.println(entry);
+                }
+            }
 
-        System.out.println("Press Enter to continue.");
-        userInput.nextLine();
+            System.out.println("Press Enter to continue.");
+            userInput.nextLine();
+
+            // Manual Bubble Sort
+            for (int i = 0; i < entriesOnDate.size() - 1; i++) {
+                for (int j = 0; j < entriesOnDate.size() - i - 1; j++) {
+                    if (entriesOnDate.get(j).getStartTime().isAfter(entriesOnDate.get(j + 1).getStartTime())) {
+                        Entry temp = entriesOnDate.get(j);
+                        entriesOnDate.set(j, entriesOnDate.get(j + 1));
+                        entriesOnDate.set(j + 1, temp);
+                    }
+                }
+            }
+
+            System.out.println("\nEntries on " + selectedDate + ":");
+            for (int i = 0; i < entriesOnDate.size(); i++) {
+                Entry entry = entriesOnDate.get(i);
+                System.out.println(entry);
+            }
+
+            System.out.println("Press Enter to continue.");
+            userInput.nextLine();
+
+        } else {
+            System.out.println("Invalid day.\n");
+            System.out.println("Press Enter to continue.");
+            userInput.nextLine();
+        }
     }
 }
