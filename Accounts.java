@@ -2,14 +2,14 @@ import java.util.ArrayList;
 
 public class Accounts {
     private String accountName;
-    private String accountPasword;
+    private String accountPassword;
     private ArrayList<Calendar> privateCalendars;
     private ArrayList<Calendar> publicCalendars;
     private final boolean isActive;
 
     public Accounts(String accountName, String accountPassword) {
         this.accountName = accountName;
-        this.accountPasword = accountPassword;
+        this.accountPassword = accountPassword;
         this.privateCalendars = new ArrayList<>();
         this.publicCalendars = new ArrayList<>();
         this.isActive = true; // Default to active
@@ -21,7 +21,7 @@ public class Accounts {
     }
 
     public String getAccountPassword() {
-        return accountPasword;
+        return accountPassword;
     }
 
     public ArrayList<Calendar> getPrivateCalendars() {
