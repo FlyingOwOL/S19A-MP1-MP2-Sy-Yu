@@ -33,6 +33,10 @@ public class Calendar {
         return calendarEntries;
     }
 
+    public int getEntryCount() {
+    return calendarEntries.size();
+    }
+
     /**
      * Adds an entry to the calendar if it does not already exist.
      */

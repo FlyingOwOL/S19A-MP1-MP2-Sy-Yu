@@ -29,7 +29,7 @@ public class MainMethods {
                 if (account.getAccountName().equalsIgnoreCase(accountName)) {
                     System.out.println("Account name already exists. Please choose a different name.");
                     isValid = false;
-                    break; // No need to continue checking
+                    break;
                 }
             }
         } while (!isValid);
@@ -41,7 +41,7 @@ public class MainMethods {
         return newAccount;
     }
 
-    public static Account login(Scanner userInput, ArrayList<Account> accountsList) {
+     public static Account login(Scanner userInput, ArrayList<Account> accountsList) {
         userInput.nextLine(); // Consume newline
         System.out.println("Enter your account name: ");
         String accountName = userInput.nextLine();
@@ -67,3 +67,4 @@ public class MainMethods {
         return null;
     }
 }
+

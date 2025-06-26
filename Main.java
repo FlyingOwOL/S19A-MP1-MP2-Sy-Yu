@@ -1,38 +1,57 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Main {
-    public ArrayList<Accounts> accounts = new ArrayList<>();
-    public ArrayList<Calendar> publicCalendars = new ArrayList<>();
-    public static ArrayList<Accounts> activeAccounts = new ArrayList<>();
-    public ArrayList<Accounts> deactivatedAccounts = new ArrayList<>();
+public class Main {
+
+    public static ArrayList<Account> activeAccounts = new ArrayList<>();
+    public static ArrayList<Account> deactivatedAccounts = new ArrayList<>();
+    public static ArrayList<Calendar> publicCalendars = new ArrayList<>();
+
     public static void addToPublicCalendars(Calendar calendar) {
-        Main main = new Main();
-        main.publicCalendars.add(calendar);
-    }
-    private static void createAccount (Scanner userInput){
-        Accounts newAccount = MainMethods.createAccount(userInput, activeAccounts);
-        if (newAccount != null) {
-            activeAccounts.add(newAccount);
-            System.out.println ("Account created successfully!");
+        if (calendar != null && calendar.isPubliclyAvailable() && !publicCalendars.contains(calendar)) {
+            publicCalendars.add(calendar);
         }
     }
-    public static void main(String[] args){
+
+    private static void createAccount(Scanner userInput) {
+        Account newAccount = MainMethods.createAccount(userInput, activeAccounts);
+        if (newAccount != null) {
+            activeAccounts.add(newAccount);
+            System.out.println("Account created successfully!");
+        } else {
+            System.out.println("Account creation failed.");
+        }
+    }
+
+    public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
-        int menuChoice = -1;
-        do{
+        int menuChoice;
+
+        do {
             MainMethods.displayMenu();
             menuChoice = userInput.nextInt();
+
             if (menuChoice == 1) {
                 createAccount(userInput);
             } else if (menuChoice == 2) {
                 if (activeAccounts.size() > 0) {
-                    //Accounts.login();
+                    Account loggedInAccount = MainMethods.login(userInput, activeAccounts);
+                    if (loggedInAccount != null) {
+                        System.out.println("Welcome, " + loggedInAccount.getAccountName() + "!");
+                        UserMenu.userMenu(userInput, loggedInAccount);
+
+                    } else {
+                        System.out.println("Login failed. Please try again.");
+                    }
+                } else {
+                    System.out.println("No accounts available. Please create an account first.");
                 }
             } else if (menuChoice != 0) {
                 System.out.println("Invalid choice. Please try again.");
             }
+
         } while (menuChoice != 0);
+
         System.out.println("Thank you for using the Calendar Application!");
         userInput.close();
     }

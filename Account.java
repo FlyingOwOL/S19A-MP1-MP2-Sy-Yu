@@ -35,6 +35,11 @@ public class Account {
         return calendars;
     }
 
+    public Calendar getDefaultCalendar() {
+    return calendars.get(0);
+    }
+
+
     /**
      * Marks the account as inactive (used when deleting an account).
      */
