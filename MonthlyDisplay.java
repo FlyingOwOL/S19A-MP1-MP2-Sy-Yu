@@ -101,14 +101,16 @@ public class MonthlyDisplay {
 
     // Select a date and display its entries
     public static void selectDateToView(Scanner userInput, Calendar calendar, YearMonth yearMonth) {
-        System.out.print("Enter the day you want to view: ");
+        System.out.print("Enter the day you want to view (example: 5 for the 5th day): ");
         int day = userInput.nextInt();
         userInput.nextLine();
 
         if (day < 1 || day > yearMonth.lengthOfMonth()) {
-            System.out.println("Invalid day.");
-            return;
+            System.out.println("Invalid day.\n");
+        } else {
+            System.out.println("Displaying entries for day: " + day);
         }
+
 
         LocalDate selectedDate = yearMonth.atDay(day);
         ArrayList<Entry> entries = calendar.getCalendarEntries();
@@ -122,9 +124,16 @@ public class MonthlyDisplay {
         }
 
         if (entriesOnDate.isEmpty()) {
-            System.out.println("No entries on this date.");
-            return;
+            System.out.println("No entries on this date.\n");
+        } else {
+            // Only proceed if there are entries
+            for (Entry entry : entriesOnDate) {
+                System.out.println(entry);
+            }
         }
+
+System.out.println("Press Enter to continue.");
+userInput.nextLine();
 
         // Manual Bubble Sort by Start Time
         for (int i = 0; i < entriesOnDate.size() - 1; i++) {
