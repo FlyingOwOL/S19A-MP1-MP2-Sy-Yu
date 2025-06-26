@@ -12,9 +12,14 @@ public class CalendarManager {
     }
 
     for (int i = 0; i < calendars.size(); i++) {
-        System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName() +
-                (calendars.get(i).isPubliclyAvailable() ? " (Public)" : " (Private)"));
-    }
+        String availabilityStatus;
+        if (calendars.get(i).isPubliclyAvailable()) {
+            availabilityStatus = " (Public)";
+        } else {
+            availabilityStatus = " (Private)";
+        }
+        System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName() + availabilityStatus);
+   }
 
         System.out.print("Enter calendar number to view entries or 0 to go back: ");
         int choice = userInput.nextInt();
@@ -46,7 +51,11 @@ public class CalendarManager {
         }
 
         System.out.println("Calendar added successfully.");
-        System.out.println("This calendar is " + (isPublic ? "Public." : "Private."));
+        if (isPublic) {
+            System.out.println("This calendar is Public.");
+        } else {
+            System.out.println("This calendar is Private.");
+        }
     }
 
 

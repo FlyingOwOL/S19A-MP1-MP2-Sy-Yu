@@ -28,10 +28,10 @@ public class MainMethods {
             for (Account account : accountsList) {
                 if (account.getAccountName().equalsIgnoreCase(accountName)) {
                     System.out.println("Account name already exists. Please choose a different name.");
-                    isValid = false;
-                    break;
+                    isValid = false; // Set flag to re-loop
                 }
             }
+
         } while (!isValid);
 
         System.out.println("Enter your account password:");
@@ -40,6 +40,7 @@ public class MainMethods {
         newAccount = new Account(accountName, accountPassword);
         return newAccount;
     }
+
 
      public static Account login(Scanner userInput, ArrayList<Account> accountsList) {
         userInput.nextLine(); // Consume newline

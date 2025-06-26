@@ -14,14 +14,18 @@ public class Main {
     }
 
     private static void createAccount(Scanner userInput) {
-        Account newAccount = MainMethods.createAccount(userInput, activeAccounts);
+    Account newAccount = MainMethods.createAccount(userInput, activeAccounts);
         if (newAccount != null) {
             activeAccounts.add(newAccount);
-            System.out.println("Account created successfully!");
+            System.out.println("Account created successfully!\n");
+
+        //  Automatically go to the User Menu
+            UserMenu.userMenu(userInput, newAccount);
         } else {
-            System.out.println("Account creation failed.");
+            System.out.println("Account creation failed.\n");
         }
     }
+
 
  public static void main(String[] args) {
     Scanner userInput = new Scanner(System.in);
@@ -30,7 +34,7 @@ public class Main {
     do {
         MainMethods.displayMenu();
 
-        if (userInput.hasNextInt()) { // ✅ Check if input is an integer
+        if (userInput.hasNextInt()) { // Check if input is an integer
             menuChoice = userInput.nextInt();
 
             if (menuChoice == 1) {
@@ -48,12 +52,13 @@ public class Main {
                     System.out.println("No accounts available. Please create an account first.");
                 }
             } else if (menuChoice != 0) {
-                System.out.println("Invalid choice. Please try again.");
+                System.out.println("\nInvalid choice. Please try again.\n");
             }
 
-        } else {
+
+        }   else {
             // If input is not an integer, display error and discard it
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("\nInvalid input. Please enter a number.\n");
             userInput.nextLine(); // Consume the invalid input
             menuChoice = -1; // Stay in the loop
         }
