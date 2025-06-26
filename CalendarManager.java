@@ -3,30 +3,33 @@ import java.util.Scanner;
 
 public class CalendarManager {
 
-    // 📅 View Calendars and Navigate Entries
+    // View Calendars and Navigate Entries
     public static void viewCalendars(Scanner userInput, Account account) {
-        ArrayList<Calendar> calendars = account.getCalendars();
-        if (calendars.isEmpty()) {
-            System.out.println("No calendars to display.");
-            return;
-        }
+    ArrayList<Calendar> calendars = account.getCalendars();
+    if (calendars.isEmpty()) {
+        System.out.println("No calendars to display.");
+        return;
+    }
 
-        for (int i = 0; i < calendars.size(); i++) {
-            System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName() +
-                    (calendars.get(i).isPubliclyAvailable() ? " (Public)" : " (Private)"));
-        }
+    for (int i = 0; i < calendars.size(); i++) {
+        System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName() +
+                (calendars.get(i).isPubliclyAvailable() ? " (Public)" : " (Private)"));
+    }
 
         System.out.print("Enter calendar number to view entries or 0 to go back: ");
         int choice = userInput.nextInt();
         userInput.nextLine();
 
-        if (choice >= 1 && choice <= calendars.size()) {
-            Calendar selectedCalendar = calendars.get(choice - 1);
-            MonthlyDisplay.calendarNavigation(userInput, selectedCalendar);
-        }
+            if (choice >= 1 && choice <= calendars.size()) {
+                Calendar selectedCalendar = calendars.get(choice - 1);
+                MonthlyDisplay.calendarNavigation(userInput, selectedCalendar);
+            } else if (choice != 0) {
+                System.out.println("Invalid calendar selection. Please try again.");
+            }
     }
 
-    // 📅 Add a new calendar
+
+    // Add a new calendar
     public static void addCalendar(Scanner userInput, Account account) {
         System.out.println("Enter calendar name: ");
         String calendarName = userInput.nextLine();
@@ -43,9 +46,11 @@ public class CalendarManager {
         }
 
         System.out.println("Calendar added successfully.");
+        System.out.println("This calendar is " + (isPublic ? "Public." : "Private."));
     }
 
-    // 📅 Delete a calendar
+
+    // Delete a calendar
     public static void deleteCalendar(Scanner userInput, Account account) {
         ArrayList<Calendar> calendars = account.getCalendars();
         if (calendars.isEmpty()) {
@@ -81,7 +86,7 @@ public class CalendarManager {
         }
     }
 
-    // 📅 Helper to select a calendar
+    // Helper to select a calendar
     public static Calendar selectCalendar(Scanner userInput, Account account) {
         ArrayList<Calendar> calendars = account.getCalendars();
         if (calendars.isEmpty()) {

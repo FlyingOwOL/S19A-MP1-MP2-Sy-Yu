@@ -101,7 +101,7 @@ public class MonthlyDisplay {
 
     // Select a date and display its entries
     public static void selectDateToView(Scanner userInput, Calendar calendar, YearMonth yearMonth) {
-        System.out.print("Enter the day you want to view: ");
+        System.out.print("Enter the day you want to view (example: 5 for the 5th day): ");
         int day = userInput.nextInt();
         userInput.nextLine();
 

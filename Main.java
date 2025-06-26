@@ -23,12 +23,14 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        Scanner userInput = new Scanner(System.in);
-        int menuChoice;
+ public static void main(String[] args) {
+    Scanner userInput = new Scanner(System.in);
+    int menuChoice = -1;
 
-        do {
-            MainMethods.displayMenu();
+    do {
+        MainMethods.displayMenu();
+
+        if (userInput.hasNextInt()) { // ✅ Check if input is an integer
             menuChoice = userInput.nextInt();
 
             if (menuChoice == 1) {
@@ -39,7 +41,6 @@ public class Main {
                     if (loggedInAccount != null) {
                         System.out.println("Welcome, " + loggedInAccount.getAccountName() + "!");
                         UserMenu.userMenu(userInput, loggedInAccount);
-
                     } else {
                         System.out.println("Login failed. Please try again.");
                     }
@@ -50,9 +51,16 @@ public class Main {
                 System.out.println("Invalid choice. Please try again.");
             }
 
-        } while (menuChoice != 0);
+        } else {
+            // If input is not an integer, display error and discard it
+            System.out.println("Invalid input. Please enter a number.");
+            userInput.nextLine(); // Consume the invalid input
+            menuChoice = -1; // Stay in the loop
+        }
 
-        System.out.println("Thank you for using the Calendar Application!");
-        userInput.close();
-    }
+    } while (menuChoice != 0);
+
+    System.out.println("Thank you for using the Calendar Application!");
+    userInput.close();
+}
 }
