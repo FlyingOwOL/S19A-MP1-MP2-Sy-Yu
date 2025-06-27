@@ -1,9 +1,18 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class manages all entry-related operations such as adding, viewing,
+ * editing, and deleting calendar entries.
+ */
 public class EntryManager {
 
-    // Display Calendar Entries (Sorted Manually by Start Time)
+    /**
+     * This method displays all entries in the selected calendar.
+     * Entries are sorted manually in ascending order by their start time.
+     * @param userInput This is the Scanner used to read user input.
+     * @param account This is the logged-in user's account.
+     */
     public static void displayCalendarEntries(Scanner userInput, Account account) {
         Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
         if (selectedCalendar != null) {
@@ -13,7 +22,7 @@ public class EntryManager {
             if (entries.isEmpty()) {
                 System.out.println("No entries in this calendar.");
             } else {
-                // Manual Bubble Sort (Ascending by Start Time)
+                // This sorts entries manually by start time using bubble sort.
                 for (int i = 0; i < entries.size() - 1; i++) {
                     for (int j = 0; j < entries.size() - i - 1; j++) {
                         if (entries.get(j).getStartTime().isAfter(entries.get(j + 1).getStartTime())) {
@@ -35,7 +44,11 @@ public class EntryManager {
         }
     }
 
-    // Add a new entry to a calendar
+    /**
+     * This method allows the user to add a new entry to a selected calendar.
+     * @param userInput This is the Scanner used to read user input.
+     * @param account This is the logged-in user's account.
+     */
     public static void addEntry(Scanner userInput, Account account) {
         Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
         if (selectedCalendar != null) {
@@ -59,6 +72,7 @@ public class EntryManager {
             System.out.println("Enter end time (HH:MM): ");
             String endTimeInput = userInput.nextLine();
 
+            // This creates the entry object.
             Entry entry = new Entry(id, title, details,
                     java.time.LocalDate.parse(dateInput),
                     java.time.LocalTime.parse(startTimeInput),
@@ -72,7 +86,11 @@ public class EntryManager {
         }
     }
 
-    // Edit an entry by entry ID
+    /**
+     * This method allows the user to edit an existing entry by its entry ID.
+     * @param userInput This is the Scanner used to read user input.
+     * @param account This is the logged-in user's account.
+     */
     public static void editEntry(Scanner userInput, Account account) {
         Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
         if (selectedCalendar != null) {
@@ -84,6 +102,7 @@ public class EntryManager {
             } else {
                 System.out.println("Enter the entry ID to edit: ");
 
+                // This checks if input is a valid number.
                 if (!userInput.hasNextInt()) {
                     System.out.println("\nInvalid input. Please enter a valid entry ID (number).\n");
                     userInput.nextLine(); // Discard invalid input
@@ -106,6 +125,7 @@ public class EntryManager {
                     System.out.println("Enter new end time (HH:MM): ");
                     String endTimeInput = userInput.nextLine();
 
+                    // This creates the new entry object with updated information.
                     Entry newEntry = new Entry(id, title, details,
                             java.time.LocalDate.parse(dateInput),
                             java.time.LocalTime.parse(startTimeInput),
@@ -121,7 +141,11 @@ public class EntryManager {
         }
     }
 
-    // Delete an entry by ID
+    /**
+     * This method allows the user to delete an entry by its entry ID.
+     * @param userInput This is the Scanner used to read user input.
+     * @param account This is the logged-in user's account.
+     */
     public static void deleteEntry(Scanner userInput, Account account) {
         Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
         if (selectedCalendar != null) {
@@ -135,7 +159,7 @@ public class EntryManager {
 
                 if (!userInput.hasNextInt()) {
                     System.out.println("\nInvalid input. Please enter a valid entry ID (number).\n");
-                    userInput.nextLine(); // Consume the invalid input
+                    userInput.nextLine(); 
                 } else {
                     int id = userInput.nextInt();
                     userInput.nextLine();
