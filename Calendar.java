@@ -1,13 +1,20 @@
 import java.util.ArrayList;
 
+/**
+ * This class represents a calendar that can contain multiple entries.
+ * A calendar can be public or private and belongs to a specific account.
+ */
 public class Calendar {
-    private String calendarName;
-    private boolean isPubliclyAvailable;
-    private Account owner; // Track who created the calendar
-    private ArrayList<Entry> calendarEntries;
+    private String calendarName;                // This is the name of the calendar.        
+    private boolean isPubliclyAvailable;        // This indicates whether the calendar is public or private.
+    private Account owner;                      // This stores the owner of the calendar.
+    private ArrayList<Entry> calendarEntries;   // This is the list of entries (appointments, tasks, events, etc.) in the calendar.
 
     /**
-     * Constructor: Initializes the calendar with a name, availability, and owner.
+     * This constructor initializes the calendar with a name, availability status, and owner.
+     * @param calendarName This is the name of the calendar.
+     * @param isPubliclyAvailable This indicates if the calendar is public or private.
+     * @param owner This is the account that created the calendar.
      */
     public Calendar(String calendarName, boolean isPubliclyAvailable, Account owner) {
         this.calendarName = calendarName;
@@ -16,29 +23,50 @@ public class Calendar {
         this.calendarEntries = new ArrayList<>();
     }
 
-    // Getters
+    /**
+     * This gets the name of the calendar.
+     * @return The calendar name.
+     */
     public String getName() {
         return calendarName;
     }
 
-    public boolean isPubliclyAvailable() {
-        return isPubliclyAvailable;
-    }
-
+    /**
+     * This gets the owner of the calendar.
+     * @return The account that owns the calendar.
+     */
     public Account getOwner() {
         return owner;
     }
 
+    /**
+     * This gets the list of all entries in the calendar.
+     * @return ArrayList of calendar entries.
+     */
     public ArrayList<Entry> getCalendarEntries() {
         return calendarEntries;
     }
 
+    /**
+     * This gets the number of entries in the calendar.
+     * @return The total number of entries.
+     */
     public int getEntryCount() {
     return calendarEntries.size();
     }
 
     /**
-     * Adds an entry to the calendar if it does not already exist.
+     * This checks if the calendar is publicly available.
+     * @return True if the calendar is public, false if private.
+     */
+    public boolean isPubliclyAvailable() {
+        return isPubliclyAvailable;
+    }
+
+    /**
+     * This adds an entry to the calendar if it does not already exist.
+     * @param entry The entry to be added.
+     * @return True if the entry was added successfully, false otherwise.
      */
     public boolean addEntry(Entry entry) {
         if (entry != null && !calendarEntries.contains(entry)) {
@@ -49,7 +77,9 @@ public class Calendar {
     }
 
     /**
-     * Deletes an entry from the calendar.
+     * This deletes an entry from the calendar if it exists.
+     * @param entry The entry to be deleted.
+     * @return True if the entry was successfully deleted, false otherwise.
      */
     public boolean deleteEntry(Entry entry) {
         if (entry != null && calendarEntries.contains(entry)) {
@@ -60,7 +90,10 @@ public class Calendar {
     }
 
     /**
-     * Edits an existing entry in the calendar by matching entryID.
+     * This updates an existing entry in the calendar by searching for the entry ID.
+     * @param entryID The ID of the entry to be edited.
+     * @param newEntry The new entry to replace the old one.
+     * @return True if the entry was successfully updated, false otherwise.
      */
     public boolean editEntry(int entryID, Entry newEntry) {
         for (int i = 0; i < calendarEntries.size(); i++) {
