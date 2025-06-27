@@ -1,39 +1,90 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Main {
-    public ArrayList<Accounts> accounts = new ArrayList<>();
-    public ArrayList<Calendar> publicCalendars = new ArrayList<>();
-    public static ArrayList<Accounts> activeAccounts = new ArrayList<>();
-    public ArrayList<Accounts> deactivatedAccounts = new ArrayList<>();
+public class Main {
+
+    // This list stores all active accounts.
+    public static ArrayList<Account> activeAccounts = new ArrayList<>();
+
+    // This list stores all deactivated accounts.
+    public static ArrayList<Account> deactivatedAccounts = new ArrayList<>();
+
+    // This list stores all public calendars from all users.
+    public static ArrayList<Calendar> publicCalendars = new ArrayList<>();
+
+    /**
+     * This method adds a calendar to the publicCalendars list if it is public and not already added.
+     * @param calendar The calendar to be added to the public list.
+     */
     public static void addToPublicCalendars(Calendar calendar) {
-        Main main = new Main();
-        main.publicCalendars.add(calendar);
-    }
-    private static void createAccount (Scanner userInput){
-        Accounts newAccount = MainMethods.createAccount(userInput, activeAccounts);
-        if (newAccount != null) {
-            activeAccounts.add(newAccount);
-            System.out.println ("Account created successfully!");
+        if (calendar != null && calendar.isPubliclyAvailable() && !publicCalendars.contains(calendar)) {
+            publicCalendars.add(calendar);
         }
     }
-    public static void main(String[] args){
+
+    /**
+     * This method handles account creation and automatically opens the user menu after successful creation.
+     * @param userInput Scanner to get user input.
+     */
+    private static void createAccount(Scanner userInput) {
+    Account newAccount = MainMethods.createAccount(userInput, activeAccounts);
+        if (newAccount != null) {
+            activeAccounts.add(newAccount);
+            System.out.println("Account created successfully!\n");
+
+        // Automatically go to the User Menu after creating an account.
+            UserMenu.userMenu(userInput, newAccount);
+        } else {
+            System.out.println("Account creation failed.\n");
+        }
+    }
+
+
+    /**
+     * This is the main method where the program starts.
+     * @param args Command-line arguments (not used).
+     */
+    public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
         int menuChoice = -1;
-        do{
+
+        do {
             MainMethods.displayMenu();
-            menuChoice = userInput.nextInt();
-            if (menuChoice == 1) {
-                createAccount(userInput);
-            } else if (menuChoice == 2) {
-                if (activeAccounts.size() > 0) {
-                    //Accounts.login();
+
+            if (userInput.hasNextInt()) { // Check if input is an integer
+                menuChoice = userInput.nextInt();
+
+                if (menuChoice == 1) {
+                    // This creates a new account and goes directly to the user menu.
+                    createAccount(userInput);
+                } else if (menuChoice == 2) {
+                    // This logs in to an existing account if there are active accounts.
+                    if (activeAccounts.size() > 0) {
+                        Account loggedInAccount = MainMethods.login(userInput, activeAccounts);
+                        if (loggedInAccount != null) {
+                            System.out.println("Welcome, " + loggedInAccount.getAccountName() + "!");
+                            UserMenu.userMenu(userInput, loggedInAccount);
+                        } else {
+                            System.out.println("Login failed. Please try again.");
+                        }
+                    } else {
+                        System.out.println("No accounts available. Please create an account first.");
+                    }
+                } else if (menuChoice != 0) {
+                    System.out.println("\nInvalid choice. Please try again.\n");
                 }
-            } else if (menuChoice != 0) {
-                System.out.println("Invalid choice. Please try again.");
+
+
+            }   else {
+                // If input is not an integer, display error and discard it
+                System.out.println("\nInvalid input. Please enter a number.\n");
+                userInput.nextLine(); 
+                menuChoice = -1; // This ensures the loop continues.
             }
+
         } while (menuChoice != 0);
+
         System.out.println("Thank you for using the Calendar Application!");
         userInput.close();
     }
-}
+    }

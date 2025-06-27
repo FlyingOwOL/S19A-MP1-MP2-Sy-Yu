@@ -1,77 +1,107 @@
 import java.util.ArrayList;
 
+/**
+ * This class represents a calendar that can contain multiple entries.
+ * A calendar can be public or private and belongs to a specific account.
+ */
 public class Calendar {
-    private String calendarName;
-    private int calendarYear;
-    private int numberOfMonths;
-    private boolean isPubliclyAvailable;
-    private ArrayList<Entry> calendarEntry;
-    private Month [] months;
-
+    private String calendarName;                // This is the name of the calendar.        
+    private boolean isPubliclyAvailable;        // This indicates whether the calendar is public or private.
+    private Account owner;                      // This stores the owner of the calendar.
+    private ArrayList<Entry> calendarEntries;   // This is the list of entries (appointments, tasks, events, etc.) in the calendar.
 
     /**
-     * Constructor to create a Calendar object.
+     * This constructor initializes the calendar with a name, availability status, and owner.
+     * @param calendarName This is the name of the calendar.
+     * @param isPubliclyAvailable This indicates if the calendar is public or private.
+     * @param owner This is the account that created the calendar.
      */
-    public Calendar (String calendarName, boolean isPubliclyAvailable, int calendarYear){
+    public Calendar(String calendarName, boolean isPubliclyAvailable, Account owner) {
         this.calendarName = calendarName;
         this.isPubliclyAvailable = isPubliclyAvailable;
-        this.calendarYear = calendarYear;
-        this.numberOfMonths = FixedValues.NO_OF_MONTHS;
-        this.calendarEntry = new ArrayList<>();
-        this.months = new Month[FixedValues.NO_OF_MONTHS];
+        this.owner = owner;
+        this.calendarEntries = new ArrayList<>();
     }
 
-    // Getters
-    public String getCalendarName() {
-        return calendarName + " " + calendarYear;
+    /**
+     * This gets the name of the calendar.
+     * @return The calendar name.
+     */
+    public String getName() {
+        return calendarName;
     }
 
-    public int getNumberOfMonths() {
-        return numberOfMonths;
+    /**
+     * This gets the owner of the calendar.
+     * @return The account that owns the calendar.
+     */
+    public Account getOwner() {
+        return owner;
     }
 
-    public Month getMonth (String name){
-        Month monthToReturn = null;
-        for (Month month : months) {
-            if (month != null &&
-                month.getMonthName().equalsIgnoreCase(name)) {
-                monthToReturn = month;
-            }
-        }
-        return monthToReturn;
+    /**
+     * This gets the list of all entries in the calendar.
+     * @return ArrayList of calendar entries.
+     */
+    public ArrayList<Entry> getCalendarEntries() {
+        return calendarEntries;
     }
 
-    public boolean getAvailability() {
+    /**
+     * This gets the number of entries in the calendar.
+     * @return The total number of entries.
+     */
+    public int getEntryCount() {
+    return calendarEntries.size();
+    }
+
+    /**
+     * This checks if the calendar is publicly available.
+     * @return True if the calendar is public, false if private.
+     */
+    public boolean isPubliclyAvailable() {
         return isPubliclyAvailable;
     }
 
-    public boolean addEntry (Entry entry) {
-        boolean isSuccessful = false;
-        if (entry != null) {
-            calendarEntry.add(entry);
-            isSuccessful = true;
+    /**
+     * This adds an entry to the calendar if it does not already exist.
+     * @param entry The entry to be added.
+     * @return True if the entry was added successfully, false otherwise.
+     */
+    public boolean addEntry(Entry entry) {
+        if (entry != null && !calendarEntries.contains(entry)) {
+            calendarEntries.add(entry);
+            return true;
         }
-        return isSuccessful;
+        return false;
     }
 
-    public boolean deleteEntry (Entry entry) {
-        boolean isSuccessful = false;
-        if (entry != null && calendarEntry.contains(entry)) {
-            calendarEntry.remove(entry);
-            isSuccessful = true;
+    /**
+     * This deletes an entry from the calendar if it exists.
+     * @param entry The entry to be deleted.
+     * @return True if the entry was successfully deleted, false otherwise.
+     */
+    public boolean deleteEntry(Entry entry) {
+        if (entry != null && calendarEntries.contains(entry)) {
+            calendarEntries.remove(entry);
+            return true;
         }
-        return isSuccessful;
+        return false;
     }
 
-    public boolean editEntry (int entryID, Entry newEntry) {
-        boolean isSuccessful = false;
-        for (int i = 0; i < calendarEntry.size(); i++) {
-            if (calendarEntry.get(i).getEntryID() == entryID) {
-                calendarEntry.set(i, newEntry);
-                isSuccessful = true;
-                i = calendarEntry.size(); // Exit loop after finding the entry
+    /**
+     * This updates an existing entry in the calendar by searching for the entry ID.
+     * @param entryID The ID of the entry to be edited.
+     * @param newEntry The new entry to replace the old one.
+     * @return True if the entry was successfully updated, false otherwise.
+     */
+    public boolean editEntry(int entryID, Entry newEntry) {
+        for (int i = 0; i < calendarEntries.size(); i++) {
+            if (calendarEntries.get(i).getEntryID() == entryID) {
+                calendarEntries.set(i, newEntry);
+                return true;
             }
         }
-        return isSuccessful;
+        return false;
     }
 }
