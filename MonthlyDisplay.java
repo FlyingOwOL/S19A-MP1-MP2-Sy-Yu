@@ -1,4 +1,4 @@
-import java.time.LocalDate; /*  This import is necessary for handling dates in the MonthlyDisplay class. 
+import java.time.LocalDate; /* This import is necessary for handling dates in the MonthlyDisplay class. 
 It is the current date (year, month, day). */
 import java.time.YearMonth; // We import YearMonth for month/year handling
 import java.util.ArrayList;
@@ -13,10 +13,12 @@ public class MonthlyDisplay {
      * This method allows users to navigate the calendar by switching months or selecting specific dates.
      * @param userInput This is the Scanner used to read user input.
      * @param calendar This is the selected calendar to display.
+     * @return This returns true if the user chooses to log out, false otherwise.
      */
-    public static void calendarNavigation(Scanner userInput, Calendar calendar) {
+    public static boolean calendarNavigation(Scanner userInput, Calendar calendar) {
         YearMonth currentMonth = YearMonth.now(); // This sets the starting point to the current month (in real life).
         int navigationChoice;
+        boolean isLoggingOut = false;
 
         do {
             displayMonthView(calendar, currentMonth);
@@ -26,44 +28,46 @@ public class MonthlyDisplay {
             System.out.println("[3] Jump to Month and Year");
             System.out.println("[4] Select Date to View Entries");
             System.out.println("[0] Back to Calendar Menu");
+            System.out.println("[-1] Logout");
             System.out.print("Enter your choice: ");
             navigationChoice = userInput.nextInt();
             userInput.nextLine();
 
-            switch (navigationChoice) {
-                case 1:
+            if (navigationChoice == 1) {
                 // This moves to the previous month.
-                    currentMonth = currentMonth.minusMonths(1);
-                    break;
-                case 2:
-                 // This moves to the next month.
-                    currentMonth = currentMonth.plusMonths(1);
-                    break;
-                case 3:
+                currentMonth = currentMonth.minusMonths(1);
+            } else if (navigationChoice == 2) {
+                // This moves to the next month.
+                currentMonth = currentMonth.plusMonths(1);
+            } else if (navigationChoice == 3) {
                 // This allows users to jump to a specific month and year.
-                    System.out.print("Enter month (1-12): ");
-                    int month = userInput.nextInt();
-                    System.out.print("Enter year: ");
-                    int year = userInput.nextInt();
-                    userInput.nextLine();
-                    if (month >= 1 && month <= 12) {
-                        currentMonth = YearMonth.of(year, month);
-                    } else {
-                        System.out.println("Invalid month.\n");
-                    }
-                    break;
-                case 4:
+                System.out.print("Enter month (1-12): ");
+                int month = userInput.nextInt();
+                System.out.print("Enter year: ");
+                int year = userInput.nextInt();
+                userInput.nextLine();
+                if (month >= 1 && month <= 12) {
+                    currentMonth = YearMonth.of(year, month);
+                } else {
+                    System.out.println("Invalid month.\n");
+                }
+            } else if (navigationChoice == 4) {
                 // This allows selecting a specific date to view entries.
-                    selectDateToView(userInput, calendar, currentMonth);
-                    break;
-                case 0:  
+                selectDateToView(userInput, calendar, currentMonth);
+            } else if (navigationChoice == 0) {
                 // This exits back to the calendar menu.
-                    System.out.println("Returning to calendar menu...\n");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.\n");
+                System.out.println("Returning to calendar menu...\n");
+            } else if (navigationChoice == -1) {
+                // This logs out the user.
+                System.out.println("Logging out...\n");
+                isLoggingOut = true;
+            } else {
+                System.out.println("Invalid choice. Please try again.\n");
             }
-        } while (navigationChoice != 0);
+
+        } while (navigationChoice != 0 && isLoggingOut == false);
+
+        return isLoggingOut; // Return logout status to CalendarManager
     }
 
     /**
@@ -72,39 +76,54 @@ public class MonthlyDisplay {
      * @param yearMonth This represents the current month and year being viewed.
      */
     public static void displayMonthView(Calendar calendar, YearMonth yearMonth) {
-        System.out.println("\n" + yearMonth.getMonth() + " " + yearMonth.getYear());
-        System.out.println("Sun Mon Tue Wed Thu Fri Sat");
+    System.out.println("\n" + yearMonth.getMonth() + " " + yearMonth.getYear());
+    System.out.println("Sun Mon Tue Wed Thu Fri Sat");
 
-        LocalDate firstDay = yearMonth.atDay(1); // This gets the first day of the month.
-        int dayOfWeek = firstDay.getDayOfWeek().getValue(); // This gets the day of the week (1=Monday, 7=Sunday).
+    System.out.println("Legend:");
+    System.out.println("[D]  - Day with entry (single digit)");
+    System.out.println("[DD] - Day with entry (double digit)");
+    System.out.println(" D   - Day without entry (single digit)");
+    System.out.println(" DD  - Day without entry (double digit)\n");
 
-        int currentPosition = dayOfWeek % 7; // This adjusts Sunday to index 0 since there are 7 days.
+    System.out.println("Sun Mon Tue Wed Thu Fri Sat");
 
-        // This just prints spaces for alignment.
-        for (int i = 0; i < currentPosition; i++) {
-            System.out.print("    ");
-        }
+    LocalDate firstDay = yearMonth.atDay(1);
+    int dayOfWeek = firstDay.getDayOfWeek().getValue();
 
-        int daysInMonth = yearMonth.lengthOfMonth();
-        for (int day = 1; day <= daysInMonth; day++) {
-            LocalDate currentDate = yearMonth.atDay(day);
-            boolean hasEntry = checkEntryExists(calendar, currentDate);
+    int currentPosition = dayOfWeek % 7;
 
-            if (hasEntry) {
-                System.out.printf("[%2d]", day);
-            } else {
-                System.out.printf(" %2d ", day);
-            }
-
-            currentPosition++;
-            if (currentPosition % 7 == 0) {
-                System.out.println(); // This starts a new week.
-            } else {
-                System.out.print(" ");
-            }
-        }
-        System.out.println();
+    for (int i = 0; i < currentPosition; i++) {
+        System.out.print("     "); // Five spaces to match cell width
     }
+
+    int daysInMonth = yearMonth.lengthOfMonth();
+    for (int day = 1; day <= daysInMonth; day++) {
+        LocalDate currentDate = yearMonth.atDay(day);
+        boolean hasEntry = checkEntryExists(calendar, currentDate);
+
+        if (hasEntry) {
+            if (day < 10) {
+                System.out.printf("[ %d] ", day); // Example: [ 5] 
+            } else {
+                System.out.printf("[%d] ", day);   // Example: [15]
+            }
+        } else {
+            if (day < 10) {
+                System.out.printf("  %d  ", day); // Example: "  5  "
+            } else {
+                System.out.printf(" %d  ", day);  // Example: " 15  "
+            }
+        }
+
+        currentPosition++;
+        if (currentPosition % 7 == 0) {
+            System.out.println(); // New week
+        } else {
+            System.out.print(" ");
+        }
+    }
+    System.out.println();
+}
 
     /**
      * This method checks if there are any entries on a specific date.
@@ -145,7 +164,7 @@ public class MonthlyDisplay {
             ArrayList<Entry> entries = calendar.getCalendarEntries();
             ArrayList<Entry> entriesOnDate = new ArrayList<>();
 
-            // This finds all entries on the selected date.
+            // Find entries on the selected date
             for (int i = 0; i < entries.size(); i++) {
                 if (entries.get(i).getDate().equals(selectedDate)) {
                     entriesOnDate.add(entries.get(i));
@@ -154,34 +173,29 @@ public class MonthlyDisplay {
 
             if (entriesOnDate.isEmpty()) {
                 System.out.println("No entries on this date.\n");
+                System.out.println("Press Enter to continue.");
+                userInput.nextLine(); // This prevents "Enter" from carrying over to the next input.
             } else {
-                for (Entry entry : entriesOnDate) {
-                    System.out.println(entry);
-                }
-            }
-
-            System.out.println("Press Enter to continue.");
-            userInput.nextLine();
-
-            // This sorts entries on the selected date by start time using bubble sort.
-            for (int i = 0; i < entriesOnDate.size() - 1; i++) {
-                for (int j = 0; j < entriesOnDate.size() - i - 1; j++) {
-                    if (entriesOnDate.get(j).getStartTime().isAfter(entriesOnDate.get(j + 1).getStartTime())) {
-                        Entry temp = entriesOnDate.get(j);
-                        entriesOnDate.set(j, entriesOnDate.get(j + 1));
-                        entriesOnDate.set(j + 1, temp);
+                // Sort entries by start time using bubble sort
+                for (int i = 0; i < entriesOnDate.size() - 1; i++) {
+                    for (int j = 0; j < entriesOnDate.size() - i - 1; j++) {
+                        if (entriesOnDate.get(j).getStartTime().isAfter(entriesOnDate.get(j + 1).getStartTime())) {
+                            Entry temp = entriesOnDate.get(j);
+                            entriesOnDate.set(j, entriesOnDate.get(j + 1));
+                            entriesOnDate.set(j + 1, temp);
+                        }
                     }
                 }
-            }
 
-            System.out.println("\nEntries on " + selectedDate + ":");
-            for (int i = 0; i < entriesOnDate.size(); i++) {
-                Entry entry = entriesOnDate.get(i);
-                System.out.println(entry);
-            }
+                System.out.println("\nEntries on " + selectedDate + ":");
+                for (int i = 0; i < entriesOnDate.size(); i++) {
+                    Entry entry = entriesOnDate.get(i);
+                    System.out.println(entry);
+                }
 
-            System.out.println("Press Enter to continue.");
-            userInput.nextLine();
+                System.out.println("Press Enter to continue.");
+                userInput.nextLine();
+            }
 
         } else {
             System.out.println("Invalid day.\n");
@@ -189,4 +203,5 @@ public class MonthlyDisplay {
             userInput.nextLine();
         }
     }
+
 }

@@ -15,7 +15,7 @@ public class EntryManager {
      */
     public static void displayCalendarEntries(Scanner userInput, Account account) {
         Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
-        if (selectedCalendar != null) {
+        if (selectedCalendar != null && UserMenu.logoutFlag == false) {
 
             ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
 
@@ -51,7 +51,7 @@ public class EntryManager {
      */
     public static void addEntry(Scanner userInput, Account account) {
         Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
-        if (selectedCalendar != null) {
+        if (selectedCalendar != null && UserMenu.logoutFlag == false) {
 
             System.out.println("Enter entry ID: ");
             int id = userInput.nextInt();
@@ -92,54 +92,59 @@ public class EntryManager {
      * @param account This is the logged-in user's account.
      */
     public static void editEntry(Scanner userInput, Account account) {
-        Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
-        if (selectedCalendar != null) {
+    Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
+    if (selectedCalendar != null && UserMenu.logoutFlag == false) {
 
-            ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
+        ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
+        boolean canProceed = true;
 
-            if (entries.isEmpty()) {
-                System.out.println("\nNo entry to be edited.\n");
-            } else {
-                System.out.println("Enter the entry ID to edit: ");
+        if (entries.isEmpty()) {
+            System.out.println("\nNo entry to be edited.\n");
+            canProceed = false; // Flag to stop the rest of the method
+        }
 
-                // This checks if input is a valid number.
-                if (!userInput.hasNextInt()) {
-                    System.out.println("\nInvalid input. Please enter a valid entry ID (number).\n");
-                    userInput.nextLine(); // Discard invalid input
+        if (canProceed) {
+            System.out.println("Enter the entry ID to edit: ");
+
+            if (!userInput.hasNextInt()) {
+                System.out.println("\nInvalid input. Please enter a valid entry ID (number).\n");
+                userInput.nextLine(); 
+                canProceed = false;
+            }
+
+            if (canProceed) {
+                int id = userInput.nextInt();
+                userInput.nextLine();
+
+                System.out.println("Enter new entry title: ");
+                String title = userInput.nextLine();
+
+                System.out.println("Enter new entry details: ");
+                String details = userInput.nextLine();
+
+                System.out.println("Enter new entry date (YYYY-MM-DD): ");
+                String dateInput = userInput.nextLine();
+
+                System.out.println("Enter new start time (HH:MM): ");
+                String startTimeInput = userInput.nextLine();
+
+                System.out.println("Enter new end time (HH:MM): ");
+                String endTimeInput = userInput.nextLine();
+
+                Entry newEntry = new Entry(id, title, details,
+                        java.time.LocalDate.parse(dateInput),
+                        java.time.LocalTime.parse(startTimeInput),
+                        java.time.LocalTime.parse(endTimeInput));
+
+                if (selectedCalendar.editEntry(id, newEntry)) {
+                    System.out.println("\nEntry updated successfully.\n");
                 } else {
-                    int id = userInput.nextInt();
-                    userInput.nextLine();
-
-                    System.out.println("Enter new entry title: ");
-                    String title = userInput.nextLine();
-
-                    System.out.println("Enter new entry details: ");
-                    String details = userInput.nextLine();
-
-                    System.out.println("Enter new entry date (YYYY-MM-DD): ");
-                    String dateInput = userInput.nextLine();
-
-                    System.out.println("Enter new start time (HH:MM): ");
-                    String startTimeInput = userInput.nextLine();
-
-                    System.out.println("Enter new end time (HH:MM): ");
-                    String endTimeInput = userInput.nextLine();
-
-                    // This creates the new entry object with updated information.
-                    Entry newEntry = new Entry(id, title, details,
-                            java.time.LocalDate.parse(dateInput),
-                            java.time.LocalTime.parse(startTimeInput),
-                            java.time.LocalTime.parse(endTimeInput));
-
-                    if (selectedCalendar.editEntry(id, newEntry)) {
-                        System.out.println("\nEntry updated successfully.\n");
-                    } else {
-                        System.out.println("\nFailed to update entry. Entry ID not found.\n");
-                    }
+                    System.out.println("\nFailed to update entry. Entry ID not found.\n");
                 }
             }
         }
     }
+}
 
     /**
      * This method allows the user to delete an entry by its entry ID.
@@ -148,7 +153,7 @@ public class EntryManager {
      */
     public static void deleteEntry(Scanner userInput, Account account) {
         Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
-        if (selectedCalendar != null) {
+        if (selectedCalendar != null && UserMenu.logoutFlag == false) {
 
             ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
 
@@ -159,7 +164,7 @@ public class EntryManager {
 
                 if (!userInput.hasNextInt()) {
                     System.out.println("\nInvalid input. Please enter a valid entry ID (number).\n");
-                    userInput.nextLine(); 
+                    userInput.nextLine();
                 } else {
                     int id = userInput.nextInt();
                     userInput.nextLine();

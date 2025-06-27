@@ -12,9 +12,11 @@ public class CalendarManager {
      * allows the user to navigate into a selected calendar.
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the logged-in user's account.
+     * @return This returns true if the user chooses to log out, false otherwise.
      */
-    public static void viewCalendars(Scanner userInput, Account account) {
+    public static boolean viewCalendars(Scanner userInput, Account account) {
         ArrayList<Calendar> calendars = account.getCalendars();
+        boolean isLoggingOut = false;
 
         if (calendars.isEmpty()) {
             System.out.println("No calendars to display.\n");
@@ -30,17 +32,25 @@ public class CalendarManager {
                 System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName() + availabilityStatus);
             }
 
-            System.out.print("Enter calendar number to view entries or 0 to go back: ");
+            System.out.print("Enter calendar number to view entries, 0 to go back, or -1 to logout: ");
             int choice = userInput.nextInt();
             userInput.nextLine();
 
             if (choice >= 1 && choice <= calendars.size()) {
                 Calendar selectedCalendar = calendars.get(choice - 1);
-                MonthlyDisplay.calendarNavigation(userInput, selectedCalendar);
+                if (MonthlyDisplay.calendarNavigation(userInput, selectedCalendar)) {
+                    // MonthlyDisplay requested a logout
+                    isLoggingOut = true;
+                }
+            } else if (choice == -1) {
+                System.out.println("Logging out...\n");
+                isLoggingOut = true;
             } else if (choice != 0) {
                 System.out.println("Invalid calendar selection. Please try again.\n");
             }
         }
+
+        return isLoggingOut;
     }
 
     /**
@@ -77,30 +87,31 @@ public class CalendarManager {
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the logged-in user's account.
      */
-    public static void deleteCalendar(Scanner userInput, Account account) {
+    public static boolean deleteCalendar(Scanner userInput, Account account) {
         ArrayList<Calendar> calendars = account.getCalendars();
+        boolean isLoggingOut = false;
 
         if (calendars.isEmpty()) {
             System.out.println("No calendars to delete.\n");
         } else {
-            // This displays all calendars.
             System.out.println("Select calendar to delete:");
             for (int i = 0; i < calendars.size(); i++) {
                 System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
             }
 
-            System.out.print("Enter calendar number or 0 to cancel: ");
+            System.out.print("Enter calendar number, 0 to cancel, or -1 to logout: ");
             int choice = userInput.nextInt();
             userInput.nextLine();
 
-            if (choice >= 1 && choice <= calendars.size()) {
+            if (choice == -1) {
+                System.out.println("Logging out...\n");
+                isLoggingOut = true;
+            } else if (choice >= 1 && choice <= calendars.size()) {
                 Calendar selectedCalendar = calendars.get(choice - 1);
 
-                // This prevents the default calendar from being deleted.
                 if (selectedCalendar.getName().equals(account.getAccountName())) {
                     System.out.println("Default calendar cannot be deleted.\n");
                 } else {
-                     // This removes the selected calendar if allowed.
                     if (account.removeCalendar(selectedCalendar)) {
                         if (selectedCalendar.isPubliclyAvailable()) {
                             Main.publicCalendars.remove(selectedCalendar);
@@ -114,7 +125,10 @@ public class CalendarManager {
                 System.out.println("Invalid calendar selection.\n");
             }
         }
+
+        return isLoggingOut;
     }
+
 
     /**
      * This method allows the user to select a calendar from their list.
@@ -123,29 +137,32 @@ public class CalendarManager {
      * @return This returns the selected calendar or null if no valid selection is made.
      */
     public static Calendar selectCalendar(Scanner userInput, Account account) {
-        ArrayList<Calendar> calendars = account.getCalendars();
-        Calendar selectedCalendar = null;
+    ArrayList<Calendar> calendars = account.getCalendars();
+    Calendar selectedCalendar = null;
 
-        if (calendars.isEmpty()) {
-            System.out.println("No calendars available.\n");
-        } else {
-            // This displays all calendars.
-            System.out.println("Select a calendar:");
-            for (int i = 0; i < calendars.size(); i++) {
-                System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
-            }
-
-            System.out.print("Enter calendar number or 0 to cancel: ");
-            int choice = userInput.nextInt();
-            userInput.nextLine();
-
-            if (choice >= 1 && choice <= calendars.size()) {
-                selectedCalendar = calendars.get(choice - 1);
-            } else if (choice != 0) {
-                System.out.println("Invalid calendar selection.\n");
-            }
+    if (calendars.isEmpty()) {
+        System.out.println("No calendars available.\n");
+    } else {
+        System.out.println("Select a calendar:");
+        for (int i = 0; i < calendars.size(); i++) {
+            System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
         }
 
-        return selectedCalendar;
+        System.out.print("Enter calendar number, 0 to cancel, or -1 to logout: ");
+        int choice = userInput.nextInt();
+        userInput.nextLine();
+
+        if (choice == -1) {
+            System.out.println("Logging out...\n");
+            UserMenu.logoutFlag = true;
+        } else if (choice >= 1 && choice <= calendars.size()) {
+            selectedCalendar = calendars.get(choice - 1);
+        } else if (choice != 0) {
+            System.out.println("Invalid calendar selection.\n");
+        }
     }
+
+    return selectedCalendar;
+}
+
 }

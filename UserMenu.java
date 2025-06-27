@@ -7,7 +7,9 @@ import java.util.Scanner;
  */
 public class UserMenu {
 
-     /**
+    public static boolean logoutFlag = false; //  Logout flag shared across menus
+
+    /**
      * This displays the user menu after a successful login and allows the user
      * to navigate calendar and entry options.
      * @param userInput This is the Scanner used to read user input.
@@ -17,6 +19,7 @@ public class UserMenu {
         int userChoice;
         YearMonth currentMonth = YearMonth.now();
         Calendar calendar = loggedInAccount.getDefaultCalendar();
+        logoutFlag = false; // Reset flag on new login
 
         // This loop continues to display the user menu until the user logs out.
         do {
@@ -33,15 +36,22 @@ public class UserMenu {
             System.out.println("[0] Logout");
             System.out.print("Enter your choice: ");
 
-            // This reads the user’s menu selection.
-            userChoice = userInput.nextInt();
-            userInput.nextLine(); 
+            if (userInput.hasNextInt()) {
+                userChoice = userInput.nextInt();
+                userInput.nextLine();
+            } else {
+                userInput.nextLine(); 
+                userChoice = -1; // Stay in the loop
+            }
 
-             // This switch handles the user’s menu choice.
+            // This switch handles the user’s menu choice.
             switch (userChoice) {
                 // This calls the method to view calendars.
                 case 1:
-                    CalendarManager.viewCalendars(userInput, loggedInAccount);
+                    if (CalendarManager.viewCalendars(userInput, loggedInAccount)) {
+                        logoutFlag = true; // Logout requested from CalendarManager
+                        userChoice = 0;
+                    }
                     break;
                 // This calls the method to add a new calendar.
                 case 2:
@@ -50,6 +60,7 @@ public class UserMenu {
                 // This calls the method to delete a calendar.
                 case 3:
                     CalendarManager.deleteCalendar(userInput, loggedInAccount);
+                    userChoice = 0;
                     break;
                 // This calls the method to add an entry to a calendar.
                 case 4:
@@ -68,7 +79,7 @@ public class UserMenu {
                     deactivateAccount(loggedInAccount);
                     userChoice = 0;
                     break;
-                // This logs out the user.   
+                // This logs out the user.
                 case 0:
                     System.out.println("Logging out...");
                     break;
@@ -76,7 +87,7 @@ public class UserMenu {
                     System.out.println("Invalid choice. Please try again.");
             }
 
-        } while (userChoice != 0);
+        } while (userChoice != 0 && logoutFlag == false);
     }
 
     /**
@@ -88,6 +99,6 @@ public class UserMenu {
         account.deactivateAccount();                // This marks the account as inactive.
         Main.activeAccounts.remove(account);        // This removes the account from the active accounts list.
         Main.deactivatedAccounts.add(account);      // This adds the account to the deactivated accounts list.
-        System.out.println("Account deactivated. You have been logged out.");
+        System.out.println("\nAccount deactivated. You have been logged out.\n");
     }
 }
