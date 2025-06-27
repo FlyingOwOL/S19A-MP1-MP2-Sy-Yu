@@ -54,33 +54,81 @@ public class CalendarManager {
     }
 
     /**
-     * This method allows the user to create a new calendar and add it to their account.
+     * This method allows the user to either:
+     * - Choose from the list of existing public calendars (not already added), or
+     * - Create a brand-new calendar and decide whether it is public or private.
+     * The chosen or created calendar is then added to the user's account.
+     * 
      * @param userInput This is the Scanner used to read user input.
-     * @param account This is the logged-in user's account.
+     * @param account This is the currently logged-in user's account.
      */
     public static void addCalendar(Scanner userInput, Account account) {
-        System.out.println("Enter calendar name: ");
-        String calendarName = userInput.nextLine();
+        System.out.println("[1] Choose from existing public calendars");
+        System.out.println("[2] Create a new calendar");
+        System.out.print("Enter your choice: ");
+        
+        int choice = userInput.nextInt();
+        userInput.nextLine();
 
-        System.out.println("Is this calendar public? (yes/no): ");
-        String response = userInput.nextLine();
-        boolean isPublic = response.equalsIgnoreCase("yes");
+        if (choice == 1) {
+            // Show public calendars not already added by the user
+            ArrayList<Calendar> publicOptions = new ArrayList<>();
+            for (Calendar cal : Main.publicCalendars) {
+                if (!account.getCalendars().contains(cal)) {
+                    publicOptions.add(cal);
+                }
+            }
 
-        // Add a new calendar.
-        Calendar newCalendar = new Calendar(calendarName, isPublic, account);
-        account.addCalendar(newCalendar);
+            if (publicOptions.isEmpty()) {
+                System.out.println("No available public calendars to add.\n");
+                return;
+            }
 
-        if (isPublic) {
-            Main.addToPublicCalendars(newCalendar);
-        }
+            System.out.println("Public Calendars Available:");
+            for (int i = 0; i < publicOptions.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + publicOptions.get(i).getName());
+            }
 
-        System.out.println("Calendar added successfully.");
-        if (isPublic) {
-            System.out.println("This calendar is Public.\n");
+            System.out.print("Enter calendar number to add, or 0 to cancel: ");
+            int selected = userInput.nextInt();
+            userInput.nextLine();
+
+            if (selected >= 1 && selected <= publicOptions.size()) {
+                Calendar selectedCalendar = publicOptions.get(selected - 1);
+                if (account.addCalendar(selectedCalendar)) {
+                    System.out.println("Calendar added successfully!\n");
+                } else {
+                    System.out.println("Failed to add calendar.\n");
+                }
+            } else if (selected == 0) {
+                System.out.println("Cancelled.\n");
+            } else {
+                System.out.println("Invalid selection.\n");
+            }
+
+        } else if (choice == 2) {
+            System.out.println("Enter calendar name: ");
+            String calendarName = userInput.nextLine();
+
+            System.out.println("Is this calendar public? (yes/no): ");
+            String response = userInput.nextLine();
+            boolean isPublic = response.equalsIgnoreCase("yes");
+
+            Calendar newCalendar = new Calendar(calendarName, isPublic, account);
+            if (account.addCalendar(newCalendar)) {
+                if (isPublic) {
+                    Main.addToPublicCalendars(newCalendar);
+                }
+                System.out.println("New calendar created and added successfully.");
+            } else {
+                System.out.println("Failed to create calendar.");
+            }
+
         } else {
-            System.out.println("This calendar is Private.\n");
+            System.out.println("Invalid choice.\n");
         }
     }
+
 
     /**
      * This method allows the user to delete a calendar if it is not the default calendar.

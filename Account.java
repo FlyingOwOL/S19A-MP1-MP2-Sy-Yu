@@ -23,7 +23,7 @@ public class Account {
         this.isActive = true;
         this.calendars = new ArrayList<>();
 
-        // Thsi automatically creates and adds the default private calendar to the account.
+        // This automatically creates and adds the default private calendar to the account.
         Calendar defaultCalendar = new Calendar(accountName, false, this);
         calendars.add(defaultCalendar);
     }
