@@ -62,6 +62,7 @@ public class CalendarManager {
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the currently logged-in user's account.
      */
+ 
     public static void addCalendar(Scanner userInput, Account account) {
         System.out.println("[1] Choose from existing public calendars");
         System.out.println("[2] Create a new calendar");
@@ -71,7 +72,8 @@ public class CalendarManager {
         userInput.nextLine();
 
         if (choice == 1) {
-            // Show public calendars not already added by the user
+            //  Choose from existing public calendars 
+
             ArrayList<Calendar> publicOptions = new ArrayList<>();
             for (Calendar cal : Main.publicCalendars) {
                 if (!account.getCalendars().contains(cal)) {
@@ -107,8 +109,18 @@ public class CalendarManager {
             }
 
         } else if (choice == 2) {
+            // Create a new calendar 
+
             System.out.println("Enter calendar name: ");
             String calendarName = userInput.nextLine();
+
+            // Check if the calendar name already exists in user's account
+            for (Calendar c : account.getCalendars()) {
+                if (c.getName().equalsIgnoreCase(calendarName)) {
+                    System.out.println("A calendar with that name already exists in your account.\n");
+                    return;
+                }
+            }
 
             System.out.println("Is this calendar public? (yes/no): ");
             String response = userInput.nextLine();
