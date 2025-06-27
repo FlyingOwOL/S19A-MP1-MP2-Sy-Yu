@@ -1,3 +1,4 @@
+import java.time.YearMonth;
 import java.util.Scanner;
 
 /**
@@ -14,9 +15,12 @@ public class UserMenu {
      */
     public static void userMenu(Scanner userInput, Account loggedInAccount) {
         int userChoice;
+        YearMonth currentMonth = YearMonth.now();
+        Calendar calendar = loggedInAccount.getDefaultCalendar();
 
         // This loop continues to display the user menu until the user logs out.
         do {
+            MonthlyDisplay.displayMonthView(calendar, currentMonth);
             System.out.println("\nLogged in as: " + loggedInAccount.getAccountName());
             System.out.println("User Menu:");
             System.out.println("[1] View Calendars");
