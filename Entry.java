@@ -32,27 +32,37 @@ public class Entry {
         this.endTime = endTime;
     }
 
-    // This getter gets the entry's title.
+    /**
+     * @return The title of the entry.
+     */
     public String getTitle() {
         return title;
     }
 
-    // This getter gets the entry's details or description.
+    /**
+     * @return The details/description of the entry.
+     */
     public String getDetails() {
         return details;
     }
 
-    // This getter gets the entry's date.
+    /**
+     * @return The date of the entry.
+     */
     public LocalDate getDate() {
         return date;
     }
 
-    // This getter gets the entry's start and end times.
+    /**
+     * @return The start time of the entry.
+     */
     public LocalTime getStartTime() {
         return startTime;
     }
 
-    // This getter gets the entry's end time.
+    /**
+     * @return The end time of the entry.
+     */
     public LocalTime getEndTime() {
         return endTime;
     }

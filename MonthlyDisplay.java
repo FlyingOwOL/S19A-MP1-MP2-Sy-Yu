@@ -10,6 +10,12 @@ import java.util.Scanner;
  */
 public class MonthlyDisplay {
 
+    /**
+     * This method allows the user to navigate through the calendar, view months, and select dates to view entries.
+     * @param userInput Thsi is the scanner to read user input.
+     * @param calendar The calendar object containing entries.
+     * @return Returns true if the user logs out, false otherwise.
+     */
     public boolean calendarNavigation(Scanner userInput, Calendar calendar) {
         YearMonth currentMonth = YearMonth.now(); 
         int navigationChoice = -999;
@@ -77,6 +83,12 @@ public class MonthlyDisplay {
         return isLoggingOut;
     }
 
+    /**
+     * This method displays the month view of the calendar.
+     * 
+     * @param calendar The calendar object containing entries.
+     * @param yearMonth The YearMonth object representing the month to display.
+     */
     public void displayMonthView(Calendar calendar, YearMonth yearMonth) {
         System.out.println("\n" + yearMonth.getMonth() + " " + yearMonth.getYear());
         System.out.println("Legend:");
@@ -117,6 +129,13 @@ public class MonthlyDisplay {
         System.out.println(); 
     }
 
+    /**
+     * This method checks if a calendar has any entry on the given date.
+     * 
+     * @param calendar The calendar to check.
+     * @param date The date to check entries for.
+     * @return True if an entry exists on that date, false otherwise.
+     */
     public boolean checkEntryExists(Calendar calendar, LocalDate date) {
         ArrayList<Entry> entries = calendar.getCalendarEntries();
         for (Entry entry : entries) {
@@ -127,6 +146,14 @@ public class MonthlyDisplay {
         return false;
     }
 
+    /**
+     * This method allows the user to select a specific day and interact with entries on that day.
+     * 
+     * @param userInput Scanner to read input.
+     * @param calendar The calendar to view.
+     * @param yearMonth The current month/year being displayed.
+     * @return True if the user logs out; false otherwise.
+     */
     public boolean selectDateToView(Scanner userInput, Calendar calendar, YearMonth yearMonth) {
         System.out.print("Enter the day you want to view (example: 5 for the 5th day): ");
         boolean isLoggingOut = false;
@@ -200,6 +227,13 @@ public class MonthlyDisplay {
         return isLoggingOut;
     }
 
+    /**
+     * This method adds a new entry on the specified date.
+     * 
+     * @param userInput Scanner for input.
+     * @param calendar Calendar to add the entry to.
+     * @param date The date the entry is for.
+     */
     public void addEntryOnDate(Scanner userInput, Calendar calendar, LocalDate date) {
         System.out.println("Enter entry title: ");
         String title = userInput.nextLine();
@@ -225,6 +259,13 @@ public class MonthlyDisplay {
         }
     }
 
+    /**
+     * This method allows the user to delete an entry on a specific date.
+     * 
+     * @param userInput Scanner for user input.
+     * @param calendar Calendar to delete from.
+     * @param date The target date of the entry.
+     */
     public void deleteEntryOnDate(Scanner userInput, Calendar calendar, LocalDate date) {
         ArrayList<Entry> entries = calendar.getCalendarEntries();
         ArrayList<Entry> entriesOnDate = new ArrayList<>();
@@ -272,6 +313,13 @@ public class MonthlyDisplay {
         }
     }
 
+    /**
+     * This method edits an entry on the given date.
+     * 
+     * @param userInput Scanner to read input.
+     * @param calendar Calendar to edit.
+     * @param date The target date of the entry.
+     */
     public void editEntryOnDate(Scanner userInput, Calendar calendar, LocalDate date) {
         ArrayList<Entry> entries = calendar.getCalendarEntries();
         ArrayList<Entry> entriesOnDate = new ArrayList<>();

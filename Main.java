@@ -51,6 +51,7 @@ public class Main {
 
     /**
      * This getter returns the list of active accounts.
+     * @return The list of active accounts.
      */
     public ArrayList<Account> getActiveAccounts() {
         return activeAccounts;
@@ -58,6 +59,7 @@ public class Main {
 
     /**
      * This getter returns the list of deactivated accounts.
+     * @return The list of deactivated accounts.
      */
     public ArrayList<Account> getDeactivatedAccounts() {
         return deactivatedAccounts;
@@ -65,6 +67,7 @@ public class Main {
 
     /**
      * This getter returns the list of public calendars.
+     * @return The list of public calendars.
      */
     public ArrayList<Calendar> getPublicCalendars() {
         return publicCalendars;
@@ -72,6 +75,7 @@ public class Main {
 
     /**
      * This getter gets the currently logged-in user.
+     * @return The currently logged-in Account object.
      */
     public Account getCurrentLoggedInAccount() {
         return currentLoggedInAccount;
@@ -79,6 +83,7 @@ public class Main {
 
     /**
      * This setter sets the currently logged-in user.
+     * @param account The account to set as the currently logged-in user.
      */
     public void setCurrentLoggedInAccount(Account account) {
         this.currentLoggedInAccount = account;
@@ -86,6 +91,9 @@ public class Main {
 
     /**
      * This is the main application program.
+     * It displays the main menu, handles user input,
+     * creates accounts, logs in users, and manages user sessions.
+     * 
      */
     public void runApp() {
         Scanner userInput = new Scanner(System.in);
