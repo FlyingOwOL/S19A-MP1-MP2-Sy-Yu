@@ -65,55 +65,54 @@ public class EntryManager {
      * @param account This is the logged-in user's account.
      */
     public void addEntry(Scanner userInput, Account account) {
-    Calendar selectedCalendar = calendarManager.selectCalendar(userInput, account);
-    if (selectedCalendar != null) {
+        Calendar selectedCalendar = calendarManager.selectCalendar(userInput, account);
+        if (selectedCalendar != null) {
 
-        ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
-        boolean validAction = false;
+            ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
+            boolean validAction = false;
 
-        if (entries.isEmpty()) {
-            System.out.println("\nNo entries currently in this calendar.\n");
-        } else {
-            System.out.println("\nCurrent entries in " + selectedCalendar.getName() + ":");
-            for (Entry entry : entries) {
-                System.out.println(entry);
+            if (entries.isEmpty()) {
+                System.out.println("\nNo entries currently in this calendar.\n");
+            } else {
+                System.out.println("\nCurrent entries in " + selectedCalendar.getName() + ":");
+                for (Entry entry : entries) {
+                    System.out.println(entry);
+                }
+                System.out.println();
             }
-            System.out.println();
-        }
 
-        System.out.println("Enter entry title: ");
-        String title = userInput.nextLine();
+            System.out.println("Enter entry title: ");
+            String title = userInput.nextLine();
 
-        System.out.println("Enter entry details: ");
-        String details = userInput.nextLine();
+            System.out.println("Enter entry details: ");
+            String details = userInput.nextLine();
 
-        // Use InputValidator class to check if dates and times are valid
-        InputValidator inputValidator = new InputValidator(); // This creates an instance of InputValidator to validate user input.
-        // This reads a valid date from the user.
-        LocalDate date = inputValidator.readValidDate(userInput);
-        // This reads a valid start time from the user.
-        LocalTime startTime = inputValidator.readValidTime(userInput, "Enter start time (HH:MM): ");
-        // This reads a valid end time from the user, ensuring it is after the start time.
-        LocalTime endTime = inputValidator.ensureEndTimeAfterStart(userInput, startTime);
+            // Use InputValidator class to check if dates and times are valid
+            InputValidator inputValidator = new InputValidator(); // This creates an instance of InputValidator to validate user input.
+            // This reads a valid date from the user.
+            LocalDate date = inputValidator.readValidDate(userInput);
+            // This reads a valid start time from the user.
+            LocalTime startTime = inputValidator.readValidTime(userInput, "Enter start time (HH:MM): ");
+            // This reads a valid end time from the user, ensuring it is after the start time.
+            LocalTime endTime = inputValidator.ensureEndTimeAfterStart(userInput, startTime);
 
-        Entry entry = new Entry(
-                title, details, date,
-                startTime, endTime
-        );
+            Entry entry = new Entry(
+                    title, details, date,
+                    startTime, endTime
+            );
 
-        if (selectedCalendar.addEntry(entry)) {
-            System.out.println("\nEntry added successfully.\n");
-            validAction = true;
-        } else {
-            System.out.println("\nFailed to add entry.\n");
-        }
+            if (selectedCalendar.addEntry(entry)) {
+                System.out.println("\nEntry added successfully.\n");
+                validAction = true;
+            } else {
+                System.out.println("\nFailed to add entry.\n");
+            }
 
-        if (!validAction) {
-            System.out.println("No entry was added.\n");
+            if (!validAction) {
+                System.out.println("No entry was added.\n");
+            }
         }
     }
-}
-
 
     /**
      * This method allows the user to edit an existing entry by selecting from a list of entries.
@@ -142,8 +141,18 @@ public class EntryManager {
                 }
                 System.out.println("[0] Cancel");
 
-                int choice = userInput.nextInt();
-                userInput.nextLine(); // Clear input buffer
+                int choice = -1;
+                boolean validInput = false;
+                while (!validInput) {
+                    if (userInput.hasNextInt()) {
+                        choice = userInput.nextInt();
+                        userInput.nextLine(); // Clear input buffer
+                        validInput = true;
+                    } else {
+                        System.out.println("Invalid input. Please enter a number.");
+                        userInput.nextLine();
+                    }
+                }
 
                 if (choice == 0) {
                     // This handles the user cancelling the edit.
@@ -226,8 +235,18 @@ public class EntryManager {
                 }
                 System.out.println("[0] Cancel");
 
-                int choice = userInput.nextInt();
-                userInput.nextLine(); // Clear input buffer
+                int choice = -1;
+                boolean validInput = false;
+                while (!validInput) {
+                    if (userInput.hasNextInt()) {
+                        choice = userInput.nextInt();
+                        userInput.nextLine(); // Clear input buffer
+                        validInput = true;
+                    } else {
+                        System.out.println("Invalid input. Please enter a number.");
+                        userInput.nextLine();
+                    }
+                }
 
                 if (choice == 0) {
                     // This handles the user cancelling the deletion.
