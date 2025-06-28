@@ -107,46 +107,65 @@ public class EntryManager {
         if (selectedCalendar != null) {
 
             ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
+            boolean validAction = false; // Flag to control flow
 
             if (entries.isEmpty()) {
-                System.out.println("\nNo entry to be edited.\n");
-                return;
-            }
-
-            System.out.println("Enter the entry ID to edit: ");
-            if (!userInput.hasNextInt()) {
-                System.out.println("\nInvalid input. Please enter a valid entry ID (number).\n");
-                userInput.nextLine(); 
-                return;
-            }
-
-            int id = userInput.nextInt();
-            userInput.nextLine();
-
-            System.out.println("Enter new entry title: ");
-            String title = userInput.nextLine();
-
-            System.out.println("Enter new entry details: ");
-            String details = userInput.nextLine();
-
-            System.out.println("Enter new entry date (YYYY-MM-DD): ");
-            String dateInput = userInput.nextLine();
-
-            System.out.println("Enter new start time (HH:MM): ");
-            String startTimeInput = userInput.nextLine();
-
-            System.out.println("Enter new end time (HH:MM): ");
-            String endTimeInput = userInput.nextLine();
-
-            Entry newEntry = new Entry(id, title, details,
-                    java.time.LocalDate.parse(dateInput),
-                    java.time.LocalTime.parse(startTimeInput),
-                    java.time.LocalTime.parse(endTimeInput));
-
-            if (selectedCalendar.editEntry(id, newEntry)) {
-                System.out.println("\nEntry updated successfully.\n");
+                System.out.println("\nNo entries available to edit.\n");
+                validAction = false; // No entries to process
             } else {
-                System.out.println("\nFailed to update entry. Entry ID not found.\n");
+                System.out.println("\nSelect entry to edit:");
+                for (int i = 0; i < entries.size(); i++) {
+                    System.out.println("[" + (i + 1) + "] " + entries.get(i));
+                }
+                System.out.println("[0] Cancel");
+
+                int choice = userInput.nextInt();
+                userInput.nextLine();
+
+                if (choice == 0) {
+                    System.out.println("Edit cancelled.\n");
+                    validAction = false; // User cancelled the operation
+                } else if (choice >= 1 && choice <= entries.size()) {
+                    Entry oldEntry = entries.get(choice - 1);
+                    int id = oldEntry.getEntryID();
+
+                    System.out.println("Enter new entry title: ");
+                    String title = userInput.nextLine();
+
+                    System.out.println("Enter new entry details: ");
+                    String details = userInput.nextLine();
+
+                    System.out.println("Enter new entry date (YYYY-MM-DD): ");
+                    String dateInput = userInput.nextLine();
+
+                    System.out.println("Enter new start time (HH:MM): ");
+                    String startTimeInput = userInput.nextLine();
+
+                    System.out.println("Enter new end time (HH:MM): ");
+                    String endTimeInput = userInput.nextLine();
+
+                    Entry newEntry = new Entry(
+                            id, title, details,
+                            java.time.LocalDate.parse(dateInput),
+                            java.time.LocalTime.parse(startTimeInput),
+                            java.time.LocalTime.parse(endTimeInput)
+                    );
+
+                    if (selectedCalendar.editEntry(id, newEntry)) {
+                        System.out.println("\nEntry updated successfully.\n");
+                    } else {
+                        System.out.println("\nFailed to update entry. Entry ID not found.\n");
+                    }
+
+                    validAction = true; // Action was completed
+                } else {
+                    System.out.println("Invalid selection.\n");
+                    validAction = false; // Invalid option selected
+                }
+            }
+
+            if (!validAction) {
+                System.out.println("No editing was performed.\n");
             }
         }
     }

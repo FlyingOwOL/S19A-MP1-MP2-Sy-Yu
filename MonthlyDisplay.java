@@ -32,11 +32,16 @@ public class MonthlyDisplay {
             navigationChoice = userInput.nextInt();
             userInput.nextLine();
 
-            if (navigationChoice == 1) {
+            switch (navigationChoice) {
+            case 1:
                 currentMonth = currentMonth.minusMonths(1);
-            } else if (navigationChoice == 2) {
+                break;
+
+            case 2:
                 currentMonth = currentMonth.plusMonths(1);
-            } else if (navigationChoice == 3) {
+                break;
+
+            case 3:
                 System.out.print("Enter month (1-12): ");
                 int month = userInput.nextInt();
                 System.out.print("Enter year: ");
@@ -47,16 +52,24 @@ public class MonthlyDisplay {
                 } else {
                     System.out.println("Invalid month.\n");
                 }
-            } else if (navigationChoice == 4) {
+                break;
+
+            case 4:
                 selectDateToView(userInput, calendar, currentMonth);
-            } else if (navigationChoice == 0) {
+                break;
+
+            case 0:
                 System.out.println("Returning to calendar menu...\n");
-            } else if (navigationChoice == -1) {
+                break;
+
+            case -1:
                 System.out.println("Logging out...\n");
                 isLoggingOut = true;
-            } else {
+                break;
+
+            default:
                 System.out.println("Invalid choice. Please try again.\n");
-            }
+        }
 
         } while (navigationChoice != 0 && !isLoggingOut);
 
@@ -81,7 +94,7 @@ public class MonthlyDisplay {
         int currentPosition = dayOfWeek % 7;
 
         for (int i = 0; i < currentPosition; i++) {
-            System.out.print("      ");
+            System.out.print("     ");
         }
 
         int daysInMonth = yearMonth.lengthOfMonth();
@@ -153,6 +166,7 @@ public class MonthlyDisplay {
 
                 System.out.println("\n[1] Add Entry");
                 System.out.println("[2] Delete Entry");
+                System.out.println("[3] Edit Entry");
                 System.out.println("[0] Back to Month View");
                 System.out.println("[-1] Logout");
                 System.out.print("Enter your choice: ");
@@ -168,6 +182,10 @@ public class MonthlyDisplay {
                         deleteEntryOnDate(userInput, calendar, selectedDate);
                         break;
 
+                    case 3:
+                        editEntryOnDate(userInput, calendar, selectedDate);
+                        break;
+
                     case 0:
                         stayInDateMenu = false;
                         break;
@@ -179,7 +197,7 @@ public class MonthlyDisplay {
                         break;
 
                     default:
-                        System.out.println("Invalid choice. Please try again.\n");
+                        System.out.println("Invalid choice. Please try again.");
                 }
             }
 
@@ -249,14 +267,76 @@ public class MonthlyDisplay {
         if (choice >= 1 && choice <= entriesOnDate.size()) {
             Entry toDelete = entriesOnDate.get(choice - 1);
             if (calendar.deleteEntry(toDelete)) {
-                System.out.println("Entry deleted successfully.\n");
+                System.out.println("Entry deleted successfully.");
             } else {
-                System.out.println("Failed to delete entry.\n");
+                System.out.println("Failed to delete entry.");
             }
         } else if (choice == 0) {
-            System.out.println("Deletion cancelled.\n");
+            System.out.println("Deletion cancelled.");
         } else {
-            System.out.println("Invalid selection.\n");
+            System.out.println("Invalid selection.");
+        }
+    }
+
+    /**
+     * This method allows the user to edit an entry on the selected date.
+     */
+    public void editEntryOnDate(Scanner userInput, Calendar calendar, LocalDate date) {
+        ArrayList<Entry> entries = calendar.getCalendarEntries();
+        ArrayList<Entry> entriesOnDate = new ArrayList<>();
+
+        for (Entry entry : entries) {
+            if (entry.getDate().equals(date)) {
+                entriesOnDate.add(entry);
+            }
+        }
+
+        if (entriesOnDate.isEmpty()) {
+            System.out.println("No entries to edit on this date.");
+            return;
+        }
+
+        System.out.println("Select entry to edit:");
+        for (int i = 0; i < entriesOnDate.size(); i++) {
+            System.out.println("[" + (i + 1) + "] " + entriesOnDate.get(i));
+        }
+        System.out.println("[0] Cancel");
+
+        int choice = userInput.nextInt();
+        userInput.nextLine();
+
+        if (choice >= 1 && choice <= entriesOnDate.size()) {
+            Entry oldEntry = entriesOnDate.get(choice - 1);
+            int entryID = oldEntry.getEntryID();
+
+            System.out.println("Enter new entry title: ");
+            String newTitle = userInput.nextLine();
+
+            System.out.println("Enter new entry details: ");
+            String newDetails = userInput.nextLine();
+
+            System.out.println("Enter new start time (HH:MM): ");
+            String newStartTime = userInput.nextLine();
+
+            System.out.println("Enter new end time (HH:MM): ");
+            String newEndTime = userInput.nextLine();
+
+            Entry newEntry = new Entry(
+                    entryID,
+                    newTitle, newDetails, date,
+                    java.time.LocalTime.parse(newStartTime),
+                    java.time.LocalTime.parse(newEndTime)
+            );
+
+            if (calendar.editEntry(entryID, newEntry)) {
+                System.out.println("Entry updated successfully.");
+            } else {
+                System.out.println("Failed to update entry.");
+            }
+        } else if (choice == 0) {
+            System.out.println("Edit cancelled.");
+        } else {
+            System.out.println("Invalid selection.");
         }
     }
 }

@@ -213,7 +213,7 @@ public class CalendarManager {
         if (calendars.isEmpty()) {
             System.out.println("No calendars available.\n");
         } else {
-            System.out.println("Select a calendar:");
+            System.out.println("\nSelect a calendar:");
             for (int i = 0; i < calendars.size(); i++) {
                 System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
             }
