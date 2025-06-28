@@ -7,15 +7,28 @@ import java.util.Scanner;
  */
 public class EntryManager {
 
+    private CalendarManager calendarManager; // Handles calendar selection and navigation
+    private IDGenerator idGenerator;         // Generates unique entry IDs
+
+    /**
+     * This constructor initializes the entry manager with a reference to a calendar manager and ID generator.
+     * @param calendarManager The CalendarManager object.
+     * @param idGenerator The IDGenerator object to create unique entry IDs.
+     */
+    public EntryManager(CalendarManager calendarManager, IDGenerator idGenerator) {
+        this.calendarManager = calendarManager;
+        this.idGenerator = idGenerator;
+    }
+
     /**
      * This method displays all entries in the selected calendar.
      * Entries are sorted manually in ascending order by their start time.
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the logged-in user's account.
      */
-    public static void displayCalendarEntries(Scanner userInput, Account account) {
-        Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
-        if (selectedCalendar != null && UserMenu.logoutFlag == false) {
+    public void displayCalendarEntries(Scanner userInput, Account account) {
+        Calendar selectedCalendar = calendarManager.selectCalendar(userInput, account);
+        if (selectedCalendar != null) {
 
             ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
 
@@ -49,13 +62,11 @@ public class EntryManager {
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the logged-in user's account.
      */
-    public static void addEntry(Scanner userInput, Account account) {
-        Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
-        if (selectedCalendar != null && UserMenu.logoutFlag == false) {
+    public void addEntry(Scanner userInput, Account account) {
+        Calendar selectedCalendar = calendarManager.selectCalendar(userInput, account);
+        if (selectedCalendar != null) {
 
-            System.out.println("Enter entry ID: ");
-            int id = userInput.nextInt();
-            userInput.nextLine();
+            int id = idGenerator.getNextEntryID(); // This generates a unique ID for the new entry
 
             System.out.println("Enter entry title: ");
             String title = userInput.nextLine();
@@ -91,100 +102,94 @@ public class EntryManager {
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the logged-in user's account.
      */
-    public static void editEntry(Scanner userInput, Account account) {
-    Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
-    if (selectedCalendar != null && UserMenu.logoutFlag == false) {
+    public void editEntry(Scanner userInput, Account account) {
+        Calendar selectedCalendar = calendarManager.selectCalendar(userInput, account);
+        if (selectedCalendar != null) {
 
-        ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
-        boolean canProceed = true;
+            ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
 
-        if (entries.isEmpty()) {
-            System.out.println("\nNo entry to be edited.\n");
-            canProceed = false; // Flag to stop the rest of the method
-        }
+            if (entries.isEmpty()) {
+                System.out.println("\nNo entry to be edited.\n");
+                return;
+            }
 
-        if (canProceed) {
             System.out.println("Enter the entry ID to edit: ");
-
             if (!userInput.hasNextInt()) {
                 System.out.println("\nInvalid input. Please enter a valid entry ID (number).\n");
                 userInput.nextLine(); 
-                canProceed = false;
+                return;
             }
 
-            if (canProceed) {
-                int id = userInput.nextInt();
-                userInput.nextLine();
+            int id = userInput.nextInt();
+            userInput.nextLine();
 
-                System.out.println("Enter new entry title: ");
-                String title = userInput.nextLine();
+            System.out.println("Enter new entry title: ");
+            String title = userInput.nextLine();
 
-                System.out.println("Enter new entry details: ");
-                String details = userInput.nextLine();
+            System.out.println("Enter new entry details: ");
+            String details = userInput.nextLine();
 
-                System.out.println("Enter new entry date (YYYY-MM-DD): ");
-                String dateInput = userInput.nextLine();
+            System.out.println("Enter new entry date (YYYY-MM-DD): ");
+            String dateInput = userInput.nextLine();
 
-                System.out.println("Enter new start time (HH:MM): ");
-                String startTimeInput = userInput.nextLine();
+            System.out.println("Enter new start time (HH:MM): ");
+            String startTimeInput = userInput.nextLine();
 
-                System.out.println("Enter new end time (HH:MM): ");
-                String endTimeInput = userInput.nextLine();
+            System.out.println("Enter new end time (HH:MM): ");
+            String endTimeInput = userInput.nextLine();
 
-                Entry newEntry = new Entry(id, title, details,
-                        java.time.LocalDate.parse(dateInput),
-                        java.time.LocalTime.parse(startTimeInput),
-                        java.time.LocalTime.parse(endTimeInput));
+            Entry newEntry = new Entry(id, title, details,
+                    java.time.LocalDate.parse(dateInput),
+                    java.time.LocalTime.parse(startTimeInput),
+                    java.time.LocalTime.parse(endTimeInput));
 
-                if (selectedCalendar.editEntry(id, newEntry)) {
-                    System.out.println("\nEntry updated successfully.\n");
-                } else {
-                    System.out.println("\nFailed to update entry. Entry ID not found.\n");
-                }
+            if (selectedCalendar.editEntry(id, newEntry)) {
+                System.out.println("\nEntry updated successfully.\n");
+            } else {
+                System.out.println("\nFailed to update entry. Entry ID not found.\n");
             }
         }
     }
-}
 
     /**
      * This method allows the user to delete an entry by its entry ID.
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the logged-in user's account.
      */
-    public static void deleteEntry(Scanner userInput, Account account) {
-        Calendar selectedCalendar = CalendarManager.selectCalendar(userInput, account);
-        if (selectedCalendar != null && UserMenu.logoutFlag == false) {
+    public void deleteEntry(Scanner userInput, Account account) {
+        Calendar selectedCalendar = calendarManager.selectCalendar(userInput, account);
+        if (selectedCalendar != null) {
 
             ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
 
             if (entries.isEmpty()) {
                 System.out.println("\nNo entry to be deleted.\n");
-            } else {
-                System.out.println("Enter the entry ID to delete: ");
+                return;
+            }
 
-                if (!userInput.hasNextInt()) {
-                    System.out.println("\nInvalid input. Please enter a valid entry ID (number).\n");
-                    userInput.nextLine();
-                } else {
-                    int id = userInput.nextInt();
-                    userInput.nextLine();
+            System.out.println("Enter the entry ID to delete: ");
 
-                    Entry targetEntry = null;
-                    int i = 0;
+            if (!userInput.hasNextInt()) {
+                System.out.println("\nInvalid input. Please enter a valid entry ID (number).\n");
+                userInput.nextLine();
+                return;
+            }
 
-                    while (i < entries.size() && targetEntry == null) {
-                        if (entries.get(i).getEntryID() == id) {
-                            targetEntry = entries.get(i);
-                        }
-                        i++;
-                    }
+            int id = userInput.nextInt();
+            userInput.nextLine();
 
-                    if (targetEntry != null && selectedCalendar.deleteEntry(targetEntry)) {
-                        System.out.println("\nEntry deleted successfully.\n");
-                    } else {
-                        System.out.println("\nEntry not found or could not be deleted.\n");
-                    }
+            Entry targetEntry = null;
+            for (Entry entry : entries) {
+                if (entry.getEntryID() == id) {
+                    targetEntry = entry;
+                    break;
                 }
+            }
+
+            if (targetEntry != null && selectedCalendar.deleteEntry(targetEntry)) {
+                System.out.println("\nEntry deleted successfully.\n");
+            } else {
+                System.out.println("\nEntry not found or could not be deleted.\n");
             }
         }
     }

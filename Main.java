@@ -4,22 +4,28 @@ import java.util.Scanner;
 public class Main {
 
     // This list stores all active accounts.
-    public static ArrayList<Account> activeAccounts = new ArrayList<>();
+    public ArrayList<Account> activeAccounts = new ArrayList<>();
 
     // This list stores all deactivated accounts.
-    public static ArrayList<Account> deactivatedAccounts = new ArrayList<>();
+    public ArrayList<Account> deactivatedAccounts = new ArrayList<>();
 
     // This list stores all public calendars from all users.
-    public static ArrayList<Calendar> publicCalendars = new ArrayList<>();
+    public ArrayList<Calendar> publicCalendars = new ArrayList<>();
 
-    // This variable tracks the currently logged in user.
-    public static Account currentLoggedInAccount = null;
+    // This tracks the currently logged in user.
+    public Account currentLoggedInAccount = null;
+
+    // These are the objects of other classes that will be shared across the application.
+    private IDGenerator idGenerator = new IDGenerator();
+    private CalendarManager calendarManager = new CalendarManager();
+    private EntryManager entryManager = new EntryManager(calendarManager, idGenerator);
+    private MainMethods mainMethods = new MainMethods(); // Reused instance
 
     /**
      * This method adds a calendar to the publicCalendars list if it is public and not already added.
      * @param calendar The calendar to be added to the public list.
      */
-    public static void addToPublicCalendars(Calendar calendar) {
+    public void addToPublicCalendars(Calendar calendar) {
         if (calendar != null && calendar.isPubliclyAvailable() && !publicCalendars.contains(calendar)) {
             publicCalendars.add(calendar);
         }
@@ -29,45 +35,81 @@ public class Main {
      * This method handles account creation and automatically opens the user menu after successful creation.
      * @param userInput Scanner to get user input.
      */
-    private static void createAccount(Scanner userInput) {
-        Account newAccount = MainMethods.createAccount(userInput, activeAccounts);
+    private void createAccount(Scanner userInput) {
+        Account newAccount = mainMethods.createAccount(userInput, activeAccounts);
         if (newAccount != null) {
             activeAccounts.add(newAccount);
             System.out.println("Account created successfully!\n");
 
             // Automatically go to the User Menu after creating an account.
             currentLoggedInAccount = newAccount;
-            UserMenu.userMenu(userInput, newAccount);
+            UserMenu userMenu = new UserMenu(calendarManager, entryManager, this);
+            userMenu.userMenu(userInput, newAccount);
         } else {
             System.out.println("Account creation failed.\n");
         }
     }
 
     /**
-     * This is the main method where the program starts.
-     * @param args Command-line arguments (not used).
+     * This getter returns the list of active accounts.
      */
-    public static void main(String[] args) {
+    public ArrayList<Account> getActiveAccounts() {
+        return activeAccounts;
+    }
+
+    /**
+     * This getter returns the list of deactivated accounts.
+     */
+    public ArrayList<Account> getDeactivatedAccounts() {
+        return deactivatedAccounts;
+    }
+
+    /**
+     * This getter returns the list of public calendars.
+     */
+    public ArrayList<Calendar> getPublicCalendars() {
+        return publicCalendars;
+    }
+
+    /**
+     * This getter gets the currently logged-in user.
+     */
+    public Account getCurrentLoggedInAccount() {
+        return currentLoggedInAccount;
+    }
+
+    /**
+     * This setter sets the currently logged-in user.
+     */
+    public void setCurrentLoggedInAccount(Account account) {
+        this.currentLoggedInAccount = account;
+    }
+
+    /**
+     * This is the main application program.
+     */
+    public void runApp() {
         Scanner userInput = new Scanner(System.in);
         int menuChoice = -1;
 
         do {
-            MainMethods.displayMenu();
+            mainMethods.displayMenu(activeAccounts);
 
-            if (userInput.hasNextInt()) { // Check if input is an integer
+            if (userInput.hasNextInt()) {
                 menuChoice = userInput.nextInt();
 
                 if (menuChoice == 1) {
-                    // This creates a new account and goes directly to the user menu.
                     createAccount(userInput);
                 } else if (menuChoice == 2) {
-                    // This logs in to an existing account if there are active accounts.
                     if (activeAccounts.size() > 0) {
-                        Account loggedInAccount = MainMethods.login(userInput, activeAccounts);
+                        Account loggedInAccount = mainMethods.login(userInput, activeAccounts);
                         if (loggedInAccount != null) {
                             System.out.println("Welcome, " + loggedInAccount.getAccountName() + "!");
                             currentLoggedInAccount = loggedInAccount;
-                            UserMenu.userMenu(userInput, loggedInAccount);
+
+                            // Use shared managers
+                            UserMenu userMenu = new UserMenu(calendarManager, entryManager, this);
+                            userMenu.userMenu(userInput, loggedInAccount);
                         } else {
                             System.out.println("Login failed. Please try again.");
                         }
@@ -85,17 +127,25 @@ public class Main {
                 } else if (menuChoice != 0) {
                     System.out.println("\nInvalid choice. Please try again.\n");
                 }
-
             } else {
                 // If input is not an integer, display error and discard it
                 System.out.println("\nInvalid input. Please enter a number.\n");
-                userInput.nextLine();
-                menuChoice = -1; // This ensures the loop continues.
+                userInput.nextLine(); // clear bad input
+                menuChoice = -1;
             }
 
         } while (menuChoice != 0);
 
         System.out.println("Thank you for using the Calendar Application!");
         userInput.close();
+    }
+
+    /**
+     * This is the main method where the program starts.
+     * @param args Command-line arguments (not used).
+     */
+    public static void main(String[] args) {
+        Main app = new Main();       
+        app.runApp();
     }
 }

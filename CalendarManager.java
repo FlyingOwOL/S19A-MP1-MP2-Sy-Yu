@@ -7,6 +7,15 @@ import java.util.Scanner;
  */
 public class CalendarManager {
 
+    private MonthlyDisplay monthlyDisplay;
+
+    /**
+     * This constructor initializes the MonthlyDisplay object used for visualizing calendars.
+     */
+    public CalendarManager() {
+        this.monthlyDisplay = new MonthlyDisplay();
+    }
+
     /**
      * This method displays the list of calendars for the logged-in account and
      * allows the user to navigate into a selected calendar.
@@ -14,7 +23,7 @@ public class CalendarManager {
      * @param account This is the logged-in user's account.
      * @return This returns true if the user chooses to log out, false otherwise.
      */
-    public static boolean viewCalendars(Scanner userInput, Account account) {
+    public boolean viewCalendars(Scanner userInput, Account account) {
         ArrayList<Calendar> calendars = account.getCalendars();
         boolean isLoggingOut = false;
 
@@ -38,7 +47,7 @@ public class CalendarManager {
 
             if (choice >= 1 && choice <= calendars.size()) {
                 Calendar selectedCalendar = calendars.get(choice - 1);
-                if (MonthlyDisplay.calendarNavigation(userInput, selectedCalendar)) {
+                if (monthlyDisplay.calendarNavigation(userInput, selectedCalendar)) {
                     // MonthlyDisplay requested a logout
                     isLoggingOut = true;
                 }
@@ -61,9 +70,9 @@ public class CalendarManager {
      * 
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the currently logged-in user's account.
+     * @param publicCalendars This is the shared list of public calendars from Main.
      */
- 
-    public static void addCalendar(Scanner userInput, Account account) {
+    public void addCalendar(Scanner userInput, Account account, ArrayList<Calendar> publicCalendars) {
         System.out.println("[1] Choose from existing public calendars");
         System.out.println("[2] Create a new calendar");
         System.out.print("Enter your choice: ");
@@ -72,10 +81,9 @@ public class CalendarManager {
         userInput.nextLine();
 
         if (choice == 1) {
-            //  Choose from existing public calendars 
-
+            // This shows public calendars not already added by the user.
             ArrayList<Calendar> publicOptions = new ArrayList<>();
-            for (Calendar cal : Main.publicCalendars) {
+            for (Calendar cal : publicCalendars) {
                 if (!account.getCalendars().contains(cal)) {
                     publicOptions.add(cal);
                 }
@@ -109,12 +117,12 @@ public class CalendarManager {
             }
 
         } else if (choice == 2) {
-            // Create a new calendar 
+            // This creates a new calendar.
 
             System.out.println("Enter calendar name: ");
             String calendarName = userInput.nextLine();
 
-            // Check if the calendar name already exists in user's account
+            // This ensures that the calendar name is unique within the account.
             for (Calendar c : account.getCalendars()) {
                 if (c.getName().equalsIgnoreCase(calendarName)) {
                     System.out.println("A calendar with that name already exists in your account.\n");
@@ -129,7 +137,7 @@ public class CalendarManager {
             Calendar newCalendar = new Calendar(calendarName, isPublic, account);
             if (account.addCalendar(newCalendar)) {
                 if (isPublic) {
-                    Main.addToPublicCalendars(newCalendar);
+                    publicCalendars.add(newCalendar);
                 }
                 System.out.println("New calendar created and added successfully.");
             } else {
@@ -141,13 +149,14 @@ public class CalendarManager {
         }
     }
 
-
     /**
      * This method allows the user to delete a calendar if it is not the default calendar.
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the logged-in user's account.
+     * @param publicCalendars This is the list of public calendars to update when a public calendar is removed.
+     * @return True if user requested logout; false otherwise.
      */
-    public static boolean deleteCalendar(Scanner userInput, Account account) {
+    public boolean deleteCalendar(Scanner userInput, Account account, ArrayList<Calendar> publicCalendars) {
         ArrayList<Calendar> calendars = account.getCalendars();
         boolean isLoggingOut = false;
 
@@ -169,12 +178,13 @@ public class CalendarManager {
             } else if (choice >= 1 && choice <= calendars.size()) {
                 Calendar selectedCalendar = calendars.get(choice - 1);
 
+                // Prevent user from deleting their default calendar.
                 if (selectedCalendar.getName().equals(account.getAccountName())) {
                     System.out.println("Default calendar cannot be deleted.\n");
                 } else {
                     if (account.removeCalendar(selectedCalendar)) {
                         if (selectedCalendar.isPubliclyAvailable()) {
-                            Main.publicCalendars.remove(selectedCalendar);
+                            publicCalendars.remove(selectedCalendar);
                         }
                         System.out.println("Calendar deleted successfully.\n");
                     } else {
@@ -189,40 +199,38 @@ public class CalendarManager {
         return isLoggingOut;
     }
 
-
     /**
      * This method allows the user to select a calendar from their list.
      * @param userInput This is the Scanner used to read user input.
      * @param account This is the logged-in user's account.
      * @return This returns the selected calendar or null if no valid selection is made.
      */
-    public static Calendar selectCalendar(Scanner userInput, Account account) {
-    ArrayList<Calendar> calendars = account.getCalendars();
-    Calendar selectedCalendar = null;
+    public Calendar selectCalendar(Scanner userInput, Account account) {
+        ArrayList<Calendar> calendars = account.getCalendars();
+        Calendar selectedCalendar = null;
 
-    if (calendars.isEmpty()) {
-        System.out.println("No calendars available.\n");
-    } else {
-        System.out.println("Select a calendar:");
-        for (int i = 0; i < calendars.size(); i++) {
-            System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
+        if (calendars.isEmpty()) {
+            System.out.println("No calendars available.\n");
+        } else {
+            System.out.println("Select a calendar:");
+            for (int i = 0; i < calendars.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + calendars.get(i).getName());
+            }
+
+            System.out.print("Enter calendar number, 0 to cancel, or -1 to logout: ");
+            int choice = userInput.nextInt();
+            userInput.nextLine();
+
+            if (choice == -1) {
+                System.out.println("Logging out...\n");
+                UserMenu.logoutFlag = true;
+            } else if (choice >= 1 && choice <= calendars.size()) {
+                selectedCalendar = calendars.get(choice - 1);
+            } else if (choice != 0) {
+                System.out.println("Invalid calendar selection.\n");
+            }
         }
 
-        System.out.print("Enter calendar number, 0 to cancel, or -1 to logout: ");
-        int choice = userInput.nextInt();
-        userInput.nextLine();
-
-        if (choice == -1) {
-            System.out.println("Logging out...\n");
-            UserMenu.logoutFlag = true;
-        } else if (choice >= 1 && choice <= calendars.size()) {
-            selectedCalendar = calendars.get(choice - 1);
-        } else if (choice != 0) {
-            System.out.println("Invalid calendar selection.\n");
-        }
+        return selectedCalendar;
     }
-
-    return selectedCalendar;
-}
-
 }

@@ -56,6 +56,14 @@ public class Calendar {
     }
 
     /**
+     * This sets the public availability status of the calendar.
+     * @param status True if the calendar should be public, false if private.
+     */
+    public void setPublicAvailability(boolean status) {
+        this.isPubliclyAvailable = status;
+    }
+
+    /**
      * This checks if the calendar is publicly available.
      * @return True if the calendar is public, false if private.
      */

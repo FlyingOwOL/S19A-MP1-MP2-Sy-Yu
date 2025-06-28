@@ -9,13 +9,29 @@ public class UserMenu {
 
     public static boolean logoutFlag = false; //  Logout flag shared across menus
 
+    private CalendarManager calendarManager;   // Reference to CalendarManager for calendar operations
+    private EntryManager entryManager;         // Reference to EntryManager for entry operations
+    private Main mainApp;                      // Reference to the Main app for shared state (e.g., account lists)
+
+    /**
+     * This constructor sets up the user menu with necessary managers and app state.
+     * @param calendarManager Reference to calendar manager.
+     * @param entryManager Reference to entry manager.
+     * @param mainApp Reference to the main application (for shared lists).
+     */
+    public UserMenu(CalendarManager calendarManager, EntryManager entryManager, Main mainApp) {
+        this.calendarManager = calendarManager;
+        this.entryManager = entryManager;
+        this.mainApp = mainApp;
+    }
+
     /**
      * This displays the user menu after a successful login and allows the user
      * to navigate calendar and entry options.
      * @param userInput This is the Scanner used to read user input.
      * @param loggedInAccount This is the currently logged-in account.
      */
-    public static void userMenu(Scanner userInput, Account loggedInAccount) {
+    public void userMenu(Scanner userInput, Account loggedInAccount) {
         int userChoice;
         YearMonth currentMonth = YearMonth.now();
         Calendar calendar = loggedInAccount.getDefaultCalendar();
@@ -23,7 +39,8 @@ public class UserMenu {
 
         // This loop continues to display the user menu until the user logs out.
         do {
-            MonthlyDisplay.displayMonthView(calendar, currentMonth);
+            MonthlyDisplay monthlyDisplay = new MonthlyDisplay();
+            monthlyDisplay.displayMonthView(calendar, currentMonth);
             System.out.println("\nLogged in as: " + loggedInAccount.getAccountName());
             System.out.println("User Menu:");
             System.out.println("[1] View Calendars");
@@ -48,31 +65,31 @@ public class UserMenu {
             switch (userChoice) {
                 // This calls the method to view calendars.
                 case 1:
-                    if (CalendarManager.viewCalendars(userInput, loggedInAccount)) {
+                    if (calendarManager.viewCalendars(userInput, loggedInAccount)) {
                         logoutFlag = true; // Logout requested from CalendarManager
                         userChoice = 0;
                     }
                     break;
                 // This calls the method to add a new calendar.
                 case 2:
-                    CalendarManager.addCalendar(userInput, loggedInAccount);
+                    calendarManager.addCalendar(userInput, loggedInAccount, loggedInAccount.getCalendars());
                     break;
                 // This calls the method to delete a calendar.
                 case 3:
-                    CalendarManager.deleteCalendar(userInput, loggedInAccount);
+                    calendarManager.deleteCalendar(userInput, loggedInAccount, loggedInAccount.getCalendars());
                     userChoice = 0;
                     break;
                 // This calls the method to add an entry to a calendar.
                 case 4:
-                    EntryManager.addEntry(userInput, loggedInAccount);
+                    entryManager.addEntry(userInput, loggedInAccount);
                     break;
                 // This calls the method to edit an entry in a calendar.
                 case 5:
-                    EntryManager.editEntry(userInput, loggedInAccount);
+                    entryManager.editEntry(userInput, loggedInAccount);
                     break;
                 // This calls the method to delete an entry from a calendar.
                 case 6:
-                    EntryManager.deleteEntry(userInput, loggedInAccount);
+                    entryManager.deleteEntry(userInput, loggedInAccount);
                     break;
                 // This calls the method to deactivate the logged-in account.
                 case 7:
@@ -95,10 +112,10 @@ public class UserMenu {
      * and moves it to the deactivated accounts list.
      * @param account This is the account to be deactivated.
      */
-    public static void deactivateAccount(Account account) {
-        account.deactivateAccount();                // This marks the account as inactive.
-        Main.activeAccounts.remove(account);        // This removes the account from the active accounts list.
-        Main.deactivatedAccounts.add(account);      // This adds the account to the deactivated accounts list.
+    public void deactivateAccount(Account account) {
+        account.deactivateAccount(); // This marks the account as inactive.
+        mainApp.getActiveAccounts().remove(account); // This removes the account from the active accounts list.
+        mainApp.getDeactivatedAccounts().add(account); // This adds the account to the deactivated accounts list.
         System.out.println("\nAccount deactivated. You have been logged out.\n");
     }
 }

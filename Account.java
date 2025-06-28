@@ -10,7 +10,7 @@ public class Account {
     private String accountPassword;         // The password for the account
     private boolean isActive;               // This tracks whether the account is active or deactivated
     private ArrayList<Calendar> calendars;  // Stores the list of calendars belonging to this account
-
+    
    
     /**
      * This constructs a new Account with a default private calendar.
@@ -58,7 +58,7 @@ public class Account {
      * @return The default calendar (first calendar in the list).
      */
     public Calendar getDefaultCalendar() {
-    return calendars.get(0);
+        return calendars.get(0);
     }
 
     /**

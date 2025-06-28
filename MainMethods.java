@@ -11,14 +11,16 @@ public class MainMethods {
      * This displays the main menu options to the user.
      * Options include account creation, login, and exiting the application.
      * Login will only be shown if there are existing accounts.
-     **/
-    public static void displayMenu() {
+     * 
+     * @param activeAccounts The list of active accounts used to determine whether to show login.
+     */
+    public void displayMenu(ArrayList<Account> activeAccounts) {
         System.out.println("Welcome to the Calendar Application!");
         System.out.println("Please choose an option:");
         System.out.println("1. Create a new account");
 
         // This displays the login option only if there are active accounts.
-        if (Main.activeAccounts.size() > 0)
+        if (activeAccounts.size() > 0)
             System.out.println("2. Login to account");
         System.out.println("0. Exit the application");
         System.out.print("Enter your choice: ");
@@ -31,11 +33,9 @@ public class MainMethods {
      * @param accountsList This is the list of existing active accounts.
      * @return A newly created Account object.
      */
-    public static Account createAccount(Scanner userInput, ArrayList<Account> accountsList) {
+    public Account createAccount(Scanner userInput, ArrayList<Account> accountsList) {
         Account newAccount = null;
         boolean isValid;
-
-        userInput.nextLine(); 
 
         String accountName;
         do {
@@ -67,7 +67,7 @@ public class MainMethods {
      * @param accountsList This is the list of existing active accounts.
      * @return The Account object if login is successful, or null if it fails.
      */
-     public static Account login(Scanner userInput, ArrayList<Account> accountsList) {
+    public Account login(Scanner userInput, ArrayList<Account> accountsList) {
         userInput.nextLine(); 
         System.out.println("Enter your account name: ");
         String accountName = userInput.nextLine();
@@ -96,4 +96,3 @@ public class MainMethods {
         return null;
     }
 }
-
