@@ -88,9 +88,13 @@ public class EntryManager {
         String details = userInput.nextLine();
 
         // Use InputValidator class to check if dates and times are valid
-        LocalDate date = InputValidator.readValidDate(userInput);
-        LocalTime startTime = InputValidator.readValidTime(userInput, "Enter start time (HH:MM): ");
-        LocalTime endTime = InputValidator.ensureEndTimeAfterStart(userInput, startTime);
+        InputValidator inputValidator = new InputValidator(); // This creates an instance of InputValidator to validate user input.
+        // This reads a valid date from the user.
+        LocalDate date = inputValidator.readValidDate(userInput);
+        // This reads a valid start time from the user.
+        LocalTime startTime = inputValidator.readValidTime(userInput, "Enter start time (HH:MM): ");
+        // This reads a valid end time from the user, ensuring it is after the start time.
+        LocalTime endTime = inputValidator.ensureEndTimeAfterStart(userInput, startTime);
 
         Entry entry = new Entry(
                 title, details, date,

@@ -7,7 +7,7 @@ import java.util.Scanner;
  */
 public class UserMenu {
 
-    public static boolean logoutFlag = false; //  Logout flag shared across menus
+    private boolean logoutFlag = false; //  Logout flag 
 
     private CalendarManager calendarManager;   // Reference to CalendarManager for calendar operations
     private EntryManager entryManager;         // Reference to EntryManager for entry operations

@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 /**
  * This class provides helper methods to validate user input for dates and times.
+ * It doesn't use encapsulation because it is designed to be a helper class
  */
 public class InputValidator {
 
@@ -14,7 +15,7 @@ public class InputValidator {
      * @param userInput This is the Scanner used to read user input.
      * @return The valid LocalDate entered by the user.
      */
-    public static LocalDate readValidDate(Scanner userInput) {
+    public LocalDate readValidDate(Scanner userInput) {
         LocalDate date = null;
         boolean valid = false;
 
@@ -41,7 +42,7 @@ public class InputValidator {
      * @param prompt The specific prompt message to show to the user.
      * @return The valid LocalTime entered by the user.
      */
-    public static LocalTime readValidTime(Scanner userInput, String prompt) {
+    public LocalTime readValidTime(Scanner userInput, String prompt) {
         LocalTime time = null;
         boolean valid = false;
 
@@ -68,7 +69,7 @@ public class InputValidator {
      * @param startTime The start time to compare against.
      * @return A valid LocalTime that is after the start time.
      */
-    public static LocalTime ensureEndTimeAfterStart(Scanner userInput, LocalTime startTime) {
+    public LocalTime ensureEndTimeAfterStart(Scanner userInput, LocalTime startTime) {
         LocalTime endTime = readValidTime(userInput, "Enter end time (HH:MM): ");
         while (!endTime.isAfter(startTime)) { // Check if end time is after start time
             System.out.println("End time must be after start time. Please re-enter end time.");

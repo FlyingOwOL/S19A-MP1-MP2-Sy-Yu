@@ -7,7 +7,7 @@ import java.util.Scanner;
  */
 public class CalendarManager {
 
-    private MonthlyDisplay monthlyDisplay;
+    private MonthlyDisplay monthlyDisplay; // This is the object used to display the calendar month view.
 
     /**
      * This constructor initializes the MonthlyDisplay object used for visualizing calendars.
@@ -62,26 +62,29 @@ public class CalendarManager {
      * @param publicCalendars Shared list of public calendars.
      */
     public void addCalendar(Scanner userInput, Account account, ArrayList<Calendar> publicCalendars) {
-        System.out.println("[1] Choose from existing public calendars");
-        System.out.println("[2] Create a new calendar");
-        System.out.print("Enter your choice: ");
+    System.out.println("[1] Choose from existing public calendars");
+    System.out.println("[2] Create a new calendar");
+    System.out.print("Enter your choice: ");
 
-        int choice = userInput.nextInt();
-        userInput.nextLine();
+    int choice = userInput.nextInt();
+    userInput.nextLine();
 
-        if (choice == 1) {
-            ArrayList<Calendar> publicOptions = new ArrayList<>();
-            for (Calendar cal : publicCalendars) {
-                if (!account.getCalendars().contains(cal)) {
-                    publicOptions.add(cal);
-                }
+    if (choice == 1) {
+        ArrayList<Calendar> publicOptions = new ArrayList<>();
+        for (Calendar cal : publicCalendars) {
+            if (!account.getCalendars().contains(cal)) {
+                publicOptions.add(cal);
             }
+        }
 
-            if (publicOptions.isEmpty()) {
-                System.out.println("No available public calendars to add.\n");
-                return;
-            }
+        boolean proceed = true;
 
+        if (publicOptions.isEmpty()) {
+            System.out.println("No available public calendars to add.\n");
+            proceed = false;
+        }
+
+        if (proceed) {
             System.out.println("Public Calendars Available:");
             for (int i = 0; i < publicOptions.size(); i++) {
                 System.out.println("[" + (i + 1) + "] " + publicOptions.get(i).getName());
@@ -103,18 +106,21 @@ public class CalendarManager {
             } else {
                 System.out.println("Invalid selection.\n");
             }
+        }
 
-        } else if (choice == 2) {
-            System.out.println("Enter calendar name: ");
-            String calendarName = userInput.nextLine();
+    } else if (choice == 2) {
+        System.out.println("Enter calendar name: ");
+        String calendarName = userInput.nextLine();
 
-            for (Calendar c : account.getCalendars()) {
-                if (c.getName().equalsIgnoreCase(calendarName)) {
-                    System.out.println("A calendar with that name already exists in your account.\n");
-                    return;
-                }
+        boolean nameExists = false; // Check if the name already exists in the user's calendars
+
+        for (Calendar c : account.getCalendars()) {
+            if (c.getName().equalsIgnoreCase(calendarName)) {
+                nameExists = true;
             }
+        }
 
+        if (!nameExists) {
             System.out.println("Is this calendar public? (yes/no): ");
             String response = userInput.nextLine();
             boolean isPublic = response.equalsIgnoreCase("yes");
@@ -128,11 +134,13 @@ public class CalendarManager {
             } else {
                 System.out.println("Failed to create calendar.");
             }
-
-        } else {
-            System.out.println("Invalid choice.\n");
         }
+
+    } else {
+        System.out.println("Invalid choice.\n");
     }
+}
+
 
     /**
      * This method allows the user to delete a calendar if:
@@ -224,7 +232,6 @@ public class CalendarManager {
 
             if (choice == -1) {
                 System.out.println("Logging out...\n");
-                UserMenu.logoutFlag = true;
             } else if (choice >= 1 && choice <= calendars.size()) {
                 selectedCalendar = calendars.get(choice - 1);
             } else if (choice != 0) {
