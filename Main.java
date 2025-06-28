@@ -97,6 +97,7 @@ public class Main {
 
             if (userInput.hasNextInt()) {
                 menuChoice = userInput.nextInt();
+                userInput.nextLine(); 
 
                 if (menuChoice == 1) {
                     createAccount(userInput);

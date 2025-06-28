@@ -76,7 +76,8 @@ public class UserMenu {
                     break;
                 // This calls the method to delete a calendar.
                 case 3:
-                    calendarManager.deleteCalendar(userInput, loggedInAccount, loggedInAccount.getCalendars());
+                    calendarManager.deleteCalendar(userInput, loggedInAccount, mainApp.getPublicCalendars(), mainApp.getActiveAccounts());
+
                     userChoice = 0;
                     break;
                 // This calls the method to add an entry to a calendar.
@@ -98,10 +99,10 @@ public class UserMenu {
                     break;
                 // This logs out the user.
                 case 0:
-                    System.out.println("Logging out...");
+                    System.out.println("\nLogging out...\n");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Invalid choice. Please try again.\n");
             }
 
         } while (userChoice != 0 && logoutFlag == false);
