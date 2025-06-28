@@ -68,22 +68,20 @@ public class MonthlyDisplay {
      */
     public void displayMonthView(Calendar calendar, YearMonth yearMonth) {
         System.out.println("\n" + yearMonth.getMonth() + " " + yearMonth.getYear());
-        System.out.println("Sun Mon Tue Wed Thu Fri Sat");
-
         System.out.println("Legend:");
         System.out.println("[D]  - Day with entry (single digit)");
         System.out.println("[DD] - Day with entry (double digit)");
         System.out.println(" D   - Day without entry (single digit)");
         System.out.println(" DD  - Day without entry (double digit)\n");
 
-        System.out.println("Sun Mon Tue Wed Thu Fri Sat");
+        System.out.println(" Sun  Mon  Tue  Wed  Thu  Fri  Sat");
 
         LocalDate firstDay = yearMonth.atDay(1);
         int dayOfWeek = firstDay.getDayOfWeek().getValue();
         int currentPosition = dayOfWeek % 7;
 
         for (int i = 0; i < currentPosition; i++) {
-            System.out.print("     ");
+            System.out.print("      ");
         }
 
         int daysInMonth = yearMonth.lengthOfMonth();
@@ -92,27 +90,21 @@ public class MonthlyDisplay {
             boolean hasEntry = checkEntryExists(calendar, currentDate);
 
             if (hasEntry) {
-                if (day < 10) {
-                    System.out.printf("[ %d] ", day);
-                } else {
-                    System.out.printf("[%d] ", day);
-                }
+                System.out.printf("[%2d]", day); // For days with entry
             } else {
-                if (day < 10) {
-                    System.out.printf("  %d  ", day);
-                } else {
-                    System.out.printf(" %d  ", day);
-                }
+                System.out.printf(" %2d ", day); // For days without entry
             }
 
             currentPosition++;
+
+            // Move to the next line after every 7 days
             if (currentPosition % 7 == 0) {
                 System.out.println();
             } else {
                 System.out.print(" ");
             }
         }
-        System.out.println();
+        System.out.println(); // Final newline
     }
 
     /**
@@ -137,45 +129,134 @@ public class MonthlyDisplay {
         userInput.nextLine();
 
         if (day >= 1 && day <= yearMonth.lengthOfMonth()) {
-            System.out.println("Displaying entries for day: " + day);
-
             LocalDate selectedDate = yearMonth.atDay(day);
-            ArrayList<Entry> entries = calendar.getCalendarEntries();
-            ArrayList<Entry> entriesOnDate = new ArrayList<>();
+            boolean stayInDateMenu = true;
 
-            for (Entry entry : entries) {
-                if (entry.getDate().equals(selectedDate)) {
-                    entriesOnDate.add(entry);
-                }
-            }
+            while (stayInDateMenu && !UserMenu.logoutFlag) {
+                ArrayList<Entry> entries = calendar.getCalendarEntries();
+                ArrayList<Entry> entriesOnDate = new ArrayList<>();
 
-            if (entriesOnDate.isEmpty()) {
-                System.out.println("No entries on this date.\n");
-                System.out.println("Press Enter to continue.");
-                userInput.nextLine();
-            } else {
-                for (int i = 0; i < entriesOnDate.size() - 1; i++) {
-                    for (int j = 0; j < entriesOnDate.size() - i - 1; j++) {
-                        if (entriesOnDate.get(j).getStartTime().isAfter(entriesOnDate.get(j + 1).getStartTime())) {
-                            Entry temp = entriesOnDate.get(j);
-                            entriesOnDate.set(j, entriesOnDate.get(j + 1));
-                            entriesOnDate.set(j + 1, temp);
-                        }
+                for (Entry entry : entries) {
+                    if (entry.getDate().equals(selectedDate)) {
+                        entriesOnDate.add(entry);
                     }
                 }
 
                 System.out.println("\nEntries on " + selectedDate + ":");
-                for (Entry entry : entriesOnDate) {
-                    System.out.println(entry);
+                if (entriesOnDate.isEmpty()) {
+                    System.out.println("No entries on this date.");
+                } else {
+                    for (Entry entry : entriesOnDate) {
+                        System.out.println(entry);
+                    }
                 }
 
-                System.out.println("Press Enter to continue.");
+                System.out.println("\n[1] Add Entry");
+                System.out.println("[2] Delete Entry");
+                System.out.println("[0] Back to Month View");
+                System.out.println("[-1] Logout");
+                System.out.print("Enter your choice: ");
+                int choice = userInput.nextInt();
                 userInput.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        addEntryOnDate(userInput, calendar, selectedDate);
+                        break;
+
+                    case 2:
+                        deleteEntryOnDate(userInput, calendar, selectedDate);
+                        break;
+
+                    case 0:
+                        stayInDateMenu = false;
+                        break;
+
+                    case -1:
+                        System.out.println("Logging out...");
+                        UserMenu.logoutFlag = true;
+                        stayInDateMenu = false;
+                        break;
+
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
             }
+
         } else {
             System.out.println("Invalid day.\n");
             System.out.println("Press Enter to continue.");
             userInput.nextLine();
+        }
+    }
+
+    /**
+     * This method allows the user to add an entry on the selected date.
+     */
+    public void addEntryOnDate(Scanner userInput, Calendar calendar, LocalDate date) {
+        System.out.println("Enter entry title: ");
+        String title = userInput.nextLine();
+
+        System.out.println("Enter entry details: ");
+        String details = userInput.nextLine();
+
+        System.out.println("Enter start time (HH:MM): ");
+        String startTimeInput = userInput.nextLine();
+
+        System.out.println("Enter end time (HH:MM): ");
+        String endTimeInput = userInput.nextLine();
+
+        Entry entry = new Entry(
+                new IDGenerator().getNextEntryID(),
+                title, details, date,
+                java.time.LocalTime.parse(startTimeInput),
+                java.time.LocalTime.parse(endTimeInput));
+
+        if (calendar.addEntry(entry)) {
+            System.out.println("Entry added successfully.");
+        } else {
+            System.out.println("Failed to add entry.");
+        }
+    }
+
+    /**
+     * This method allows the user to delete an entry on the selected date.
+     */
+    public void deleteEntryOnDate(Scanner userInput, Calendar calendar, LocalDate date) {
+        ArrayList<Entry> entries = calendar.getCalendarEntries();
+        ArrayList<Entry> entriesOnDate = new ArrayList<>();
+
+        for (Entry entry : entries) {
+            if (entry.getDate().equals(date)) {
+                entriesOnDate.add(entry);
+            }
+        }
+
+        if (entriesOnDate.isEmpty()) {
+            System.out.println("No entries to delete on this date.");
+            return;
+        }
+
+        System.out.println("Select entry to delete:");
+        for (int i = 0; i < entriesOnDate.size(); i++) {
+            System.out.println("[" + (i + 1) + "] " + entriesOnDate.get(i));
+        }
+        System.out.println("[0] Cancel");
+
+        int choice = userInput.nextInt();
+        userInput.nextLine();
+
+        if (choice >= 1 && choice <= entriesOnDate.size()) {
+            Entry toDelete = entriesOnDate.get(choice - 1);
+            if (calendar.deleteEntry(toDelete)) {
+                System.out.println("Entry deleted successfully.");
+            } else {
+                System.out.println("Failed to delete entry.");
+            }
+        } else if (choice == 0) {
+            System.out.println("Deletion cancelled.");
+        } else {
+            System.out.println("Invalid selection.");
         }
     }
 }

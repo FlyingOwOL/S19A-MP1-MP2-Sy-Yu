@@ -68,7 +68,6 @@ public class MainMethods {
      * @return The Account object if login is successful, or null if it fails.
      */
     public Account login(Scanner userInput, ArrayList<Account> accountsList) {
-        userInput.nextLine(); 
         System.out.println("Enter your account name: ");
         String accountName = userInput.nextLine();
         System.out.println("Enter your password: ");

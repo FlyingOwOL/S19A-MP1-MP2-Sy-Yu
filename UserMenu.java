@@ -72,13 +72,14 @@ public class UserMenu {
                     break;
                 // This calls the method to add a new calendar.
                 case 2:
-                    calendarManager.addCalendar(userInput, loggedInAccount, loggedInAccount.getCalendars());
-                    break;
+                calendarManager.addCalendar(userInput, loggedInAccount, mainApp.getPublicCalendars());
+                break;
                 // This calls the method to delete a calendar.
                 case 3:
-                    calendarManager.deleteCalendar(userInput, loggedInAccount, mainApp.getPublicCalendars(), mainApp.getActiveAccounts());
-
-                    userChoice = 0;
+                    if (calendarManager.deleteCalendar(userInput, loggedInAccount, mainApp.getPublicCalendars(), mainApp.getActiveAccounts())) {
+                        logoutFlag = true; // Logout requested from CalendarManager
+                        userChoice = 0;
+                    }
                     break;
                 // This calls the method to add an entry to a calendar.
                 case 4:
