@@ -179,7 +179,7 @@ public class MonthlyDisplay {
                         break;
 
                     default:
-                        System.out.println("Invalid choice. Please try again.");
+                        System.out.println("Invalid choice. Please try again.\n");
                 }
             }
 
@@ -249,14 +249,14 @@ public class MonthlyDisplay {
         if (choice >= 1 && choice <= entriesOnDate.size()) {
             Entry toDelete = entriesOnDate.get(choice - 1);
             if (calendar.deleteEntry(toDelete)) {
-                System.out.println("Entry deleted successfully.");
+                System.out.println("Entry deleted successfully.\n");
             } else {
-                System.out.println("Failed to delete entry.");
+                System.out.println("Failed to delete entry.\n");
             }
         } else if (choice == 0) {
-            System.out.println("Deletion cancelled.");
+            System.out.println("Deletion cancelled.\n");
         } else {
-            System.out.println("Invalid selection.");
+            System.out.println("Invalid selection.\n");
         }
     }
 }

@@ -33,7 +33,7 @@ public class EntryManager {
             ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
 
             if (entries.isEmpty()) {
-                System.out.println("No entries in this calendar.");
+                System.out.println("No entries in this calendar.\n");
             } else {
                 // This sorts entries manually by start time using bubble sort.
                 for (int i = 0; i < entries.size() - 1; i++) {
