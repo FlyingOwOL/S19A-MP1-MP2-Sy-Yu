@@ -24,7 +24,7 @@ public class Calendar {
     }
 
     /**
-     * This gets the name of the calendar.
+     * This getter gets the name of the calendar.
      * @return The calendar name.
      */
     public String getName() {
@@ -32,7 +32,7 @@ public class Calendar {
     }
 
     /**
-     * This gets the owner of the calendar.
+     * This getter gets the owner of the calendar.
      * @return The account that owns the calendar.
      */
     public Account getOwner() {
@@ -40,7 +40,7 @@ public class Calendar {
     }
 
     /**
-     * This gets the list of all entries in the calendar.
+     * This getter gets the list of all entries in the calendar.
      * @return ArrayList of calendar entries.
      */
     public ArrayList<Entry> getCalendarEntries() {
@@ -48,7 +48,7 @@ public class Calendar {
     }
 
     /**
-     * This gets the number of entries in the calendar.
+     * This getter gets the number of entries in the calendar.
      * @return The total number of entries.
      */
     public int getEntryCount() {
@@ -56,7 +56,7 @@ public class Calendar {
     }
 
     /**
-     * This sets the public availability status of the calendar.
+     * This setter sets the public availability status of the calendar.
      * @param status True if the calendar should be public, false if private.
      */
     public void setPublicAvailability(boolean status) {
@@ -64,7 +64,7 @@ public class Calendar {
     }
 
     /**
-     * This checks if the calendar is publicly available.
+     * This method checks if the calendar is publicly available.
      * @return True if the calendar is public, false if private.
      */
     public boolean isPubliclyAvailable() {
@@ -72,7 +72,7 @@ public class Calendar {
     }
 
     /**
-     * This adds an entry to the calendar if it does not already exist.
+     * This method adds an entry to the calendar if it does not already exist.
      * @param entry The entry to be added.
      * @return True if the entry was added successfully, false otherwise.
      */
@@ -85,7 +85,7 @@ public class Calendar {
     }
 
     /**
-     * This deletes an entry from the calendar if it exists.
+     * This method deletes an entry from the calendar if it exists.
      * @param entry The entry to be deleted.
      * @return True if the entry was successfully deleted, false otherwise.
      */
@@ -98,18 +98,18 @@ public class Calendar {
     }
 
     /**
-     * This updates an existing entry in the calendar by searching for the entry ID.
-     * @param entryID The ID of the entry to be edited.
-     * @param newEntry The new entry to replace the old one.
-     * @return True if the entry was successfully updated, false otherwise.
-     */
-    public boolean editEntry(int entryID, Entry newEntry) {
-        for (int i = 0; i < calendarEntries.size(); i++) {
-            if (calendarEntries.get(i).getEntryID() == entryID) {
-                calendarEntries.set(i, newEntry);
-                return true;
-            }
+ * This method updates an existing entry in the calendar by directly matching the old entry object.
+ * @param oldEntry The entry to be replaced.
+ * @param newEntry The new entry to replace the old one.
+ * @return True if the entry was successfully updated, false otherwise.
+ */
+public boolean editEntry(Entry oldEntry, Entry newEntry) {
+    for (int i = 0; i < calendarEntries.size(); i++) {
+        if (calendarEntries.get(i) == oldEntry) {
+            calendarEntries.set(i, newEntry);
+            return true;
         }
-        return false;
     }
+    return false;
+}
 }

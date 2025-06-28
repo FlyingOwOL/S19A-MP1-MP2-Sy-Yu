@@ -5,11 +5,10 @@ It is the current time (hour, minute, second, nanosecond).*/
 
     /**
      * This class epresents a calendar entry containing essential details such as
-     * ID, title, description, date, and time range.
+     * title, description, date, and time range.
      */
 public class Entry {
 
-    private int entryID;            // Unique id for this entry
     private String title;           // Title or name of the entry
     private String details;         // Additional details or description of the entry
     private LocalDate date;         // The specific date of the entry
@@ -17,17 +16,15 @@ public class Entry {
     private LocalTime endTime;      // End time of the entry
 
     /**
-     * Constructor to initialize all fields of the Entry.
+     * This is a constructor to initialize all fields of the Entry.
      * 
-     * @param entryID    Unique ID of the entry.
      * @param title      Title of the entry.
      * @param details    Additional details about the entry.
      * @param date       The specific date of the entry.
      * @param startTime  Start time of the entry.
      * @param endTime    End time of the entry.
      */
-    public Entry(int entryID, String title, String details, LocalDate date, LocalTime startTime, LocalTime endTime) {
-        this.entryID = entryID;
+    public Entry(String title, String details, LocalDate date, LocalTime startTime, LocalTime endTime) {
         this.title = title;
         this.details = details;
         this.date = date;
@@ -35,45 +32,33 @@ public class Entry {
         this.endTime = endTime;
     }
 
-    // Gets the entry's unique ID.
-    public int getEntryID() {
-        return entryID;
-    }
-
-    // Gets the entry's title.
+    // This getter gets the entry's title.
     public String getTitle() {
         return title;
     }
 
-    // Gets the entry's details or description.
+    // This getter gets the entry's details or description.
     public String getDetails() {
         return details;
     }
 
-    // Gets the entry's date.
+    // This getter gets the entry's date.
     public LocalDate getDate() {
         return date;
     }
 
-    // Gets the entry's start and end times.
+    // This getter gets the entry's start and end times.
     public LocalTime getStartTime() {
         return startTime;
     }
 
+    // This getter gets the entry's end time.
     public LocalTime getEndTime() {
         return endTime;
     }
 
     /**
-     * Sets the entry's unique ID.
-     * @param entryID New ID to assign to the entry.
-     */
-    public void setEntryID(int entryID) {
-        this.entryID = entryID;
-    }
-
-    /**
-     * Sets the entry's title. Only updates if the new title is not empty.
+     * This setter sets the entry's title. Only updates if the new title is not empty.
      * 
      * @param title New title for the entry.
      * @return true if successfully updated, false if input is null.
@@ -87,7 +72,7 @@ public class Entry {
     }
 
     /**
-     * Sets the entry's details. Always successful.
+     * This setter sets the entry's details. Always successful.
      * 
      * @param details New details for the entry.
      * @return true (always returns success)
@@ -98,7 +83,7 @@ public class Entry {
     }
 
     /**
-     * Sets the entry's date. Only updates if the new date is not empty.
+     * This setter sets the entry's date. Only updates if the new date is not empty.
      * 
      *  @param date New date for the entry.
      *  @return true if successfully updated, false if input is null.
@@ -112,7 +97,7 @@ public class Entry {
     }
 
     /**
-     * This sets the entry's start time. 
+     * This setter sets the entry's start time. 
      * The start time must be before the end time if the end time is already set.
      * 
      * @param startTime New start time.
@@ -128,7 +113,7 @@ public class Entry {
     }
 
     /**
-     * This sets the entry's end time. The end time must be after the start time if the start time is already set.
+     * This setter sets the entry's end time. The end time must be after the start time if the start time is already set.
      * 
      * @param endTime New end time.
      * @return true if successfully updated, false if invalid.

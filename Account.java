@@ -30,7 +30,7 @@ public class Account {
 
     
     /**
-     * This gets the username of this account.
+     * This getter gets the username of this account.
      * @return The account name.
      */
     public String getAccountName() {
@@ -38,7 +38,7 @@ public class Account {
     }
 
     /**
-     * This gets the password of this account.
+     * This getter gets the password of this account.
      * @return The account password.
      */
     public String getAccountPassword() {
@@ -46,7 +46,7 @@ public class Account {
     }
 
     /**
-     * This gets the list of calendars associated with this account.
+     * This getter gets the list of calendars associated with this account.
      * @return ArrayList of the user's calendars.
      */
     public ArrayList<Calendar> getCalendars() {
@@ -54,7 +54,7 @@ public class Account {
     }
 
     /**
-     * This gets the default private calendar of the account.
+     * This getter gets the default private calendar of the account.
      * @return The default calendar (first calendar in the list).
      */
     public Calendar getDefaultCalendar() {
@@ -62,7 +62,7 @@ public class Account {
     }
 
     /**
-     * This checks if the account is active.
+     * This method checks if the account is active.
      * @return True if the account is active; false if deactivated.
      */
     public boolean isActive() {
@@ -78,7 +78,7 @@ public class Account {
     }
 
     /**
-     * This authenticates the user by comparing the provided password with the stored password.
+     * This method authenticates the user by comparing the provided password with the stored password.
      * @param password The password input from the user.
      * @return True if the password matches; false otherwise.
      */
@@ -87,7 +87,7 @@ public class Account {
     }
 
     /**
-     * This adds a calendar to this account's list if it's not already present.
+     * This method adds a calendar to this account's list if it's not already present.
      * @param calendar The calendar to add.
      * @return True if the calendar was added successfully; false if the calendar is null or already exists.
      */
@@ -100,7 +100,7 @@ public class Account {
     }
 
     /**
-     * Removes a calendar from this account's list.
+     * This method removes a calendar from this account's list.
      * The calendar must not be the default calendar and the current user must be its owner.
      * @param calendar The calendar to remove.
      * @return True if successfully removed; false if conditions are not met.

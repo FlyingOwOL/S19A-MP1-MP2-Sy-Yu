@@ -26,7 +26,7 @@ public class UserMenu {
     }
 
     /**
-     * This displays the user menu after a successful login and allows the user
+     * This method displays the user menu after a successful login and allows the user
      * to navigate calendar and entry options.
      * @param userInput This is the Scanner used to read user input.
      * @param loggedInAccount This is the currently logged-in account.
@@ -110,7 +110,7 @@ public class UserMenu {
     }
 
     /**
-     * This deactivates the account, removes it from active accounts,
+     * This method deactivates the account, removes it from active accounts,
      * and moves it to the deactivated accounts list.
      * @param account This is the account to be deactivated.
      */

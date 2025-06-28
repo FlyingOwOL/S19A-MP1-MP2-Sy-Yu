@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class MainMethods {
 
     /**
-     * This displays the main menu options to the user.
+     * This method displays the main menu options to the user.
      * Options include account creation, login, and exiting the application.
      * Login will only be shown if there are existing accounts.
      * 
@@ -27,7 +27,7 @@ public class MainMethods {
     }
 
     /**
-     * This handles the process of creating a new user account.
+     * This method handles the process of creating a new user account.
      * The account name must be unique (case-insensitive).
      * @param userInput This is the Scanner used to read user input.
      * @param accountsList This is the list of existing active accounts.
@@ -61,7 +61,7 @@ public class MainMethods {
     }
 
     /**
-     * This handles the process of logging into an existing account.
+     * This method handles the process of logging into an existing account.
      * It checks the provided username and password against active accounts.
      * @param userInput This is the Scanner used to read user input.
      * @param accountsList This is the list of existing active accounts.

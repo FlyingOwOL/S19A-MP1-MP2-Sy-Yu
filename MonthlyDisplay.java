@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -33,43 +34,43 @@ public class MonthlyDisplay {
             userInput.nextLine();
 
             switch (navigationChoice) {
-            case 1:
-                currentMonth = currentMonth.minusMonths(1);
-                break;
+                case 1:
+                    currentMonth = currentMonth.minusMonths(1);
+                    break;
 
-            case 2:
-                currentMonth = currentMonth.plusMonths(1);
-                break;
+                case 2:
+                    currentMonth = currentMonth.plusMonths(1);
+                    break;
 
-            case 3:
-                System.out.print("Enter month (1-12): ");
-                int month = userInput.nextInt();
-                System.out.print("Enter year: ");
-                int year = userInput.nextInt();
-                userInput.nextLine();
-                if (month >= 1 && month <= 12) {
-                    currentMonth = YearMonth.of(year, month);
-                } else {
-                    System.out.println("Invalid month.\n");
-                }
-                break;
+                case 3:
+                    System.out.print("Enter month (1-12): ");
+                    int month = userInput.nextInt();
+                    System.out.print("Enter year: ");
+                    int year = userInput.nextInt();
+                    userInput.nextLine();
+                    if (month >= 1 && month <= 12) {
+                        currentMonth = YearMonth.of(year, month);
+                    } else {
+                        System.out.println("Invalid month.\n");
+                    }
+                    break;
 
-            case 4:
-                selectDateToView(userInput, calendar, currentMonth);
-                break;
+                case 4:
+                    selectDateToView(userInput, calendar, currentMonth);
+                    break;
 
-            case 0:
-                System.out.println("Returning to calendar menu...\n");
-                break;
+                case 0:
+                    System.out.println("Returning to calendar menu...\n");
+                    break;
 
-            case -1:
-                System.out.println("Logging out...\n");
-                isLoggingOut = true;
-                break;
+                case -1:
+                    System.out.println("Logging out...\n");
+                    isLoggingOut = true;
+                    break;
 
-            default:
-                System.out.println("Invalid choice. Please try again.\n");
-        }
+                default:
+                    System.out.println("Invalid choice. Please try again.\n");
+            }
 
         } while (navigationChoice != 0 && !isLoggingOut);
 
@@ -77,7 +78,7 @@ public class MonthlyDisplay {
     }
 
     /**
-     * Displays the calendar view for the given month and highlights days with entries.
+     * This method plays the calendar view for the given month and highlights days with entries.
      */
     public void displayMonthView(Calendar calendar, YearMonth yearMonth) {
         System.out.println("\n" + yearMonth.getMonth() + " " + yearMonth.getYear());
@@ -117,11 +118,11 @@ public class MonthlyDisplay {
                 System.out.print(" ");
             }
         }
-        System.out.println(); // Final newline
+        System.out.println(); // This ensures the last line ends properly
     }
 
     /**
-     * This checks if there are any entries on a specific date.
+     * This method checks if there are any entries on a specific date.
      */
     public boolean checkEntryExists(Calendar calendar, LocalDate date) {
         ArrayList<Entry> entries = calendar.getCalendarEntries();
@@ -134,7 +135,7 @@ public class MonthlyDisplay {
     }
 
     /**
-     * This allows the user to select a specific day and view its entries.
+     * This method allows the user to select a specific day and view its entries.
      */
     public void selectDateToView(Scanner userInput, Calendar calendar, YearMonth yearMonth) {
         System.out.print("Enter the day you want to view (example: 5 for the 5th day): ");
@@ -225,7 +226,6 @@ public class MonthlyDisplay {
         String endTimeInput = userInput.nextLine();
 
         Entry entry = new Entry(
-                new IDGenerator().getNextEntryID(),
                 title, details, date,
                 java.time.LocalTime.parse(startTimeInput),
                 java.time.LocalTime.parse(endTimeInput));
@@ -305,38 +305,112 @@ public class MonthlyDisplay {
         int choice = userInput.nextInt();
         userInput.nextLine();
 
-        if (choice >= 1 && choice <= entriesOnDate.size()) {
+        if (choice == 0) {
+            System.out.println("Edit cancelled.");
+            return;
+        } else if (choice >= 1 && choice <= entriesOnDate.size()) {
             Entry oldEntry = entriesOnDate.get(choice - 1);
-            int entryID = oldEntry.getEntryID();
 
             System.out.println("Enter new entry title: ");
-            String newTitle = userInput.nextLine();
+            String title = userInput.nextLine();
 
             System.out.println("Enter new entry details: ");
-            String newDetails = userInput.nextLine();
+            String details = userInput.nextLine();
 
             System.out.println("Enter new start time (HH:MM): ");
-            String newStartTime = userInput.nextLine();
+            String startTimeInput = userInput.nextLine();
 
             System.out.println("Enter new end time (HH:MM): ");
-            String newEndTime = userInput.nextLine();
+            String endTimeInput = userInput.nextLine();
+
+            LocalTime startTime = LocalTime.parse(startTimeInput);
+            LocalTime endTime = LocalTime.parse(endTimeInput);
 
             Entry newEntry = new Entry(
-                    entryID,
-                    newTitle, newDetails, date,
-                    java.time.LocalTime.parse(newStartTime),
-                    java.time.LocalTime.parse(newEndTime)
+                    title, details, date, startTime, endTime
             );
 
-            if (calendar.editEntry(entryID, newEntry)) {
+            if (calendar.editEntry(oldEntry, newEntry)) {
                 System.out.println("Entry updated successfully.");
             } else {
                 System.out.println("Failed to update entry.");
             }
-        } else if (choice == 0) {
-            System.out.println("Edit cancelled.");
         } else {
             System.out.println("Invalid selection.");
         }
     }
+
+/**
+ * This method allows the user to edit an existing entry by selecting from a list of entries.
+ * The user can cancel the operation or proceed to update the entry details.
+ * No abrupt return statements are used to maintain smooth program flow.
+ *
+ * @param userInput This is the Scanner used to read user input.
+ * @param account This is the logged-in user's account.
+ * @param calendarManager This is the CalendarManager instance used to select calendars.
+ */
+public void editEntry(Scanner userInput, Account account, CalendarManager calendarManager) {
+    Calendar selectedCalendar = calendarManager.selectCalendar(userInput, account);
+    if (selectedCalendar != null) {
+
+        ArrayList<Entry> entries = selectedCalendar.getCalendarEntries();
+        boolean validAction = false;
+
+        if (entries.isEmpty()) {
+            System.out.println("\nNo entries available to edit.\n");
+            validAction = false;
+        } else {
+            System.out.println("\nSelect an entry to edit:");
+            for (int i = 0; i < entries.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + entries.get(i));
+            }
+            System.out.println("[0] Cancel");
+
+            int choice = userInput.nextInt();
+            userInput.nextLine();
+
+            if (choice == 0) {
+                System.out.println("Edit cancelled.\n");
+                validAction = false;
+            } else if (choice >= 1 && choice <= entries.size()) {
+                // This handles a valid entry selection.
+                Entry oldEntry = entries.get(choice - 1);
+
+                System.out.println("Enter new entry title: ");
+                String title = userInput.nextLine();
+
+                System.out.println("Enter new entry details: ");
+                String details = userInput.nextLine();
+
+                // Use InputValidator to ensure proper input
+                LocalDate date = InputValidator.readValidDate(userInput);
+                LocalTime startTime = InputValidator.readValidTime(userInput, "Enter new start time (HH:MM): ");
+                LocalTime endTime = InputValidator.ensureEndTimeAfterStart(userInput, startTime);
+
+                // This creates the updated entry object.
+                Entry newEntry = new Entry(
+                        title, details, date, startTime, endTime
+                );
+
+                // This updates the entry in the calendar.
+                if (selectedCalendar.editEntry(oldEntry, newEntry)) {
+                    System.out.println("\nEntry updated successfully.\n");
+                    validAction = true;
+                } else {
+                    System.out.println("\nFailed to update entry.\n");
+                    validAction = false;
+                }
+
+            } else {
+                System.out.println("Invalid selection.\n");
+                validAction = false;
+            }
+        }
+
+        if (!validAction) {
+            System.out.println("No editing was performed.\n");
+        }
+    }
+}
+
 }

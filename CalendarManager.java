@@ -56,7 +56,7 @@ public class CalendarManager {
     }
 
     /**
-     * Allows a user to choose a public calendar to add or create a new one.
+     * This method allows a user to choose a public calendar to add or create a new one.
      * @param userInput Input scanner.
      * @param account The currently logged-in account.
      * @param publicCalendars Shared list of public calendars.

@@ -16,9 +16,8 @@ public class Main {
     public Account currentLoggedInAccount = null;
 
     // These are the objects of other classes that will be shared across the application.
-    private IDGenerator idGenerator = new IDGenerator();
     private CalendarManager calendarManager = new CalendarManager();
-    private EntryManager entryManager = new EntryManager(calendarManager, idGenerator);
+    private EntryManager entryManager = new EntryManager(calendarManager);
     private MainMethods mainMethods = new MainMethods(); // Reused instance
 
     /**
