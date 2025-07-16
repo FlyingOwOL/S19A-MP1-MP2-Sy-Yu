@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
     // This list stores all active accounts.
     public ArrayList<Account> activeAccounts = new ArrayList<>();
 
@@ -31,6 +30,33 @@ public class Main {
     }
 
     /**
+     * This getter returns the list of active accounts.
+     */
+    public ArrayList<Account> getActiveAccounts() {
+        return activeAccounts;
+    }
+
+    /**
+     * This getter returns the list of deactivated accounts.
+     */
+    public ArrayList<Account> getDeactivatedAccounts() {
+        return deactivatedAccounts;
+    }
+
+    public void deactivateAccount(Account account) {
+        account.deactivateAccount(); // This marks the account as inactive.
+        activeAccounts.remove(account); // This removes the account from the active accounts list.
+        deactivatedAccounts.add(account); // This adds the account to the deactivated accounts list.
+    }
+
+    /**
+     * This getter returns the list of public calendars.
+     */
+    public ArrayList<Calendar> getPublicCalendars() {
+        return publicCalendars;
+    }
+
+    /**
      * This method handles account creation and automatically opens the user menu after successful creation.
      * @param userInput Scanner to get user input.
      */
@@ -47,41 +73,6 @@ public class Main {
         } else {
             System.out.println("Account creation failed.\n");
         }
-    }
-
-    /**
-     * This getter returns the list of active accounts.
-     */
-    public ArrayList<Account> getActiveAccounts() {
-        return activeAccounts;
-    }
-
-    /**
-     * This getter returns the list of deactivated accounts.
-     */
-    public ArrayList<Account> getDeactivatedAccounts() {
-        return deactivatedAccounts;
-    }
-
-    /**
-     * This getter returns the list of public calendars.
-     */
-    public ArrayList<Calendar> getPublicCalendars() {
-        return publicCalendars;
-    }
-
-    /**
-     * This getter gets the currently logged-in user.
-     */
-    public Account getCurrentLoggedInAccount() {
-        return currentLoggedInAccount;
-    }
-
-    /**
-     * This setter sets the currently logged-in user.
-     */
-    public void setCurrentLoggedInAccount(Account account) {
-        this.currentLoggedInAccount = account;
     }
 
     /**
@@ -119,7 +110,7 @@ public class Main {
                 } else if (menuChoice == 3) {
                     // This logs out the currently logged in user if there is one.
                     if (currentLoggedInAccount != null) {
-                        System.out.println("User " + currentLoggedInAccount.getAccountName() + " logged out successfully.\n");
+                        System.out.println("User  " + currentLoggedInAccount.getAccountName() + " logged out successfully.\n");
                         currentLoggedInAccount = null;
                     } else {
                         System.out.println("No user is currently logged in.\n");
