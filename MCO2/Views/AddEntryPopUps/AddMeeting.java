@@ -1,8 +1,8 @@
 package Views.AddEntryPopUps;
 
 import Utilities.FixedValues;
+import Views.PopUpFormat;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -13,7 +13,7 @@ import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Color;
 
-public class AddMeeting extends JFrame {
+public class AddMeeting extends PopUpFormat {
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     
@@ -36,10 +36,6 @@ public class AddMeeting extends JFrame {
 
     public AddMeeting() {
         this.setTitle("Add Meeting");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400, 400);
-        this.setResizable(false);
-        this.setLayout(null);
 
         // Set up header panel
         headerPanel.setBounds(0, 0, 400, 50);

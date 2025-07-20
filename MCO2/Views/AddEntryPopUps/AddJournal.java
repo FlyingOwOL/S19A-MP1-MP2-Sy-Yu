@@ -1,8 +1,8 @@
 package Views.AddEntryPopUps;
 
 import Utilities.FixedValues;
+import Views.PopUpFormat;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
-public class AddJournal extends JFrame {
+public class AddJournal extends PopUpFormat {
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
@@ -24,10 +24,6 @@ public class AddJournal extends JFrame {
 
     public AddJournal() {
         this.setTitle("Add Journal");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400, 400);
-        this.setResizable(false);
-        this.setLayout(null);
 
         // Set up header panel
         headerPanel.setBounds(0, 0, 400, 50);

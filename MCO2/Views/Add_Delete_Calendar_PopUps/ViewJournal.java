@@ -1,8 +1,8 @@
 package Views.Add_Delete_Calendar_PopUps;
 
 import Utilities.FixedValues;
+import Views.PopUpFormat;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 
 import java.awt.Color;
 
-public class ViewJournal extends JFrame {
+public class ViewJournal extends PopUpFormat {
     private JLabel journalLabel = new JLabel("This is the Month's Journal");
     
     // Use JTextArea instead of JLabel for journal content
@@ -30,9 +30,6 @@ public class ViewJournal extends JFrame {
 
     public ViewJournal() {
         this.setTitle("This Month's Journal");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400, 300);
-        this.setLayout(null);
 
         // Panel set bounds
         headerPanel.setBounds(0, 0, 400, 100);

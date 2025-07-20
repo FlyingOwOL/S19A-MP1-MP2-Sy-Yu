@@ -1,8 +1,8 @@
 package Views.AddEntryPopUps;
 
 import Utilities.FixedValues;
+import Views.PopUpFormat;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -13,7 +13,7 @@ import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Color;
 
-public class AddEvent extends JFrame {
+public class AddEvent extends PopUpFormat {
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
@@ -36,10 +36,6 @@ public class AddEvent extends JFrame {
 
     public AddEvent() {
         this.setTitle("Add Event");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400, 400);
-        this.setResizable(false);
-        this.setLayout(null);
 
         // Panel set bounds
         headerPanel.setBounds(0, 0, 400, 70);

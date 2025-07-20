@@ -1,15 +1,15 @@
 package Views.Add_Delete_Calendar_PopUps;
 
 import Utilities.FixedValues;
+import Views.PopUpFormat;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import java.awt.Color;
 
-public class DeleteCalendarFrame extends JFrame {
+public class DeleteCalendarFrame extends PopUpFormat {
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
@@ -22,10 +22,6 @@ public class DeleteCalendarFrame extends JFrame {
 
     public DeleteCalendarFrame(){
         this.setTitle("Delete Calendar");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400, 300);
-        this.setResizable(false);
-        this.setLayout(null);
 
         // Set bounds for each panel in the frame
         headerPanel.setBounds(0, 0, 400, 100);

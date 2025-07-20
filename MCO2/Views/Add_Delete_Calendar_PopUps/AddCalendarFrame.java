@@ -1,8 +1,8 @@
 package Views.Add_Delete_Calendar_PopUps;
 
 import Utilities.FixedValues;
+import Views.PopUpFormat;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,13 +13,14 @@ import javax.swing.ButtonGroup;
 
 import java.awt.Color;
 
-public class AddCalendarFrame extends JFrame {
+public class AddCalendarFrame extends PopUpFormat {
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
     private JLabel titleLabel = new JLabel("Add Calendar");
         
-    private JTextField calendarNameField = new JTextField();    
+    private JTextField calendarNameField = new JTextField();
+    private JTextField calendarPasswordField = new JTextField();    
 
     private JButton addButton = new JButton("Add");
 
@@ -33,10 +34,6 @@ public class AddCalendarFrame extends JFrame {
 
     public AddCalendarFrame() {
         this.setTitle("Add Calendar");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400, 430);
-        this.setResizable(false);
-        this.setLayout(null);
 
         // Panels
         headerPanel.setBounds(0, 0, 400, 100);
@@ -52,9 +49,17 @@ public class AddCalendarFrame extends JFrame {
 
         // components for contentPanel
         contentPanel.setLayout(null);
-        calendarNameField.setBounds(50, 20, 300, 30);
+        calendarNameField.setToolTipText("Enter the name of the calendar");
+        calendarPasswordField.setToolTipText("Enter the password (only family calendars)");
+        calendarNameField.setFont(FixedValues.BUTTON_FONT);
+        calendarPasswordField.setFont(FixedValues.BUTTON_FONT);
+        calendarNameField.setBounds(50, 5, 300, 30);
+        calendarPasswordField.setBounds(50, 40, 300, 30);
         contentPanel.add(calendarNameField);        
-        addButton.setBounds(150, 70, 100, 30);
+        contentPanel.add(calendarPasswordField);
+
+        // Add button
+        addButton.setBounds(150, 75, 100, 30);
         addButton.setFocusable(false);
         contentPanel.add(addButton);
 
@@ -81,5 +86,44 @@ public class AddCalendarFrame extends JFrame {
         this.add(headerPanel);
         this.add(contentPanel);
         this.setVisible(true);
+    }
+
+    //getters
+    public JButton getAddButton() {
+        return addButton;
+    }
+    public JRadioButton getCreationType() {
+        return creationType;
+    }
+    public JRadioButton getImportType() {
+        return importType;
+    }
+    public String getCalendarType (){
+        return (String) calendarTypeBox.getSelectedItem();
+    }
+    public String getImportedCalendar() {
+        return (String) importedCalendarBox.getSelectedItem();
+    }
+    public String getCalendarName() {
+        return calendarNameField.getText();
+    }
+    public String getCalendarPassword() { //only for family calendars
+        return calendarPasswordField.getText();
+    }
+    public boolean isCreationTypeSelected() {
+        return creationType.isSelected();
+    }
+    public boolean isImportTypeSelected() {
+        return importType.isSelected();
+    }
+
+    //setters
+    public void setButtonActionListener(java.awt.event.ActionListener actionListener) {
+        addButton.addActionListener(actionListener);
+    }
+    public void setCalendarName(String name) {
+        calendarNameField.setText(name);
+        this.revalidate();
+        this.repaint();
     }
 }

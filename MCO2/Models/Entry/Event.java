@@ -13,6 +13,8 @@ public class Event extends EntryModel{
     public Event(String title, String venue, AccountModel owner){
         super(title);
         this.organizer = owner.getName();
+        this.startDate = LocalDate.now();
+        this.endDate = LocalDate.now();
     }
 
     //getters

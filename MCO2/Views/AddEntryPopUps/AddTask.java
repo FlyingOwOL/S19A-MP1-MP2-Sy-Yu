@@ -1,8 +1,8 @@
 package Views.AddEntryPopUps;
 
 import Utilities.FixedValues;
+import Views.PopUpFormat;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
-public class AddTask extends JFrame {
+public class AddTask extends PopUpFormat{
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
@@ -38,10 +38,6 @@ public class AddTask extends JFrame {
 
     public AddTask() {
         this.setTitle("Add Task");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400, 400);
-        this.setResizable(false);
-        this.setLayout(null);
 
         // Set up header panel
         headerPanel.setBounds(0, 0, 400, 50);

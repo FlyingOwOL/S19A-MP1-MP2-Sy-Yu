@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.awt.event.ActionListener;
+
 public class AccountLoginPage extends JFrame{
     private JPanel headerPanel = new JPanel();
     private JPanel buttonsPanel = new JPanel();
@@ -81,5 +83,27 @@ public class AccountLoginPage extends JFrame{
         this.add(contentPanel);
         this.add(buttonsPanel);
         this.setVisible(true);
+    }
+    public JButton getLoginButton() {
+        return loginButton;
+    }
+
+    public JButton getCreateAccountButton() {
+        return createAccountButton;
+    }
+
+    public void addLoginButtonListener(ActionListener listener) {
+        loginButton.addActionListener(listener);
+    }
+
+    public void addCreateAccountButtonListener(ActionListener listener) {
+        createAccountButton.addActionListener(listener);
+    }
+
+    public String getUsername() {
+        return usernameField.getText();
+    }
+    public String getPassword() {
+        return passwordField.getText();
     }
 }
