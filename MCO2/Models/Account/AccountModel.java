@@ -5,8 +5,6 @@ import Views.AccountPage;
 
 import java.util.ArrayList;
 
-import Controllers.*;
-
 public class AccountModel {
     private String name;
     private String password;

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
 
 import java.awt.Color;
 
@@ -24,9 +25,12 @@ public class ViewJournal extends PopUpFormat {
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     
-    private JButton closeButton = new JButton("Submit");
+    private JButton closeButton = new JButton("Close");
 
     private JScrollPane scrollPane = new JScrollPane(journalContent);
+
+    private String[] Months = {"Jan", "Mar", "Apr"}; // will change dynamically later
+    private JComboBox<String> calendarComboBox = new JComboBox<>(Months);
 
     public ViewJournal() {
         this.setTitle("This Month's Journal");
@@ -34,7 +38,7 @@ public class ViewJournal extends PopUpFormat {
         // Panel set bounds
         headerPanel.setBounds(0, 0, 400, 100);
         headerPanel.setBackground(Color.CYAN);
-        contentPanel.setBounds(0, 100, 400, 200);
+        contentPanel.setBounds(0, 100, 400, 300);
         contentPanel.setBackground(Color.LIGHT_GRAY);
 
         // Components for header
@@ -51,13 +55,15 @@ public class ViewJournal extends PopUpFormat {
         journalContent.setWrapStyleWord(true); 
         journalContent.setEditable(false); 
 
+        calendarComboBox.setBounds(340, 0, 50, 25);
+        contentPanel.add(calendarComboBox);
 
-        scrollPane.setBounds(0, 0, 400, 110); 
+        scrollPane.setBounds(0, 0, 340, 220); 
         contentPanel.add(scrollPane);
 
         closeButton.setFont(FixedValues.BUTTON_FONT);
         closeButton.setFocusable(false);
-        closeButton.setBounds(140, 120, 100, 30);
+        closeButton.setBounds(140, 225, 100, 30);
         contentPanel.add(closeButton);
 
         // Add to frame

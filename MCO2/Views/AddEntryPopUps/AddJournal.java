@@ -20,7 +20,7 @@ public class AddJournal extends PopUpFormat {
     private JTextArea detailArea = new JTextArea();
     private JScrollPane detailScrollPane = new JScrollPane(detailArea);
 
-    private JButton closeButton = new JButton("Close");
+    private JButton closeButton = new JButton("Submit");
 
     public AddJournal() {
         this.setTitle("Add Journal");
