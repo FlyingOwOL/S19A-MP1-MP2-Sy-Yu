@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class MCO1Main {
     // This list stores all active accounts.
     public ArrayList<Account> activeAccounts = new ArrayList<>();
 
@@ -136,7 +136,7 @@ public class Main {
      * @param args Command-line arguments (not used).
      */
     public static void main(String[] args) {
-        Main app = new Main();       
+        MCO1Main app = new MCO1Main();       
         app.runApp();
     }
 }

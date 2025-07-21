@@ -11,7 +11,7 @@ public class UserMenu {
 
     private CalendarManager calendarManager;   // Reference to CalendarManager for calendar operations
     private EntryManager entryManager;         // Reference to EntryManager for entry operations
-    private Main mainApp;                      // Reference to the Main app for shared state (e.g., account lists)
+    private MCO1Main mainApp;                      // Reference to the Main app for shared state (e.g., account lists)
 
     /**
      * This constructor sets up the user menu with necessary managers and app state.
@@ -19,7 +19,7 @@ public class UserMenu {
      * @param entryManager Reference to entry manager.
      * @param mainApp Reference to the main application (for shared lists).
      */
-    public UserMenu(CalendarManager calendarManager, EntryManager entryManager, Main mainApp) {
+    public UserMenu(CalendarManager calendarManager, EntryManager entryManager, MCO1Main mainApp) {
         this.calendarManager = calendarManager;
         this.entryManager = entryManager;
         this.mainApp = mainApp;
