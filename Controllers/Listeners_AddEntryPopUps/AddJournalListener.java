@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import Models.Entry.Journal;
-import Models.Entry.EntryModel;
 import Models.Calendar.Personal;
 import Views.AccountPage;
 import Views.AddEntryPopUps.AddJournal;

@@ -34,20 +34,49 @@ public class AddEventListener implements ActionListener {
                 String startTime = (String)addEvent.getStartTime().getSelectedItem();
                 String endTime = (String)addEvent.getEndTime().getSelectedItem();
                 String details = addEvent.getDetailArea().getText();
-                EventEntry newEvent = new EventEntry(title, venue, organizer);
                 
-                // Attempt to set the start and end dates
-                newEvent.setStartDate(startDate);
-                newEvent.setEndDate(endDate);
-                newEvent.setStartTime(startTime);
-                newEvent.setEndTime(endTime);
-                newEvent.setDetails(details);
-                accountPage.getCurrentCalendar().addEntry(newEvent);  
-                addEvent.dispose();
+                // Validate required fields
+                boolean stop = false;
+                if (title.isEmpty()) {
+                    JOptionPane.showMessageDialog(addEvent, "Please enter a title", "Title Required", JOptionPane.WARNING_MESSAGE);
+                    stop = true;
+                }
+                
+                if (startDate.isEmpty() && !stop) {
+                    JOptionPane.showMessageDialog(addEvent, "Please enter a start date", "Start Date Required", JOptionPane.WARNING_MESSAGE);
+                    stop = true;
+                }
+                
+                if (endDate.isEmpty() && !stop) {
+                    JOptionPane.showMessageDialog(addEvent, "Please enter an end date", "End Date Required", JOptionPane.WARNING_MESSAGE);
+                    stop = true;
+                }
+                if (!stop){
+                    // Attempt to set the start and end dates
+                    EventEntry newEvent = new EventEntry(title, venue, organizer);
+                    newEvent.setStartDate(startDate);
+                    newEvent.setEndDate(endDate);
+                    newEvent.setStartTime(startTime);
+                    newEvent.setEndTime(endTime);
+                    newEvent.setDetails(details);
+                    accountPage.getCurrentCalendar().addEntry(newEvent); 
+                    // Show success message
+                    JOptionPane.showMessageDialog(addEvent, 
+                    "Event '" + title + "' created successfully!", 
+                    "Success", 
+                    JOptionPane.INFORMATION_MESSAGE); 
+                    addEvent.dispose();
+                }
             } catch (DateTimeParseException ex) {
                 // Show a pop-up message if the date format is wrong
-                JOptionPane.showMessageDialog(addEvent, "The date format is incorrect. Please use the format 'M/d/yyyy' for dates.", "Invalid Date Format", JOptionPane.ERROR_MESSAGE);
-            } 
+                JOptionPane.showMessageDialog(addEvent, "The date format is incorrect. Please use the format '2025-03-07' for dates.",
+                 "Invalid Date Format", 
+                 JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex){
+                JOptionPane.showMessageDialog(accountPage, "ERROOOOOOOOOOOOOR", 
+                "ERROOOOOOOOOOOOOR", 
+                JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

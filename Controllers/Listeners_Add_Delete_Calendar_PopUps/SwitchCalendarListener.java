@@ -2,12 +2,15 @@ package Controllers.Listeners_Add_Delete_Calendar_PopUps;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import Models.Calendar.CalendarParentModel;
 import Views.AccountPage;
 import Views.Add_Delete_Calendar_PopUps.SwitchCalendarFrame;
 
 import javax.swing.JOptionPane;
+
 
 public class SwitchCalendarListener implements ActionListener {
     private SwitchCalendarFrame switchCalendarFrame;
@@ -25,11 +28,18 @@ public class SwitchCalendarListener implements ActionListener {
     }
 
     private void loadUserCalendars() {
-        // Get all calendars for the current user
-        String[] calendarNames = accountPage.getCurrentAccount().getCalendars()
-                .stream()
-                .map(CalendarParentModel::getName)
-                .toArray(String[]::new);
+        // First get all calendar names including public calendars
+        List<String> allCalendarNames = new ArrayList<>();
+
+        // Add account calendar names
+        accountPage.getCurrentAccount().getCalendars()
+            .stream()
+            .map(CalendarParentModel::getName)
+            .forEach(allCalendarNames::add);
+
+        //converts items in the List to a 1D Array
+        String[] calendarNames = allCalendarNames.toArray(new String[0]);
+
 
         // Update the dropdown
         switchCalendarFrame.setCalendarList(calendarNames);

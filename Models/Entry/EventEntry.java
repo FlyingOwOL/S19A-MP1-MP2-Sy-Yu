@@ -3,7 +3,6 @@ package Models.Entry;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class EventEntry extends EntryModel{
     private String venue;
@@ -42,16 +41,16 @@ public class EventEntry extends EntryModel{
 
     //setters
     public void setStartDate(String startDate) {
-        this.startDate = parseDate(startDate);
+        this.startDate = LocalDate.parse(startDate);
     }
     public void setEndDate(String endDate) {
-        this.endDate = parseDate(endDate);
+        this.endDate = LocalDate.parse(endDate);
     }
     public void setStartTime(String startDate) {
-        this.startTime = parseTime(startDate);
+        this.startTime = LocalTime.parse(startDate);
     }
     public void setEndTime(String endDate) {
-        this.endTime = parseTime(endDate);
+        this.endTime = LocalTime.parse(endDate);
     }
 
     /*
@@ -67,13 +66,5 @@ public class EventEntry extends EntryModel{
     public boolean isValidEndDate(String endDate){
         boolean isValid = false;
         return isValid;
-    }
-    private LocalTime parseTime (String timeInput){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
-        return LocalTime.parse(timeInput, formatter);
-    }
-    private LocalDate parseDate (String dateInput){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-        return LocalDate.parse(dateInput, formatter);
     }
 }

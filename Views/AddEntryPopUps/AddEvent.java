@@ -45,7 +45,9 @@ public class AddEvent extends PopUpFormat {
 
     public AddEvent() {
         this.setTitle("Add Event");
-
+        this.startTimeBox.setSelectedItem("12:00:00");
+        this.endTimeBox.setSelectedItem("13:00:00");
+        
         // Panel set bounds
         headerPanel.setBounds(0, 0, 400, 70);
         headerPanel.setBackground(Color.CYAN);

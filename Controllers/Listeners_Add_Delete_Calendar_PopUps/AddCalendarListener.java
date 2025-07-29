@@ -160,6 +160,7 @@ public class AddCalendarListener implements ActionListener {
                 stop = true;
             }
         }
+        stop = false; //back to false after getting out of the for loop
 
         if (calendarToImport == null && !stop) {
             JOptionPane.showMessageDialog(addCalendarFrame,
@@ -191,6 +192,7 @@ public class AddCalendarListener implements ActionListener {
                     "Already Added", JOptionPane.INFORMATION_MESSAGE);
             stop = true;
         }
+        
         if (!stop){
             // Add calendar to user's list
             currentAccount.getCalendars().add(calendarToImport);

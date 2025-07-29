@@ -47,6 +47,8 @@ public class AddMeeting extends PopUpFormat {
 
     public AddMeeting() {
         this.setTitle("Add Meeting");
+        this.startTimeBox.setSelectedItem("12:00:00");
+        this.endTimeBox.setSelectedItem("13:00:00");
 
         // Set up header panel
         headerPanel.setBounds(0, 0, 400, 50);

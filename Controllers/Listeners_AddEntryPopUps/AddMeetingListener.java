@@ -34,47 +34,48 @@ public class AddMeetingListener implements ActionListener{
                 String endTime = (String)addMeeting.getEndTimeBox().getSelectedItem();
 
                 // Validate required fields
+                boolean stop = false;
                 if (title.isEmpty()) {
                     JOptionPane.showMessageDialog(addMeeting, "Please enter a title", "Title Required", JOptionPane.WARNING_MESSAGE);
-                    return;
+                    stop = true;
                 }
                 
-                if (startDate.isEmpty()) {
+                if (startDate.isEmpty() && !stop) {
                     JOptionPane.showMessageDialog(addMeeting, "Please enter a start date", "Start Date Required", JOptionPane.WARNING_MESSAGE);
-                    return;
+                    stop = true;
                 }
                 
-                if (endDate.isEmpty()) {
+                if (endDate.isEmpty() && !stop) {
                     JOptionPane.showMessageDialog(addMeeting, "Please enter an end date", "End Date Required", JOptionPane.WARNING_MESSAGE);
-                    return;
+                    stop = true;
                 }
+                if (!stop){
+                    System.out.println("Entered start:" + startDate);
+                    System.out.println("Entered end:" + endDate);
+                    // For JTextArea component
+                    String details = addMeeting.getDetailArea().getText().trim();
 
-                // For JTextArea component
-                String details = addMeeting.getDetailArea().getText().trim();
+                    Meeting newMeeting = new Meeting(title, modality);
+                    newMeeting.setLink(link);
+                    newMeeting.setVenue(venue);
+                    newMeeting.setStartDate(startDate);  // This will now handle parsing properly
+                    newMeeting.setEndDate(endDate);      // This will now handle parsing properly
+                    newMeeting.setDetails(details);
+                    newMeeting.setStartTime(startTime);
+                    newMeeting.setEndTime(endTime);
 
-                Meeting newMeeting = new Meeting(title, modality);
-                newMeeting.setLink(link);
-                newMeeting.setVenue(venue);
-                newMeeting.setStartDate(startDate);  // This will now handle parsing properly
-                newMeeting.setEndDate(endDate);      // This will now handle parsing properly
-                newMeeting.setDetails(details);
-                newMeeting.setStartTime(startTime);
-                newMeeting.setEndTime(endTime);
-
-                accountPage.getCurrentCalendar().addEntry(newMeeting);
-                
-                // Show success message
-                JOptionPane.showMessageDialog(addMeeting, 
+                    accountPage.getCurrentCalendar().addEntry(newMeeting);
+                    // Show success message
+                    JOptionPane.showMessageDialog(addMeeting, 
                     "Meeting '" + title + "' created successfully!", 
                     "Success", 
                     JOptionPane.INFORMATION_MESSAGE);
-                
-                addMeeting.dispose();
-                
+                    addMeeting.dispose();                    
+                }
             } catch (DateTimeParseException ex) {
                 // Show a pop-up message if the date format is wrong
                 JOptionPane.showMessageDialog(addMeeting, 
-                    "The date format is incorrect. Please use the format like '7/25/2025' for dates.", 
+                    "The date format is incorrect. Please use the format like '2025-03-07' for dates.", 
                     "Invalid Date Format", 
                     JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
