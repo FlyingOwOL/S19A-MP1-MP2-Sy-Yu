@@ -2,35 +2,40 @@ package Views.AddEntryPopUps;
 
 import Utilities.FixedValues;
 import Views.PopUpFormat;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.awt.Dimension;
-import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
+/**
+ * Pop-up window for adding a meeting entry to the calendar.
+ */
 public class AddMeeting extends PopUpFormat {
+    // Panels for header and content
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     
+    // Labels for the header and input fields
     private String[] modalities = {"online", "hybrid", "onsite"};
     private JComboBox<String> modalityBox = new JComboBox<>(modalities);
     private JComboBox<String> startTimeBox = new JComboBox<>(FixedValues.timeSlots);
     private JComboBox<String> endTimeBox = new JComboBox<>(FixedValues.timeSlots);
 
+    // Input fields for meeting details
     private JTextField venueField = new JTextField();
     private JTextField linkField = new JTextField();
     private JTextField startDateField = new JTextField();
     private JTextField endDateField = new JTextField();
     private JTextField titleField = new JTextField("Add title");
 
+    // Labels for the header and input fields
     private JLabel titleLabel = new JLabel("Add Meeting");
     private JLabel modalityLabel = new JLabel("Modality:");
     private JLabel venueLabel = new JLabel("Venue:");
@@ -40,11 +45,17 @@ public class AddMeeting extends PopUpFormat {
     private JLabel startTimeLabel = new JLabel("Start time:");
     private JLabel endTimeLabel = new JLabel("End Time:");
     
+    // Text area for additional meeting details
     private JTextArea detailArea = new JTextArea();
 
+    // Scroll pane for the detail area
     private JScrollPane detailScrollPane = new JScrollPane(detailArea);
     private JButton submitButton = new JButton("Submit");
 
+    /**
+     * Constructor for the AddMeeting pop-up window.
+     * Initializes the layout and components of the pop-up.
+     */
     public AddMeeting() {
         this.setTitle("Add Meeting");
 
@@ -121,42 +132,105 @@ public class AddMeeting extends PopUpFormat {
         this.setVisible(true);
     }
 
-    //getters
+       /**
+     * Gets the title text field where the user enters the meeting title.
+     *
+     * @return the title input field
+     */
     public JTextField getTitleField() {
         return this.titleField;
     }
+
+    /**
+     * Gets the combo box for selecting the meeting modality (e.g., online, hybrid, onsite).
+     *
+     * @return the modality combo box
+     */
     public JComboBox<String> getModalityBox() {
         return this.modalityBox;
     }
+
+    /**
+     * Gets the combo box for selecting the meeting's start time.
+     *
+     * @return the start time combo box
+     */
     public JComboBox<String> getStartTimeBox(){
         return this.startTimeBox;
     }
+
+    /**
+     * Gets the combo box for selecting the meeting's end time.
+     *
+     * @return the end time combo box
+     */
     public JComboBox<String> getEndTimeBox(){
         return this.endTimeBox;
     }
+
+    /**
+     * Gets the text field for entering the meeting venue.
+     *
+     * @return the venue input field
+     */
     public JTextField getVenueField() {
         return this.venueField;
     }
+
+    /**
+     * Gets the text field for entering the meeting link (for online or hybrid meetings).
+     *
+     * @return the meeting link input field
+     */
     public JTextField getLinkField() {
         return this.linkField;
     }
+
+    /**
+     * Gets the text field for entering the meeting's start date.
+     *
+     * @return the start date input field
+     */
     public JTextField getStartDateField() {
         return this.startDateField;
     }
+
+    /**
+     * Gets the text field for entering the meeting's end date.
+     *
+     * @return the end date input field
+     */
     public JTextField getEndDateField() {
         return this.endDateField;
     }
+
+    /**
+     * Gets the text area for entering additional meeting details.
+     *
+     * @return the details text area
+     */
     public JTextArea getDetailArea() {
         return this.detailArea;
     }
+
+    /**
+     * Gets the submit button used to finalize the meeting entry.
+     *
+     * @return the submit button
+     */
     public JButton getSubmitButton() {
         return this.submitButton;
     }
 
-    //setters
+    /**
+     * Attaches an ActionListener to the submit button.
+     *
+     * @param actionListener the listener that handles submit button events
+     */
     public void setButtonActionListener(ActionListener actionListener) {
         System.out.println("setButtonActionListener called!");
         submitButton.addActionListener(actionListener);
         System.out.println("ActionListener added to submitButton!");
     }
+
 }

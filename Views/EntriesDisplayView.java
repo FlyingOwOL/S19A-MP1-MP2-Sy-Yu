@@ -1,24 +1,26 @@
 package Views;
 
-import Utilities.FixedValues;
-import Models.Entry.*;
-import Models.Entry.EventEntry;
 import Models.Calendar.CalendarParentModel;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import Models.Entry.*;
+import Utilities.FixedValues;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
+/**
+ * The EntriesDisplayView class provides a graphical interface to display calendar entries.
+ * It shows a table of entries including tasks, meetings, events, and journals with relevant details.
+ */
 public class EntriesDisplayView extends JFrame {
-    private JPanel headerPanel;
-    private JPanel contentPanel;
-    private JTable entriesTable;
-    private DefaultTableModel tableModel;
-    private JScrollPane scrollPane;
-    private JLabel titleLabel;
-    private JButton closeButton;
+    private JPanel headerPanel;           // Panel for header    
+    private JPanel contentPanel;          // Panel for content
+    private JTable entriesTable;          // Table to display entries
+    private DefaultTableModel tableModel; // Model for the table data  
+    private JScrollPane scrollPane;       // Scroll panel for the table
+    private JLabel titleLabel;            // Label for the title of the view
+    private JButton closeButton;          // Button to close the view
     
     private String[] columnNames = {"Type", "Title", "Date", "Details", "Status/Priority", "Organizer/Creator"};
 
@@ -26,12 +28,22 @@ public class EntriesDisplayView extends JFrame {
 
     //TODO Since the entries should be editable they should be changeable here in the entries display view
 
+    /**
+     * Constructor for the EntriesDisplayView class.
+     * Initializes the components and sets up the layout for displaying calendar entries.
+     *
+     * @param calendar The CalendarParentModel containing the entries to be displayed.
+     */
     public EntriesDisplayView(CalendarParentModel calendar) {
         initializeComponents();
         loadEntries(calendar);
         setupLayout();
     }
 
+    /**
+     * Initializes the components of the EntriesDisplayView.
+     * Sets up the header, content panel, table model, and scroll pane.
+     */
     private void initializeComponents() {
         this.setTitle("Calendar Entries");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -75,6 +87,10 @@ public class EntriesDisplayView extends JFrame {
         closeButton.addActionListener(e -> dispose());
     }
 
+    /**
+     * Sets up the layout of the EntriesDisplayView.
+     * Adds components to the header and content panels, and configures the frame.
+     */
     private void setupLayout() {
         // Header layout
         headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -95,6 +111,12 @@ public class EntriesDisplayView extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Loads entries from the provided calendar model into the table.
+     * Iterates through the entries and adds them to the table model.
+     *
+     * @param calendar The CalendarParentModel containing the entries to be displayed.
+     */
     private void loadEntries(CalendarParentModel calendar) {
         ArrayList<EntryModel> entries = calendar.getEntries();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
@@ -102,6 +124,7 @@ public class EntriesDisplayView extends JFrame {
         // Clear existing data
         tableModel.setRowCount(0);
         
+        // Loop through entries and add them to the table model
         for (EntryModel entry : entries) {
             String[] rowData = new String[6];
             
@@ -152,6 +175,12 @@ public class EntriesDisplayView extends JFrame {
         // You can implement custom sorting here if needed
     }
 
+    /**
+     * Refreshes the entries displayed in the view.
+     * Clears the current entries and reloads them from the provided calendar model.
+     *
+     * @param calendar The CalendarParentModel containing the updated entries to be displayed.
+     */
     public void refreshEntries(CalendarParentModel calendar) {
         loadEntries(calendar);
     }
