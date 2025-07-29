@@ -11,7 +11,7 @@ public class UserMenu {
 
     private CalendarManager calendarManager;   // Reference to CalendarManager for calendar operations
     private EntryManager entryManager;         // Reference to EntryManager for entry operations
-    private Main mainApp;                      // Reference to the Main app for shared state (e.g., account lists)
+    private MCO1Main mainApp;                      // Reference to the Main app for shared state (e.g., account lists)
 
     /**
      * This constructor sets up the user menu with necessary managers and app state.
@@ -19,7 +19,7 @@ public class UserMenu {
      * @param entryManager Reference to entry manager.
      * @param mainApp Reference to the main application (for shared lists).
      */
-    public UserMenu(CalendarManager calendarManager, EntryManager entryManager, Main mainApp) {
+    public UserMenu(CalendarManager calendarManager, EntryManager entryManager, MCO1Main mainApp) {
         this.calendarManager = calendarManager;
         this.entryManager = entryManager;
         this.mainApp = mainApp;
@@ -42,7 +42,7 @@ public class UserMenu {
             MonthlyDisplay monthlyDisplay = new MonthlyDisplay();
             monthlyDisplay.displayMonthView(calendar, currentMonth);
             System.out.println("\nLogged in as: " + loggedInAccount.getAccountName());
-            System.out.println("User Menu:");
+            System.out.println("User  Menu:");
             System.out.println("[1] View Calendars");
             System.out.println("[2] Add Calendar");
             System.out.println("[3] Delete Calendar");
@@ -72,8 +72,8 @@ public class UserMenu {
                     break;
                 // This calls the method to add a new calendar.
                 case 2:
-                calendarManager.addCalendar(userInput, loggedInAccount, mainApp.getPublicCalendars());
-                break;
+                    calendarManager.addCalendar(userInput, loggedInAccount, mainApp.getPublicCalendars());
+                    break;
                 // This calls the method to delete a calendar.
                 case 3:
                     if (calendarManager.deleteCalendar(userInput, loggedInAccount, mainApp.getPublicCalendars(), mainApp.getActiveAccounts())) {
@@ -106,7 +106,7 @@ public class UserMenu {
                     System.out.println("Invalid choice. Please try again.\n");
             }
 
-        } while (userChoice != 0 && logoutFlag == false);
+        } while (userChoice != 0 && !logoutFlag);
     }
 
     /**
@@ -117,7 +117,7 @@ public class UserMenu {
     public void deactivateAccount(Account account) {
         account.deactivateAccount(); // This marks the account as inactive.
         mainApp.getActiveAccounts().remove(account); // This removes the account from the active accounts list.
-        mainApp.getDeactivatedAccounts().add(account); // This adds the account to the deactivated accounts list.
+        mainApp.deactivateAccount(account); // This adds the account to the deactivated accounts list.
         System.out.println("\nAccount deactivated. You have been logged out.\n");
     }
 }
