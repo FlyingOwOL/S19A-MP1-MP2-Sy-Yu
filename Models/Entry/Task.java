@@ -35,30 +35,11 @@ public class Task extends EntryModel{
     public void setStatus(String status) {
         this.status = status;
     }
-
-    /*
-     * 
-     */
-    public void finishTask (String finishedBy){
-        this.status = "done";
+    public void setFinishedBy(String finishedBy){
         this.finishedBy = finishedBy;
     }
-    /*
-     * 
-     */
-    public boolean isValidStatus(String status){
-        boolean isValid = false;
-        switch(status){
-            case "high":
-                isValid = true;
-                break;
-            case "medium":
-                isValid = true;
-                break;
-            case "low":
-                isValid = true;
-                break;
-        }
-        return isValid;
+    public void setCreatedBy(String createdBy){
+        this.createdBy = createdBy;
     }
+
 }

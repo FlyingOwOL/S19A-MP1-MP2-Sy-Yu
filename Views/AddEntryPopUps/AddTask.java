@@ -123,4 +123,35 @@ public class AddTask extends PopUpFormat{
     public void setButtonActionListener(ActionListener actionListener) {
         submitButton.addActionListener(actionListener);
     }
+
+    // Setters for JTextField and JTextArea
+    public void setTitleField(String title) {
+        this.titleField.setText(title);
+    }
+
+    public void setCreatedByField(String createdBy) {
+        this.createdByField.setText(createdBy);
+    }
+
+    public void setFinishedByField(String finishedBy) {
+        this.finishedByField.setText(finishedBy);
+    }
+
+    public void setDetailArea(String details) {
+        this.detailArea.setText(details);
+    }
+
+    // Setters for JComboBox
+    public void setPriority(String priority) {
+        this.priorityBox.setSelectedItem(priority);
+    }
+
+    public void setStatus(String status) {
+        this.statusBox.setSelectedItem(status);
+    }
+
+    public void updateGUI(){
+        this.revalidate();
+        this.repaint();
+    }
 }

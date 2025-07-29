@@ -30,8 +30,7 @@ public class AddCalendarFrame extends PopUpFormat {
     private JRadioButton importType = new JRadioButton("Import Calendar");
 
     private String[] calendarTypes = new String[]{"Normal", "Personal", "Family"};
-    //TODO importedCalendars dynamically change depending on what's in public calendars
-    private String[] importedCalendars = new String[]{"Suck", "My", "Calendar", "off", "Bro"};
+    private String[] importedCalendars = new String[]{};
     private JComboBox<String> calendarTypeBox = new JComboBox<>(calendarTypes);
     private JComboBox<String> importedCalendarBox = new JComboBox<>(importedCalendars);
 

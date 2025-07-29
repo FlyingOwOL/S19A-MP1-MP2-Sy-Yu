@@ -2,12 +2,12 @@ package Views;
 
 import Utilities.FixedValues;
 import Models.Entry.*;
-import Models.Entry.EventEntry;
 import Models.Calendar.CalendarParentModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -19,20 +19,20 @@ public class EntriesDisplayView extends JFrame {
     private JScrollPane scrollPane;
     private JLabel titleLabel;
     private JButton closeButton;
+    private JComboBox<EntryModel> entriesBox;
+    private JButton editButton;
     
     private String[] columnNames = {"Type", "Title", "Date", "Details", "Status/Priority", "Organizer/Creator"};
 
     //TODO entries should be sorted from Task >> Meeting >> Event. Task is High to Low the others is any. 
 
-    //TODO Since the entries should be editable they should be changeable here in the entries display view
-
     public EntriesDisplayView(CalendarParentModel calendar) {
-        initializeComponents();
+        initializeComponents(calendar);
         loadEntries(calendar);
         setupLayout();
     }
 
-    private void initializeComponents() {
+    private void initializeComponents(CalendarParentModel calendar) {
         this.setTitle("Calendar Entries");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(800, 600);
@@ -48,6 +48,14 @@ public class EntriesDisplayView extends JFrame {
         titleLabel.setFont(FixedValues.TITLE_FONT);
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        // Initialize entriesBox
+        entriesBox = new JComboBox<>(calendar.getEntries().toArray(new EntryModel[0]));
+        entriesBox.setPreferredSize(new Dimension(200, 25)); // Set preferred size for the combo box
+
+        // Initialize Edit button
+        editButton = new JButton("Edit");
+        editButton.setPreferredSize(new Dimension(200, 25));
 
         // Content panel
         contentPanel = new JPanel(new BorderLayout());
@@ -79,6 +87,8 @@ public class EntriesDisplayView extends JFrame {
         // Header layout
         headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         headerPanel.add(titleLabel);
+        headerPanel.add(entriesBox); // Add the JComboBox to the headerPanel
+        headerPanel.add(editButton);  // Add the JButton to the headerPanel
         
         // Content layout
         contentPanel.add(scrollPane, BorderLayout.CENTER);
@@ -95,10 +105,11 @@ public class EntriesDisplayView extends JFrame {
         this.setVisible(true);
     }
 
+
     private void loadEntries(CalendarParentModel calendar) {
         ArrayList<EntryModel> entries = calendar.getEntries();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
-        
+
         // Clear existing data
         tableModel.setRowCount(0);
         
@@ -154,5 +165,23 @@ public class EntriesDisplayView extends JFrame {
 
     public void refreshEntries(CalendarParentModel calendar) {
         loadEntries(calendar);
+    }
+
+    //getters
+    public JButton getEdiButton(){
+        return this.editButton;
+    }
+    public JComboBox<EntryModel> getEntriesBox(){
+        return this.entriesBox;
+    }
+
+    //setters
+    public void setButtonActionListener (ActionListener actionListener){
+        this.editButton.addActionListener(actionListener);
+    }
+
+    public void updateGUI(){
+        this.revalidate();
+        this.repaint();
     }
 }

@@ -195,6 +195,9 @@ public class AccountPage extends JFrame {
     public ViewJournal getViewJournal() {
         return viewJournal;
     }
+    public EntriesDisplayView getEntriesDisplayView(){
+        return this.entriesDisplayView;
+    }
     public SwitchCalendarFrame getSwitchCalendarFrame() {
         return switchCalendarFrame;
     }
@@ -270,6 +273,9 @@ public class AccountPage extends JFrame {
     }
     public void setSwitchCalendarFrame(SwitchCalendarFrame switchCalendarFrame) {
         this.switchCalendarFrame = switchCalendarFrame;
+    }
+    public void setEntriesDisplayView(EntriesDisplayView entriesDisplayView){
+        this.entriesDisplayView = entriesDisplayView;
     }
 
     public void setAddEvent(AddEvent addEvent) {

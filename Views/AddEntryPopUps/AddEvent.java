@@ -161,4 +161,41 @@ public class AddEvent extends PopUpFormat {
     public void setButtonActionListener(ActionListener actionListener){
         this.submitButton.addActionListener(actionListener);
     }
+
+    public void setTitleField(String title) {
+        this.titleField.setText(title);
+    }
+
+    public void setOrganizerField(String organizer) {
+        this.organizerField.setText(organizer);
+    }
+
+    public void setVenueField(String venue) {
+        this.venueField.setText(venue);
+    }
+
+    public void setStartDateField(String startDate) {
+        this.startDateField.setText(startDate);
+    }
+
+    public void setEndDateField(String endDate) {
+        this.endDateField.setText(endDate);
+    }
+
+    public void setDetailArea(String details) {
+        this.detailArea.setText(details);
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTimeBox.setSelectedItem(startTime);
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTimeBox.setSelectedItem(endTime);
+    }
+
+    public void updateGUI(){
+        this.revalidate();
+        this.repaint();
+    }
 }

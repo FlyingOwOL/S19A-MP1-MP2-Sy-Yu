@@ -6,7 +6,6 @@ import Views.PopUpFormat;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -87,5 +86,18 @@ public class AddJournal extends PopUpFormat {
     //setters
     public void setButtonActionListener(ActionListener actionListener) {
         this.submitButton.addActionListener(actionListener);
+    }
+
+    public void setDetailArea(String detailArea){
+        this.detailArea.setText(detailArea);
+    }
+
+    public void setMonthBox(String month){
+        this.monthBox.setSelectedItem(month);
+    }
+
+    public void updateGUI(){
+        this.revalidate();
+        this.repaint();
     }
 }

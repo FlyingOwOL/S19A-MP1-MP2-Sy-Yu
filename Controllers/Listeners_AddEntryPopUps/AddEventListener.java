@@ -35,6 +35,9 @@ public class AddEventListener implements ActionListener {
                 String endTime = (String)addEvent.getEndTime().getSelectedItem();
                 String details = addEvent.getDetailArea().getText();
                 
+
+
+                
                 // Validate required fields
                 boolean stop = false;
                 if (title.isEmpty()) {

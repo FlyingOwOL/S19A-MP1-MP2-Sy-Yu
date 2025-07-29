@@ -14,6 +14,7 @@ public class EventEntry extends EntryModel{
     
     public EventEntry(String title, String venue, String owner){
         super(title);
+        this.venue = venue;
         this.organizer = owner;
         this.startDate = LocalDate.now();
         this.endDate = LocalDate.now();
@@ -40,6 +41,12 @@ public class EventEntry extends EntryModel{
     }
 
     //setters
+    public void setVenue(String venue){
+        this.venue = venue;
+    }
+    public void setOrganizer(String organizer){
+        this.organizer = organizer;
+    }
     public void setStartDate(String startDate) {
         this.startDate = LocalDate.parse(startDate);
     }

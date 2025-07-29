@@ -161,4 +161,45 @@ public class AddMeeting extends PopUpFormat {
         submitButton.addActionListener(actionListener);
         System.out.println("ActionListener added to submitButton!");
     }
+
+    public void setTitleField(String title) {
+        this.titleField.setText(title);
+    }
+
+    public void setVenueField(String venue) {
+        this.venueField.setText(venue);
+    }
+
+    public void setLinkField(String link) {
+        this.linkField.setText(link);
+    }
+
+    public void setStartDateField(String startDate) {
+        this.startDateField.setText(startDate);
+    }
+
+    public void setEndDateField(String endDate) {
+        this.endDateField.setText(endDate);
+    }
+
+    public void setDetailArea(String details) {
+        this.detailArea.setText(details);
+    }
+
+    public void setModality(String modality) {
+        this.modalityBox.setSelectedItem(modality);
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTimeBox.setSelectedItem(startTime);
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTimeBox.setSelectedItem(endTime);
+    }
+
+    public void updateGUI(){
+        this.revalidate();
+        this.repaint();
+    }
 }
