@@ -155,6 +155,8 @@ public class AddMeeting extends PopUpFormat {
 
     //setters
     public void setButtonActionListener(ActionListener actionListener) {
+        System.out.println("setButtonActionListener called!");
         submitButton.addActionListener(actionListener);
+        System.out.println("ActionListener added to submitButton!");
     }
 }

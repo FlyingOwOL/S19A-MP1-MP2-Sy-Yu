@@ -3,6 +3,7 @@ package Views;
 import Utilities.FixedValues;
 import Views.AddEntryPopUps.*;
 import Views.Add_Delete_Calendar_PopUps.*;
+import Controllers.Listeners_AddEntryPopUps.*;
 
 import javax.swing.*;
 
@@ -10,6 +11,7 @@ import Models.Account.AccountModel;
 import Models.Calendar.CalendarParentModel;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class AccountPage extends JFrame {
     private JButton nextButton = new JButton("->");
     private JButton jumpDateButton = new JButton("Jump to Date");
 
-    private String[] entrySelection = {"Event", "Task", "Meeting", "Journal"};
+    private String[] entrySelection = {"-- Select Entry Type --", "Event", "Task", "Meeting", "Journal"};
     private String[] accountSelection = {"View Entries","Switch", "Add Calendar", "Delete Calendar", "View Journal", "Sign out"};
     private String[] calendarDisplayModes = {"Month", "Week"};
     private JComboBox<String> entriesBox = new JComboBox<>(entrySelection);
@@ -113,6 +115,52 @@ public class AccountPage extends JFrame {
 
         entriesBox.setBounds(600, 25, 290, 50);
         footerPanel.add(entriesBox);
+
+        // DIRECT CONNECTION TO ENTRIES DROPDOWN - THIS FIXES THE ISSUE
+        entriesBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedEntry = (String) entriesBox.getSelectedItem();
+                
+                // Skip if placeholder is selected
+                if (selectedEntry.equals("-- Select Entry Type --")) {
+                    return;
+                }
+                
+                JFrame popUp = null;
+                
+                switch (selectedEntry) {
+                    case "Task":
+                        popUp = new AddTask();
+                        addTask = (AddTask) popUp;
+                        addTask.setButtonActionListener(new AddTaskListener(addTask, AccountPage.this));
+                        break;
+                    case "Event":
+                        popUp = new AddEvent();
+                        addEvent = (AddEvent) popUp;
+                        addEvent.setButtonActionListener(new AddEventListener(addEvent, AccountPage.this));
+                        break;
+                    case "Meeting":
+                        popUp = new AddMeeting();
+                        addMeeting = (AddMeeting) popUp;
+                        addMeeting.setButtonActionListener(new AddMeetingListener(addMeeting, AccountPage.this));
+                        break;
+                    case "Journal":
+                        popUp = new AddJournal();
+                        addJournal = (AddJournal) popUp;
+                        addJournal.setButtonActionListener(new AddJournalListener(addJournal, AccountPage.this));
+                        break;
+                }
+
+                if (popUp != null) {
+                    popUp.setLocationRelativeTo(AccountPage.this);
+                    popUp.setVisible(true);
+                }
+                
+                // Reset selection to placeholder
+                entriesBox.setSelectedIndex(0);
+            }
+        });
 
         jumpDateButton.setBounds(360, 25, 150, 50);
         jumpDateButton.setFont(FixedValues.BUTTON_FONT);
@@ -211,7 +259,6 @@ public class AccountPage extends JFrame {
         updateGUI();
     }
 
-
     public void setAddCalendarFrame(AddCalendarFrame addCalendarFrame) {
         this.addCalendarFrame = addCalendarFrame;
     }
@@ -237,7 +284,6 @@ public class AccountPage extends JFrame {
     public void setAddJournal(AddJournal addJournal) {
         this.addJournal = addJournal;
     }
-
 
     public void updateDateLabel(String dateText) {
         dateLabel.setText(dateText);

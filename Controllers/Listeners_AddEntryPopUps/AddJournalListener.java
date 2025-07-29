@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import Models.Entry.Journal;
+import Models.Entry.EntryModel;
 import Models.Calendar.Personal;
 import Views.AccountPage;
 import Views.AddEntryPopUps.AddJournal;
@@ -22,7 +23,7 @@ public class AddJournalListener implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addJournal.getsubmitButton()){
-            String month = (String)addJournal.getMonthtField().getSelectedItem();
+            String month = addJournal.getMonthtField().getText().trim();
             String details = addJournal.getDetailArea().getText().trim();
 
             // Validation

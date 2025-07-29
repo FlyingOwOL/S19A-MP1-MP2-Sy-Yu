@@ -24,6 +24,7 @@ public class PopUpSelectionListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             String selectedEntry = accountPage.getSelectedEntry();
+            System.out.println("Selected entry: " + selectedEntry);
             JFrame popUp = null;
 
             switch (selectedEntry) {
@@ -36,6 +37,7 @@ public class PopUpSelectionListener implements ActionListener {
                     addNewEvent ((AddEvent)popUp, accountPage);
                     break;
                 case "Meeting":
+                    System.out.println("Meeting case reached!");
                     popUp = new AddMeeting();
                     addNewMeeting ((AddMeeting)popUp, accountPage);
                     break;
@@ -63,8 +65,10 @@ public class PopUpSelectionListener implements ActionListener {
         accountPage.getAddTask().setButtonActionListener(new AddTaskListener(popUp, accountPage));
     }
     private void addNewMeeting (AddMeeting popUp, AccountPage accountPage){
+        System.out.println("addNewMeeting method called!");
         accountPage.setAddMeeting(popUp);
         accountPage.getAddMeeting().setButtonActionListener(new AddMeetingListener(popUp, accountPage));
+        System.out.println("Meeting listener connected!");
     }
     private void addNewJournal (AddJournal popUp, AccountPage accountPage){
         accountPage.setAddJournal(popUp);

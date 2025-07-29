@@ -39,10 +39,11 @@ public class MainController {
     }
 
     public static void setupFeatureControllers(AccountPage accountPage) {
-            new EntriesPopUpsController(accountPage);
-            new CalendarDisplayController(accountPage);
-            new CalendarDateController(accountPage);
-            new AccountSelectionController(accountPage);
-            // Other feature controllers
+        // NOTE: EntriesPopUpsController is no longer needed since we use direct connection in AccountPage
+        // new EntriesPopUpsController(accountPage); // REMOVED - now using direct connection
+        new CalendarDisplayController(accountPage);
+        new CalendarDateController(accountPage);
+        new AccountSelectionController(accountPage);
+        // Other feature controllers
     }
 }
