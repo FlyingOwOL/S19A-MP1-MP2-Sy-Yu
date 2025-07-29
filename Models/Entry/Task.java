@@ -24,6 +24,9 @@ public class Task extends EntryModel{
     public String getFinishedBy(){
         return this.finishedBy;
     }
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
 
     //setters
     public void setPriority(String priority) {

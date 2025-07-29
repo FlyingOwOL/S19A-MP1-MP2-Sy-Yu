@@ -1,34 +1,31 @@
 package Models.Entry;
 
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Meeting extends EntryModel{
-    private String modality;
+public class EventEntry extends EntryModel{
     private String venue;
-    private String link;
+    private String organizer;
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
-
-    public Meeting(String title, String modality){
+    
+    public EventEntry(String title, String venue, String owner){
         super(title);
-        this.modality = modality;
-        this.venue = "";
-        this.link = "";
+        this.organizer = owner;
+        this.startDate = LocalDate.now();
+        this.endDate = LocalDate.now();
     }
 
     //getters
-    public String getModality() {
-        return this.modality;
-    }
     public String getVenue() {
         return this.venue;
     }
-    public String getLink() {
-        return this.link;
+    public String getOrganizer() {
+        return this.organizer;
     }
     public LocalDate getStartDate() {
         return this.startDate;
@@ -36,27 +33,18 @@ public class Meeting extends EntryModel{
     public LocalDate getEndDate() {
         return this.endDate;
     }
-    public LocalTime getStartDateTime(){
-        return this.startTime;
-    }
-    public LocalTime getEndDateTime(){
+    public LocalTime getEndTime(){
         return this.endTime;
     }
-    
-    // Setters
-    public void setModality(String modality) {
-        this.modality = modality;
+    public LocalTime getStartTime(){
+        return this.startTime;
     }
-    public void setVenue(String venue) {
-        this.venue = venue;
-    }
-    public void setLink(String link) {
-        this.link = link;
-    }
-    public void setStartDate (String startDate){
+
+    //setters
+    public void setStartDate(String startDate) {
         this.startDate = parseDate(startDate);
     }
-    public void setEndDate (String endDate){
+    public void setEndDate(String endDate) {
         this.endDate = parseDate(endDate);
     }
     public void setStartTime(String startDate) {
@@ -66,6 +54,20 @@ public class Meeting extends EntryModel{
         this.endTime = parseTime(endDate);
     }
 
+    /*
+     * 
+     */
+    public boolean isValidStartDate(String startDate){
+        boolean isValid = false;
+        return isValid;
+    }
+    /*
+     * 
+     */
+    public boolean isValidEndDate(String endDate){
+        boolean isValid = false;
+        return isValid;
+    }
     private LocalTime parseTime (String timeInput){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
         return LocalTime.parse(timeInput, formatter);

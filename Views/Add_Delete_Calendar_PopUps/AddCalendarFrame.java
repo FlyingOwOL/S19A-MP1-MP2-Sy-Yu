@@ -13,14 +13,16 @@ import javax.swing.ButtonGroup;
 
 import java.awt.Color;
 
+import java.awt.event.ActionListener;
+
 public class AddCalendarFrame extends PopUpFormat {
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
     private JLabel titleLabel = new JLabel("Add Calendar");
-        
+
     private JTextField calendarNameField = new JTextField();
-    private JTextField calendarPasswordField = new JTextField();    
+    private JTextField calendarPasswordField = new JTextField();
 
     private JButton addButton = new JButton("Add");
 
@@ -28,6 +30,7 @@ public class AddCalendarFrame extends PopUpFormat {
     private JRadioButton importType = new JRadioButton("Import Calendar");
 
     private String[] calendarTypes = new String[]{"Normal", "Personal", "Family"};
+    //TODO importedCalendars dynamically change depending on what's in public calendars
     private String[] importedCalendars = new String[]{"Suck", "My", "Calendar", "off", "Bro"};
     private JComboBox<String> calendarTypeBox = new JComboBox<>(calendarTypes);
     private JComboBox<String> importedCalendarBox = new JComboBox<>(importedCalendars);
@@ -55,8 +58,9 @@ public class AddCalendarFrame extends PopUpFormat {
         calendarPasswordField.setFont(FixedValues.BUTTON_FONT);
         calendarNameField.setBounds(50, 5, 300, 30);
         calendarPasswordField.setBounds(50, 40, 300, 30);
-        contentPanel.add(calendarNameField);        
+        contentPanel.add(calendarNameField);
         contentPanel.add(calendarPasswordField);
+        calendarPasswordField.setVisible(false);
 
         // Add button
         addButton.setBounds(150, 75, 100, 30);
@@ -66,12 +70,12 @@ public class AddCalendarFrame extends PopUpFormat {
         // Add radio buttons
         creationType.setBounds(50, 110, 200, 30);
         importType.setBounds(50, 140, 200, 30);
-        
+
         // Group the radio buttons
         ButtonGroup group = new ButtonGroup();
         group.add(creationType);
         group.add(importType);
-        
+
         // Add radio buttons to contentPanel
         contentPanel.add(creationType);
         contentPanel.add(importType);
@@ -79,8 +83,11 @@ public class AddCalendarFrame extends PopUpFormat {
         // Add JComboBox
         calendarTypeBox.setBounds(47, 180, 300, 30);
         contentPanel.add(calendarTypeBox);
+        calendarTypeBox.setVisible(false);
+
         importedCalendarBox.setBounds(47, 220, 300, 30);
         contentPanel.add(importedCalendarBox);
+        importedCalendarBox.setVisible(false);
 
         // Add panels to Frame
         this.add(headerPanel);
@@ -98,17 +105,17 @@ public class AddCalendarFrame extends PopUpFormat {
     public JRadioButton getImportType() {
         return importType;
     }
-    public String getCalendarType (){
-        return (String) calendarTypeBox.getSelectedItem();
+    public JComboBox<String> getImportedCalendarBox() {
+        return importedCalendarBox;
     }
-    public String getImportedCalendar() {
-        return (String) importedCalendarBox.getSelectedItem();
+    public JTextField getCalendarPasswordField(){
+        return calendarPasswordField;
     }
-    public String getCalendarName() {
-        return calendarNameField.getText();
+    public JComboBox<String> getCalendarTypeBox() {
+        return calendarTypeBox;
     }
-    public String getCalendarPassword() { //only for family calendars
-        return calendarPasswordField.getText();
+    public JTextField getCalendarNameField() {
+        return calendarNameField;
     }
     public boolean isCreationTypeSelected() {
         return creationType.isSelected();
@@ -118,12 +125,43 @@ public class AddCalendarFrame extends PopUpFormat {
     }
 
     //setters
-    public void setButtonActionListener(java.awt.event.ActionListener actionListener) {
+    public void setButtonActionListener(ActionListener actionListener) {
         addButton.addActionListener(actionListener);
     }
     public void setCalendarName(String name) {
         calendarNameField.setText(name);
+        updateGUI();
+    }
+    public void setImportCalendarListener(ActionListener actionListener) {
+        importType.addActionListener(actionListener);
+    }
+    public void setCreationTypeListener(ActionListener actionListener) {
+        creationType.addActionListener(actionListener);
+    }
+    public void setCalendarTypeBoxListener(ActionListener actionListener) {
+        calendarTypeBox.addActionListener(actionListener);
+    }
+    public void updateGUI(){
         this.revalidate();
         this.repaint();
+    }
+
+    public void createMode(){
+        importedCalendarBox.setVisible(false);
+        calendarTypeBox.setVisible(true);
+        updateGUI();
+    }
+    public void importMode(){
+        importedCalendarBox.setVisible(true);
+        calendarTypeBox.setVisible(false);
+        updateGUI();
+    }
+    public void familyCalendarMode() {
+        calendarPasswordField.setVisible(true);
+        updateGUI();
+    }
+    public void anyCalendarMode() {
+        calendarPasswordField.setVisible(false);
+        updateGUI();
     }
 }

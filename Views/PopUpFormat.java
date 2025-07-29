@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 public class PopUpFormat extends JFrame {
     public PopUpFormat() {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400, 400);
+        this.setSize(400, 500);
         this.setResizable(false);
         this.setLayout(null);
     }

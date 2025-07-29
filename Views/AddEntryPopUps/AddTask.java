@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 
 public class AddTask extends PopUpFormat{
     private JPanel headerPanel = new JPanel();
@@ -32,6 +33,7 @@ public class AddTask extends PopUpFormat{
     private JComboBox<String> priorityBox = new JComboBox<>(priorityTypes);
     private JComboBox<String> statusBox = new JComboBox<>(statusTypes);
 
+    private JTextField titleField = new JTextField();
     private JTextArea detailArea = new JTextArea();
     private JScrollPane detailScrollPane = new JScrollPane(detailArea);
     private JButton submitButton = new JButton("Submit");
@@ -53,23 +55,25 @@ public class AddTask extends PopUpFormat{
         this.add(contentPanel);
 
         // Position labels and fields with fixed coordinates
-        priorityLabel.setBounds(20, 20, 100, 20);
-        priorityBox.setBounds(120, 20, 250, 25);
+        titleField.setBounds(20, 20, 350, 20);
+
+        priorityLabel.setBounds(20, 45, 100, 20);
+        priorityBox.setBounds(120, 45, 250, 25);
         
-        statusLabel.setBounds(20, 60, 100, 20);
-        statusBox.setBounds(120, 60, 250, 25);
+        statusLabel.setBounds(20, 75, 100, 20);
+        statusBox.setBounds(120, 75, 250, 25);
         
-        createdByLabel.setBounds(20, 100, 100, 20);
-        createdByField.setBounds(120, 100, 250, 25);
+        createdByLabel.setBounds(20, 105, 100, 20);
+        createdByField.setBounds(120, 105, 250, 25);
         
-        finishedByLabel.setBounds(20, 140, 100, 20);
-        finishedByField.setBounds(120, 140, 250, 25);
+        finishedByLabel.setBounds(20, 135, 100, 20);
+        finishedByField.setBounds(120, 135, 250, 25);
         
         // Configure detail area
         detailArea.setLineWrap(true);
         detailArea.setWrapStyleWord(true);
         detailArea.setEditable(true); // Allow editing
-        detailScrollPane.setBounds(5, 175, 375, 100); // Set bounds for the scroll pane
+        detailScrollPane.setBounds(20, 165, 350, 100); // Set bounds for the scroll pane
         contentPanel.add(detailScrollPane); // Add scroll pane to content panel
 
         // Configure submit button
@@ -78,6 +82,7 @@ public class AddTask extends PopUpFormat{
         contentPanel.add(submitButton); // Add button to content panel
 
         // Add labels and fields to content panel
+        contentPanel.add(titleField);
         contentPanel.add(priorityLabel);
         contentPanel.add(priorityBox);
         contentPanel.add(statusLabel);
@@ -88,5 +93,34 @@ public class AddTask extends PopUpFormat{
         contentPanel.add(finishedByField);
 
         this.setVisible(true);
+    }
+
+    //getters
+    public JTextField getTitleField() {
+        return titleField;
+    }
+    public JComboBox<String> getPriorityBox() {
+        return priorityBox;
+    }
+    public JComboBox<String> getStatusBox() {
+        return statusBox;
+    }
+    public JTextField getCreatedByField() {
+        return createdByField;
+    }
+    public JTextField getFinishedByField() {
+        return finishedByField;
+    }
+    public JTextArea getDetailArea() {
+        return detailArea;
+    }
+    public JButton getSubmitButton() {
+        return submitButton;
+    }
+
+
+    //setters
+    public void setButtonActionListener(ActionListener actionListener) {
+        submitButton.addActionListener(actionListener);
     }
 }

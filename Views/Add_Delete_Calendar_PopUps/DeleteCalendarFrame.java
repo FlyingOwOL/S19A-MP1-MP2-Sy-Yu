@@ -33,8 +33,8 @@ public class DeleteCalendarFrame extends PopUpFormat {
         titleLabel.setFont(FixedValues.TITLE_FONT);
         titleLabel.setBounds(122, 20, 200, 50);
         headerPanel.add(titleLabel);
-        
-        
+
+
         //content components
         contentPanel.setLayout(null);
         calendarComboBox.setBounds(50, 20, 300, 30);
@@ -42,10 +42,19 @@ public class DeleteCalendarFrame extends PopUpFormat {
         deleteButton.setFocusable(false);
         contentPanel.add(calendarComboBox);
         contentPanel.add(deleteButton);
-        
+
         //frame arrangement
         this.add(headerPanel);
         this.add(contentPanel);
         this.setVisible(true);
+    }
+
+    // Getter methods for the listener
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+
+    public JComboBox<String> getCalendarComboBox() {
+        return calendarComboBox;
     }
 }

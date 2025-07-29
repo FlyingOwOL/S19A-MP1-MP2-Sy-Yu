@@ -9,7 +9,10 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 import java.awt.Dimension;
 import java.awt.Color;
 
@@ -23,13 +26,19 @@ public class AddEvent extends PopUpFormat {
     private JLabel startDateLabel = new JLabel("Start date:");
     private JLabel endDateLabel = new JLabel("End date:");
     private JLabel detailsLabel = new JLabel("Details:");
+    private JLabel startTimeLabel = new JLabel("Start time:");
+    private JLabel endTimeLabel = new JLabel("End time:");
 
+    private JTextField titleField = new JTextField("add title");
     private JTextField organizerField = new JTextField();
     private JTextField venueField = new JTextField();
     private JTextField startDateField = new JTextField();
     private JTextField endDateField = new JTextField();
+
+    private JComboBox<String> startTimeBox = new JComboBox<>(FixedValues.timeSlots);
+    private JComboBox<String> endTimeBox = new JComboBox<>(FixedValues.timeSlots);
     
-    private JTextArea detailArea = new JTextArea("put la la la la ooh la lal alala ooh");
+    private JTextArea detailArea = new JTextArea();
     private JScrollPane detailScrollPane = new JScrollPane(detailArea);
     
     private JButton submitButton = new JButton("SUBMIT");
@@ -40,7 +49,7 @@ public class AddEvent extends PopUpFormat {
         // Panel set bounds
         headerPanel.setBounds(0, 0, 400, 70);
         headerPanel.setBackground(Color.CYAN);
-        contentPanel.setBounds(0, 70, 400, 330);
+        contentPanel.setBounds(0, 70, 400, 430);
         contentPanel.setLayout(null);
         
 
@@ -52,20 +61,28 @@ public class AddEvent extends PopUpFormat {
         headerPanel.add(titleLabel);
 
         // components for contentPane
-        organizerLabel.setBounds(20, 20, 100, 20);
-        organizerField.setBounds(120, 20, 250, 25);
+        titleField.setBounds(20, 20, 350, 20);
+
+        organizerLabel.setBounds(20, 45, 100, 20);
+        organizerField.setBounds(120, 45, 250, 25);
         
-        venueLabel.setBounds(20, 50, 100, 20);
-        venueField.setBounds(120, 50, 250, 25);
+        venueLabel.setBounds(20, 75, 100, 20);
+        venueField.setBounds(120, 75, 250, 25);
         
-        startDateLabel.setBounds(20, 80, 100, 20);
-        startDateField.setBounds(120, 80, 250, 25);
+        startDateLabel.setBounds(20, 105, 100, 20);
+        startDateField.setBounds(120, 105, 250, 25);
         
-        endDateLabel.setBounds(20, 110, 100, 20);
-        endDateField.setBounds(120, 110, 250, 25);
+        endDateLabel.setBounds(20, 135, 100, 20);
+        endDateField.setBounds(120, 135, 250, 25);
+
+        startTimeLabel.setBounds(20, 165, 100, 20);
+        startTimeBox.setBounds(120, 165, 250, 25);
+
+        endTimeLabel.setBounds(20, 195, 100, 20);
+        endTimeBox.setBounds(120, 195, 250, 25);
         
-        detailsLabel.setBounds(20, 140, 100, 20);
-        detailScrollPane.setBounds(120, 140, 250, 100);
+        detailsLabel.setBounds(20, 225, 100, 20);
+        detailScrollPane.setBounds(120, 225, 250, 70);
         
         // Configure text area
         detailArea.setLineWrap(true);
@@ -75,9 +92,10 @@ public class AddEvent extends PopUpFormat {
         // Submit button
         submitButton.setFont(FixedValues.BUTTON_FONT);
         submitButton.setFocusable(false);
-        submitButton.setBounds(150, 250, 100, 30);
+        submitButton.setBounds(150, 300, 100, 30);
 
         // Add components to content panel
+        contentPanel.add(titleField);
         contentPanel.add(organizerLabel);
         contentPanel.add(organizerField);
         contentPanel.add(venueLabel);
@@ -85,6 +103,10 @@ public class AddEvent extends PopUpFormat {
         contentPanel.add(startDateLabel);
         contentPanel.add(startDateField);
         contentPanel.add(endDateLabel);
+        contentPanel.add(startTimeLabel);
+        contentPanel.add(startTimeBox);
+        contentPanel.add(endTimeLabel);
+        contentPanel.add(endTimeBox);
         contentPanel.add(endDateField);
         contentPanel.add(detailsLabel);
         contentPanel.add(detailScrollPane);
@@ -94,5 +116,47 @@ public class AddEvent extends PopUpFormat {
         this.add(headerPanel);
         this.add(contentPanel);
         this.setVisible(true);
+    }
+    //getters
+    public JTextField getTitleField() {
+        return titleField;
+    }
+
+    public JTextField getOrganizerField() {
+        return organizerField;
+    }
+
+    public JTextField getVenueField() {
+        return venueField;
+    }
+
+    public JTextField getStartDateField() {
+        return startDateField;
+    }
+
+    public JTextField getEndDateField() {
+        return endDateField;
+    }  
+
+    public JComboBox<String> getStartTime(){
+        return this.startTimeBox;
+    }
+
+    public JComboBox<String> getEndTime(){
+        return this.endTimeBox;
+    }
+    
+    public JTextArea getDetailArea() {
+        return detailArea;
+    }
+
+    public JButton getSubmitButton() {
+        return submitButton;
+    }
+
+
+    //setters
+    public void setButtonActionListener(ActionListener actionListener){
+        this.submitButton.addActionListener(actionListener);
     }
 }

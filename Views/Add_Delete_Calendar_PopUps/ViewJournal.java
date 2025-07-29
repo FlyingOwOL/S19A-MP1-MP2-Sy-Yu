@@ -14,23 +14,23 @@ import java.awt.Color;
 
 public class ViewJournal extends PopUpFormat {
     private JLabel journalLabel = new JLabel("This is the Month's Journal");
-    
+
     // Use JTextArea instead of JLabel for journal content
-    private JTextArea journalContent = new JTextArea("Lahat ng pagmamahal\n" + 
-                "At oras na aking binigay\n" + 
-                "Parang 'di mo pansin\n" + 
-                "Ang sama ko sa 'yong paningin\n" + 
-                "Hmm, hmm");
-    
+    private JTextArea journalContent = new JTextArea("Lahat ng pagmamahal\n" +
+            "At oras na aking binigay\n" +
+            "Parang 'di mo pansin\n" +
+            "Ang sama ko sa 'yong paningin\n" +
+            "Hmm, hmm");
+
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
-    
+
     private JButton closeButton = new JButton("Close");
 
     private JScrollPane scrollPane = new JScrollPane(journalContent);
 
     private String[] Months = {"Jan", "Mar", "Apr"}; // will change dynamically later
-    private JComboBox<String> calendarComboBox = new JComboBox<>(Months);
+    private JComboBox<String> monthComboBox = new JComboBox<>(Months);
 
     public ViewJournal() {
         this.setTitle("This Month's Journal");
@@ -51,14 +51,14 @@ public class ViewJournal extends PopUpFormat {
         // Components for content
         contentPanel.setLayout(null);
         journalContent.setFont(FixedValues.JOURNAL_FONT);
-        journalContent.setLineWrap(true); 
-        journalContent.setWrapStyleWord(true); 
-        journalContent.setEditable(false); 
+        journalContent.setLineWrap(true);
+        journalContent.setWrapStyleWord(true);
+        journalContent.setEditable(false);
 
-        calendarComboBox.setBounds(340, 0, 50, 25);
-        contentPanel.add(calendarComboBox);
+        monthComboBox.setBounds(340, 0, 50, 25);
+        contentPanel.add(monthComboBox);
 
-        scrollPane.setBounds(0, 0, 340, 220); 
+        scrollPane.setBounds(0, 0, 340, 220);
         contentPanel.add(scrollPane);
 
         closeButton.setFont(FixedValues.BUTTON_FONT);
@@ -70,5 +70,22 @@ public class ViewJournal extends PopUpFormat {
         this.add(headerPanel);
         this.add(contentPanel);
         this.setVisible(true);
+    }
+
+    // Getter methods for the listener
+    public JLabel getJournalLabel() {
+        return journalLabel;
+    }
+
+    public JTextArea getJournalContent() {
+        return journalContent;
+    }
+
+    public JButton getCloseButton() {
+        return closeButton;
+    }
+
+    public JComboBox<String> getMonthComboBox() {
+        return monthComboBox;
     }
 }

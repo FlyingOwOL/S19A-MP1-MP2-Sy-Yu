@@ -21,7 +21,7 @@ public class MainController {
     public static boolean accountExists(String name) {
         boolean isTaken = false;
         for (AccountModel account : accounts) {
-            if (account.getName().equals(name)) {
+            if (account.getName().toUpperCase().equals(name.toUpperCase())) { //disregards case sensitivity
                 isTaken = true;
             }
         }
