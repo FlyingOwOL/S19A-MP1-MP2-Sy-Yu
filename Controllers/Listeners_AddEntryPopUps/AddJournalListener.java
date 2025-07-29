@@ -23,7 +23,7 @@ public class AddJournalListener implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addJournal.getsubmitButton()){
-            String month = addJournal.getMonthtField().getText().trim();
+            String month = (String)addJournal.getMonthtField().getSelectedItem();
             String details = addJournal.getDetailArea().getText().trim();
 
             // Validation
