@@ -1,13 +1,13 @@
 package Controllers.Listeners_Controllers;
 
 import Views.AccountPage;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 
 public class ChangeDisplayListener implements ActionListener {
     private AccountPage accountPage;
@@ -26,7 +26,10 @@ public class ChangeDisplayListener implements ActionListener {
             accountPage.changeCalendarDisplay(selectedDisplay);
             accountPage.updateDateLabel(newDateLabel);
         } catch (NumberFormatException ex) {
-            System.out.println("Error in changing calendar display:");
+             JOptionPane.showMessageDialog(accountPage,
+                "An error occurred in changing the calendar display: " + ex.getMessage(),
+                "Display Change Error",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 

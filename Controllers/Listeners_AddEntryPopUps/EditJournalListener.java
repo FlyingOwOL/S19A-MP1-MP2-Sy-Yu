@@ -49,7 +49,7 @@ public class EditJournalListener implements ActionListener {
             popUp.dispose();
         } catch (Exception ex) {
            JOptionPane.showMessageDialog(popUp,
-                "An error occurred while editing the journal entry: " + ex.getMessage(),
+                "An error occurred while editing the journal entry: \n\n" + ex.getMessage(),
                 "Edit Failed",
                 JOptionPane.ERROR_MESSAGE);
         }

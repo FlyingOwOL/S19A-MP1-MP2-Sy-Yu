@@ -74,7 +74,7 @@ public class EditMeetingListener implements ActionListener {
             popUp.dispose();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(popUp, 
-                "An error occurred while editing the meeting entry:\n" + ex.getMessage(), 
+                "An error occurred while editing the meeting entry:\n\n" + ex.getMessage(), 
                 "Edit Failed", 
                 JOptionPane.ERROR_MESSAGE);
         }

@@ -70,7 +70,7 @@ public class EditEventListener implements ActionListener {
             popUp.dispose();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(popUp,
-                "An error occurred while editing the event entry: " + ex.getMessage(),
+                "An error occurred while editing the event entry: \n\n" + ex.getMessage(),
                 "Edit Failed",
                 JOptionPane.ERROR_MESSAGE);
         }
