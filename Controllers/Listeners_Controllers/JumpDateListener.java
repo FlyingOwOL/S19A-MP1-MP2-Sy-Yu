@@ -45,6 +45,7 @@ public class JumpDateListener implements ActionListener {
                 JOptionPane.QUESTION_MESSAGE
             );
 
+            boolean stop = false;
             // Check if input is not null and not empty
             if (input != null && !input.trim().isEmpty()) {
                 String[] parts = input.trim().split("/");
@@ -59,10 +60,11 @@ public class JumpDateListener implements ActionListener {
                             "Invalid Input",
                             JOptionPane.ERROR_MESSAGE
                         );
-                        return;
+                        stop = true;
                     }
-
-                    dateController.jumpToDate(month, year);
+                    if (!stop){
+                        dateController.jumpToDate(month, year);
+                    }   
                 } else {
                     JOptionPane.showMessageDialog(
                         accountPage,

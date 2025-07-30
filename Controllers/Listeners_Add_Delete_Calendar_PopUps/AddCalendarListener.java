@@ -162,14 +162,14 @@ public class AddCalendarListener implements ActionListener {
                         JOptionPane.showMessageDialog(addCalendarFrame,
                                 "Family calendars require an access code",
                                 "Access Code Required", JOptionPane.WARNING_MESSAGE);
-                        return;
+                        stop = true;
                     }
                     newCalendar = new Family(calendarName, currentAccount, accessCode);
                     MainController.publicCalendars.add(newCalendar);
                     break;
             }
 
-            if (newCalendar != null) {
+            if (newCalendar != null && !stop) {
                 currentAccount.getCalendars().add(newCalendar);
                 JOptionPane.showMessageDialog(addCalendarFrame,
                         "Calendar created successfully!",

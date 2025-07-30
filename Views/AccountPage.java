@@ -129,49 +129,51 @@ public class AccountPage extends JFrame {
         entriesBox.setBounds(600, 25, 290, 50);
         footerPanel.add(entriesBox);
 
-        // DIRECT CONNECTION TO ENTRIES DROPDOWN - THIS FIXES THE ISSUE
         entriesBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedEntry = (String) entriesBox.getSelectedItem();
                 
                 // Skip if placeholder is selected
+                boolean stop = false;
                 if (selectedEntry.equals("-- Select Entry Type --")) {
-                    return;
+                    stop = true;
                 }
                 
-                JFrame popUp = null;
-                
-                switch (selectedEntry) {
-                    case "Task":
-                        popUp = new AddTask();
-                        addTask = (AddTask) popUp;
-                        addTask.setButtonActionListener(new AddTaskListener(addTask, AccountPage.this));
-                        break;
-                    case "Event":
-                        popUp = new AddEvent();
-                        addEvent = (AddEvent) popUp;
-                        addEvent.setButtonActionListener(new AddEventListener(addEvent, AccountPage.this));
-                        break;
-                    case "Meeting":
-                        popUp = new AddMeeting();
-                        addMeeting = (AddMeeting) popUp;
-                        addMeeting.setButtonActionListener(new AddMeetingListener(addMeeting, AccountPage.this));
-                        break;
-                    case "Journal":
-                        popUp = new AddJournal();
-                        addJournal = (AddJournal) popUp;
-                        addJournal.setButtonActionListener(new AddJournalListener(addJournal, AccountPage.this));
-                        break;
-                }
+                if (!stop){
+                    JFrame popUp = null;
+                    
+                    switch (selectedEntry) {
+                        case "Task":
+                            popUp = new AddTask();
+                            addTask = (AddTask) popUp;
+                            addTask.setButtonActionListener(new AddTaskListener(addTask, AccountPage.this));
+                            break;
+                        case "Event":
+                            popUp = new AddEvent();
+                            addEvent = (AddEvent) popUp;
+                            addEvent.setButtonActionListener(new AddEventListener(addEvent, AccountPage.this));
+                            break;
+                        case "Meeting":
+                            popUp = new AddMeeting();
+                            addMeeting = (AddMeeting) popUp;
+                            addMeeting.setButtonActionListener(new AddMeetingListener(addMeeting, AccountPage.this));
+                            break;
+                        case "Journal":
+                            popUp = new AddJournal();
+                            addJournal = (AddJournal) popUp;
+                            addJournal.setButtonActionListener(new AddJournalListener(addJournal, AccountPage.this));
+                            break;
+                    }
 
-                if (popUp != null) {
-                    popUp.setLocationRelativeTo(AccountPage.this);
-                    popUp.setVisible(true);
+                    if (popUp != null) {
+                        popUp.setLocationRelativeTo(AccountPage.this);
+                        popUp.setVisible(true);
+                    }
+                    
+                    // Reset selection to placeholder
+                    entriesBox.setSelectedIndex(0);
                 }
-                
-                // Reset selection to placeholder
-                entriesBox.setSelectedIndex(0);
             }
         });
 
