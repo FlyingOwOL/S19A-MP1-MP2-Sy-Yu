@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
 
 
 public class SwitchCalendarListener implements ActionListener {
-    private SwitchCalendarFrame switchCalendarFrame;
-    private AccountPage accountPage;
+    private SwitchCalendarFrame switchCalendarFrame;    // The frame for switching calendars
+    private AccountPage accountPage;                    // The main account page with calendar access
 
     public SwitchCalendarListener(SwitchCalendarFrame switchCalendarFrame, AccountPage accountPage) {
         this.switchCalendarFrame = switchCalendarFrame;
@@ -27,6 +27,9 @@ public class SwitchCalendarListener implements ActionListener {
         setupButtonListeners();
     }
 
+    /**
+     * Loads the user's calendars into the switch calendar frame's dropdown.
+     */
     private void loadUserCalendars() {
         // First get all calendar names including public calendars
         List<String> allCalendarNames = new ArrayList<>();
@@ -45,6 +48,9 @@ public class SwitchCalendarListener implements ActionListener {
         switchCalendarFrame.setCalendarList(calendarNames);
     }
 
+    /**
+     * Sets up the action listeners for the buttons in the switch calendar frame.
+     */
     private void setupButtonListeners() {
         // Switch button listener
         switchCalendarFrame.getSwitchButton().addActionListener(this);
@@ -58,45 +64,50 @@ public class SwitchCalendarListener implements ActionListener {
         });
     }
 
+    /**
+     * Handles the action of switching calendars when the switch button is clicked.
+     *
+     * @param e the action event triggered by the button click
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
+        // Check if the source of the event is the switch button
         if (e.getSource() == switchCalendarFrame.getSwitchButton()) {
             String selectedCalendarName = switchCalendarFrame.getSelectedCalendar();
 
+            // Check if a calendar is selected
             if (selectedCalendarName == null || selectedCalendarName.isEmpty()) {
                 JOptionPane.showMessageDialog(switchCalendarFrame,
                         "Please select a calendar to switch to",
                         "Selection Required", JOptionPane.WARNING_MESSAGE);
-                return;
+            } else {
+                // Find the selected calendar
+                CalendarParentModel selectedCalendar = accountPage.getCalendarByName(selectedCalendarName);
+
+                // If the calendar is not found, show error
+                if (selectedCalendar == null) {
+                    JOptionPane.showMessageDialog(switchCalendarFrame,
+                            "Selected calendar not found",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    // Check if it's already the current calendar
+                    if (selectedCalendar.equals(accountPage.getCurrentCalendar())) {
+                        JOptionPane.showMessageDialog(switchCalendarFrame,
+                                "This calendar is already selected",
+                                "Already Active", JOptionPane.INFORMATION_MESSAGE);
+                        switchCalendarFrame.dispose();
+                    } else {
+                        // Switch to the selected calendar
+                        accountPage.switchCurrentCalendar(selectedCalendar);
+
+                        JOptionPane.showMessageDialog(switchCalendarFrame,
+                                "Successfully switched to: " + selectedCalendarName,
+                                "Calendar Switched", JOptionPane.INFORMATION_MESSAGE);
+
+                        switchCalendarFrame.dispose();
+                    }
+                }
             }
-
-            // Find the selected calendar
-            CalendarParentModel selectedCalendar = accountPage.getCalendarByName(selectedCalendarName);
-
-            if (selectedCalendar == null) {
-                JOptionPane.showMessageDialog(switchCalendarFrame,
-                        "Selected calendar not found",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Check if it's already the current calendar
-            if (selectedCalendar.equals(accountPage.getCurrentCalendar())) {
-                JOptionPane.showMessageDialog(switchCalendarFrame,
-                        "This calendar is already selected",
-                        "Already Active", JOptionPane.INFORMATION_MESSAGE);
-                switchCalendarFrame.dispose();
-                return;
-            }
-
-            // Switch to the selected calendar
-            accountPage.switchCurrentCalendar(selectedCalendar);
-
-            JOptionPane.showMessageDialog(switchCalendarFrame,
-                    "Successfully switched to: " + selectedCalendarName,
-                    "Calendar Switched", JOptionPane.INFORMATION_MESSAGE);
-
-            switchCalendarFrame.dispose();
         }
     }
 }

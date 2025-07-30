@@ -2,35 +2,43 @@ package Views.AddEntryPopUps;
 
 import Utilities.FixedValues;
 import Views.PopUpFormat;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.awt.Dimension;
-import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
+/**
+ * A pop-up window for adding a new meeting entry.
+ * 
+ * This form allows the user to input details such as title, modality, venue,
+ * link, start and end dates, and times for the meeting.
+ */
 public class AddMeeting extends PopUpFormat {
+    // Header and content panels
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     
+    // Labels and input fields
     private String[] modalities = {"online", "hybrid", "onsite"};
     private JComboBox<String> modalityBox = new JComboBox<>(modalities);
     private JComboBox<String> startTimeBox = new JComboBox<>(FixedValues.timeSlots);
     private JComboBox<String> endTimeBox = new JComboBox<>(FixedValues.timeSlots);
 
+    // Input fields for meeting details
     private JTextField venueField = new JTextField();
     private JTextField linkField = new JTextField();
     private JTextField startDateField = new JTextField();
     private JTextField endDateField = new JTextField();
     private JTextField titleField = new JTextField("Add title");
 
+    // Labels for the input fields
     private JLabel titleLabel = new JLabel("Add Meeting");
     private JLabel modalityLabel = new JLabel("Modality:");
     private JLabel venueLabel = new JLabel("Venue:");
@@ -42,9 +50,13 @@ public class AddMeeting extends PopUpFormat {
     
     private JTextArea detailArea = new JTextArea();
 
+    // Scroll pane for the detail area
     private JScrollPane detailScrollPane = new JScrollPane(detailArea);
     private JButton submitButton = new JButton("Submit");
 
+    /**
+     * Constructs the AddMeeting pop-up window and initializes all GUI components.
+     */
     public AddMeeting() {
         this.setTitle("Add Meeting");
         this.startTimeBox.setSelectedItem("12:00:00");
@@ -123,82 +135,192 @@ public class AddMeeting extends PopUpFormat {
         this.setVisible(true);
     }
 
-    //getters
+    /**
+     * Gets the text field used for entering the meeting title.
+     *
+     * @return the meeting title input field
+     */
     public JTextField getTitleField() {
         return this.titleField;
     }
+
+    /**
+     * Gets the combo box for selecting the meeting's modality.
+     *
+     * @return the modality selection combo box
+     */
     public JComboBox<String> getModalityBox() {
         return this.modalityBox;
     }
+
+    /**
+     * Gets the combo box for selecting the meeting's start time.
+     *
+     * @return the start time selection combo box
+     */
     public JComboBox<String> getStartTimeBox(){
         return this.startTimeBox;
     }
+
+    /**
+     * Gets the combo box for selecting the meeting's end time.
+     *
+     * @return the end time selection combo box
+     */
     public JComboBox<String> getEndTimeBox(){
         return this.endTimeBox;
     }
+
+    /**
+     * Gets the text field for specifying the meeting's venue.
+     *
+     * @return the venue input field
+     */
     public JTextField getVenueField() {
         return this.venueField;
     }
+
+    /**
+     * Gets the text field for specifying the meeting's link.
+     *
+     * @return the link input field
+     */
     public JTextField getLinkField() {
         return this.linkField;
     }
+
+    /**
+     * Gets the text field for specifying the meeting's start date.
+     *
+     * @return the start date input field
+     */
     public JTextField getStartDateField() {
         return this.startDateField;
     }
+
+    /**
+     * Gets the text field for specifying the meeting's end date.
+     *
+     * @return the end date input field
+     */
     public JTextField getEndDateField() {
         return this.endDateField;
     }
+
+    /**
+     * Returns the text area for entering additional meeting details.
+     *
+     * @return the detail text area
+     */
     public JTextArea getDetailArea() {
         return this.detailArea;
     }
+
+    /**
+     * Returns the submit button for the meeting entry.
+     *
+     * @return the submit button
+     */
     public JButton getSubmitButton() {
         return this.submitButton;
     }
 
-    //setters
+    /**
+     * Sets the action listener for the submit button.
+     *
+     * @param actionListener the ActionListener to be attached to the submit button
+     */
     public void setButtonActionListener(ActionListener actionListener) {
         System.out.println("setButtonActionListener called!");
         submitButton.addActionListener(actionListener);
         System.out.println("ActionListener added to submitButton!");
     }
 
+    /**
+     * Sets the text for the title input field.
+     *
+     * @param title the title to set in the title field
+     */
     public void setTitleField(String title) {
         this.titleField.setText(title);
     }
 
+    /**
+     * Sets the text for the venue input field.
+     *
+     * @param venue the venue to set in the venue field
+     */
     public void setVenueField(String venue) {
         this.venueField.setText(venue);
     }
 
+    /**
+     * Sets the text for the link input field.
+     *
+     * @param link the link to set in the link field
+     */
     public void setLinkField(String link) {
         this.linkField.setText(link);
     }
 
+    /**
+     * Sets the text for the start date input field.
+     *
+     * @param startDate the start date to set in the start date field
+     */
     public void setStartDateField(String startDate) {
         this.startDateField.setText(startDate);
     }
 
+    /**
+     * Sets the text for the end date input field.
+     *
+     * @param endDate the end date to set in the end date field
+     */
     public void setEndDateField(String endDate) {
         this.endDateField.setText(endDate);
     }
 
+    /**
+     * Sets the text in the details text area.
+     *
+     * @param details the details to set in the text area
+     */
     public void setDetailArea(String details) {
         this.detailArea.setText(details);
     }
 
+    /**
+     * Sets the selected modality in the combo box.
+     *
+     * @param modality the modality option to select
+     */
     public void setModality(String modality) {
         this.modalityBox.setSelectedItem(modality);
     }
 
+    /**
+     * Sets the selected start time in the combo box.
+     *
+     * @param startTime the start time option to select
+     */
     public void setStartTime(String startTime) {
         this.startTimeBox.setSelectedItem(startTime);
     }
 
+    /**
+     * Sets the selected end time in the combo box.
+     *
+     * @param endTime the end time option to select
+     */
     public void setEndTime(String endTime) {
         this.endTimeBox.setSelectedItem(endTime);
     }
 
-    public void updateGUI(){
+    /**
+     * Refreshes the GUI to reflect any updates or changes.
+     */
+    public void updateGUI() {
         this.revalidate();
         this.repaint();
     }

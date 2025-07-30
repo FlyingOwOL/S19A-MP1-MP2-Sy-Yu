@@ -2,6 +2,10 @@ package Utilities;
 
 import java.awt.Font;
 
+/**
+ * FixedValues class contains constants used throughout the application.
+ * These include font styles, time slots, and month names.
+ */
 public class FixedValues {
     public static final Font TITLE_FONT = new Font("Comic Sans MS", Font.PLAIN, 24);
     public static final Font LABEL_FONT = new Font("Comic Sans MS", Font.PLAIN, 14);

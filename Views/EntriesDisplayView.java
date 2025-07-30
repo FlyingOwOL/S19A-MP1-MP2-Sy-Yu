@@ -1,19 +1,22 @@
 package Views;
 
-import Utilities.FixedValues;
-import Models.Entry.*;
 import Models.Calendar.CalendarParentModel;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import Models.Entry.*;
+import Utilities.FixedValues;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
+/**
+ * Displays a view for calendar entries, allowing users to view and edit entries.
+ * This class extends JFrame and provides a table to display various types of calendar entries.
+ */
 public class EntriesDisplayView extends JFrame {
-    private JPanel headerPanel;
+    private JPanel headerPanel;             
     private JPanel contentPanel;
     private JTable entriesTable;
     private DefaultTableModel tableModel;
@@ -104,6 +107,11 @@ public class EntriesDisplayView extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Loads entries from the calendar model into the table.
+     * 
+     * @param calendar
+     */
     private void loadEntries(CalendarParentModel calendar) {
         ArrayList<EntryModel> entries = calendar.getEntries();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
@@ -199,12 +207,21 @@ public class EntriesDisplayView extends JFrame {
         }
     }
 
+    /**
+     * Refreshes the entries displayed in this view.
+     * 
+     * @param calendar
+     */
     public void refreshEntries(CalendarParentModel calendar) {
         loadEntries(calendar);
     }
 
-    // Getters
-    public JButton getEditButton() {
+    /**
+     * Gets the edit button for this view.
+     * 
+     * @return the edit button
+     */
+    public JButton getEditButton(){
         return this.editButton;
     }
 
@@ -212,12 +229,20 @@ public class EntriesDisplayView extends JFrame {
         return this.entriesBox;
     }
 
-    // Setters
-    public void setButtonActionListener(ActionListener actionListener) {
+    /**
+     * Sets the action listener for the edit button.
+     * 
+     * @param actionListener
+     */
+    public void setButtonActionListener (ActionListener actionListener){
         this.editButton.addActionListener(actionListener);
     }
 
-    public void updateGUI() {
+    /**
+     * 
+     * 
+     */
+    public void updateGUI(){
         this.revalidate();
         this.repaint();
     }

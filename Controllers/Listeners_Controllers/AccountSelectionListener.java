@@ -1,15 +1,13 @@
 package Controllers.Listeners_Controllers;
 
-import Views.AccountPage;
-import Views.EntriesDisplayView;
-import Views.Add_Delete_Calendar_PopUps.*;
-
-import Controllers.LoginController;
 import Controllers.Listeners_Add_Delete_Calendar_PopUps.*;
-
-import javax.swing.*;
+import Controllers.LoginController;
+import Views.AccountPage;
+import Views.Add_Delete_Calendar_PopUps.*;
+import Views.EntriesDisplayView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class AccountSelectionListener implements ActionListener {
     private AccountPage accountPage;
@@ -57,7 +55,11 @@ public class AccountSelectionListener implements ActionListener {
                 popUp.setVisible(true);
             }
         } catch (Exception ex) {
-            System.out.println("Error in account selection: " + ex.getMessage());
+            JOptionPane.showMessageDialog(accountPage,
+                "An error occured in account selection: \n\n" + ex.getMessage(),
+                "Edit Failed",
+                JOptionPane.ERROR_MESSAGE);
+            
             ex.printStackTrace(); // This will help debug
         }
     }

@@ -1,12 +1,6 @@
 package Views;
 
 import Utilities.FixedValues;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,34 +8,58 @@ import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class CalendarWeeklyView extends JScrollPane {
+    // Array of day names for the header of the calendar
     private String[] dayNames = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-    private LocalDate currentDate;
-    private ArrayList<JLabel> dayLabel = new ArrayList<>();
-    private JPanel calendarPanel = new JPanel();
-    private ArrayList<JPanel> dayPanel = new ArrayList<>();
+    private LocalDate currentDate;                          // The current date
+    private ArrayList<JLabel> dayLabel = new ArrayList<>(); // Labels for each day of the week
+    private JPanel calendarPanel = new JPanel();            // Main panel for the calendar
+    private ArrayList<JPanel> dayPanel = new ArrayList<>(); // Panels for each day of the week
 
     //TODO entries should also be shown in the weekly view
 
+    /**
+     * Default constructor that initializes the calendar to the current date.
+     * Sets the preferred size and layout for the calendar panel.
+     */
     public CalendarWeeklyView() {
         // Get the current date
         currentDate = LocalDate.now();
         initializeCalendar();
     }
 
-    // Constructor that accepts a specific date
+    /**
+     * Constructor that allows setting a specific date for the calendar view.
+     *
+     * @param date the LocalDate to display in the calendar
+     */
     public CalendarWeeklyView(LocalDate date) {
         this.currentDate = date;
         initializeCalendar();
     }
 
+    /**
+     * Initializes the calendar layout and components.
+     * Sets the preferred size and layout for the calendar panel.
+     */
     private void initializeCalendar() {
         buildCalendar();
         this.setPreferredSize(new Dimension(900, 400)); // Set preferred size for the scroll pane
     }
 
+    /**
+     * Updates the calendar view with a new date.
+     * Clears existing components and rebuilds the calendar for the new date.
+     *
+     * @param newDate the LocalDate to update the calendar to
+     */
     public void updateDate(LocalDate newDate) {
         this.currentDate = newDate;
         // Clear existing components
@@ -53,6 +71,10 @@ public class CalendarWeeklyView extends JScrollPane {
         this.repaint();
     }
 
+    /**
+     * Builds the calendar grid for the current week.
+     * Adds labels for each day of the week and interactive rectangles for time slots.
+     */
     private void buildCalendar() {
         calendarPanel.setLayout(new GridLayout(FixedValues.timeSlots.length + 2, dayNames.length + 1)); // +2 for header row and time column
 
@@ -105,7 +127,11 @@ public class CalendarWeeklyView extends JScrollPane {
         this.setViewportView(calendarPanel);
     }
 
-
+    /**
+     * Returns the current date displayed in the calendar.
+     *
+     * @return the LocalDate representing the current date
+     */
     public LocalDate getCurrentDate() {
         return currentDate;
     }
