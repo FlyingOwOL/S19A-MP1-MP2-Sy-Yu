@@ -9,12 +9,12 @@ import java.time.LocalTime;
  * Extends the base EntryModel class.
  */
 public class EventEntry extends EntryModel {
-    private String venue;
-    private String organizer;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String venue;           // The venue where the event will be held
+    private String organizer;       // The organizer or owner of the event
+    private LocalDate startDate;    // The start date of the event    
+    private LocalDate endDate;      // The end date of the event
+    private LocalTime startTime;    // The start time of the event
+    private LocalTime endTime;      // The end time of the event
 
     /**
      * Constructs an EventEntry with a given title, venue, and organizer.
