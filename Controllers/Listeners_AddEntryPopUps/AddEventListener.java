@@ -31,7 +31,7 @@ public class AddEventListener implements ActionListener {
         this.addEvent = addEvent;
         this.accountPage = accountPage;
 
-        this.addEvent.getOrganizerField().setText(accountPage.getOwner().getName());
+        this.addEvent.getOrganizerField().setText(accountPage.getCurrentAccount().getName());
         this.addEvent.updateGUI();
     }
 
