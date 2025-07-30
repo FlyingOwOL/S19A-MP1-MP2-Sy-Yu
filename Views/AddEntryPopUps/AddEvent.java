@@ -19,10 +19,11 @@ import javax.swing.JTextField;
  * Users can input event details such as title, organizer, venue, date, time, and description.
  */
 public class AddEvent extends PopUpFormat {
-    // UI Components
+    // Header and content panels
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
+    // Labels for the form
     private JLabel titleLabel = new JLabel("Add Event");
     private JLabel organizerLabel = new JLabel("Organizer:");
     private JLabel venueLabel = new JLabel("Venue:");
@@ -32,15 +33,18 @@ public class AddEvent extends PopUpFormat {
     private JLabel startTimeLabel = new JLabel("Start time:");
     private JLabel endTimeLabel = new JLabel("End time:");
 
+    // Input fields for event details
     private JTextField titleField = new JTextField("add title");
     private JTextField organizerField = new JTextField();
     private JTextField venueField = new JTextField();
     private JTextField startDateField = new JTextField();
     private JTextField endDateField = new JTextField();
 
+    // Combo boxes for time selection
     private JComboBox<String> startTimeBox = new JComboBox<>(FixedValues.timeSlots);
     private JComboBox<String> endTimeBox = new JComboBox<>(FixedValues.timeSlots);
 
+    // Text area for additional event details
     private JTextArea detailArea = new JTextArea();
     private JScrollPane detailScrollPane = new JScrollPane(detailArea);
 

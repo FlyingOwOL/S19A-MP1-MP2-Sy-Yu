@@ -16,8 +16,8 @@ import javax.swing.JOptionPane;
  */
 public class AddJournalListener implements ActionListener {
 
-    private AddJournal addJournal;
-    private AccountPage accountPage;
+    private AddJournal addJournal;      // Reference to the AddJournal pop-up window
+    private AccountPage accountPage;    // Reference to the main AccountPage containing the current calendar    
 
     /**
      * Constructs a listener for handling the addition of journal entries.

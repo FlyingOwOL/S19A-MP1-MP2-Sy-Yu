@@ -7,7 +7,7 @@ public class Task extends EntryModel {
     private String status;          // The status of the task (e.g., Pending, Completed)
     private String createdBy;       // The name of the person who created the task
     private String finishedBy;      // The name of the person who finished the task
-    private LocalDate date;
+    private LocalDate date;         // The current date
 
     /**
      * Constructs a new Task with the given title, priority, status, and creator.
@@ -61,10 +61,20 @@ public class Task extends EntryModel {
         return this.createdBy;
     }
 
+    /**
+     * Gets the date of the task.
+     *
+     * @return the date of the task
+     */
     public LocalDate getDate(){
         return this.date;
     }
 
+    /**
+     * Sets the priority of the task.
+     *
+     * @param priority the new priority to set
+     */
     public void setDate(String date){
         this.date = LocalDate.parse(date);
     }

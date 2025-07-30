@@ -13,11 +13,8 @@ import javax.swing.JOptionPane;
  * the calendar to the specified month and year.
  */
 public class JumpDateListener implements ActionListener {
-    // The account page view instance 
-    private AccountPage accountPage;
-
-    // Controller responsible for managing calendar date navigation 
-    private CalendarDateController dateController;
+    private AccountPage accountPage;                // The account page view instance 
+    private CalendarDateController dateController;  // Controller responsible for managing calendar date navigation 
 
     /**
      * Constructs a JumpDateListener with references to the AccountPage

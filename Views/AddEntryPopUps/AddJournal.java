@@ -17,17 +17,21 @@ import javax.swing.JTextArea;
  * It provides input components for writing journal details and selecting a month.
  */
 public class AddJournal extends PopUpFormat {
-    // UI components for the AddJournal pop-up
+    // Header and content panels
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
+    // Header label for the pop-up
     private JLabel headerLabel = new JLabel("Add Journal Entry");
     
+    // Text area for journal details
     private JTextArea detailArea = new JTextArea();
     private JScrollPane detailScrollPane = new JScrollPane(detailArea);
 
+    // Submit button to finalize the journal entry
     private JButton submitButton = new JButton("Submit");
 
+    // Combo box for selecting the month of the journal entry
     private JComboBox<String> monthBox = new JComboBox<>(FixedValues.monthNames);
     private JLabel dateLabel = new JLabel("Enter month(e.g September, May..):");
 

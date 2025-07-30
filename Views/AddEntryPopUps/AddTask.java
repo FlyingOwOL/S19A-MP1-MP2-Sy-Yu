@@ -247,6 +247,11 @@ public class AddTask extends PopUpFormat {
         this.statusBox.setSelectedItem(status);
     }
 
+    /**
+     * Sets the date in the date field.
+     *
+     * @param date the date to set
+     */
     public void setDate(String date){
         this.dateField.setText(date);
     }

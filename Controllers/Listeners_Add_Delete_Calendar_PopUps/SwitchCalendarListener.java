@@ -11,7 +11,10 @@ import Views.Add_Delete_Calendar_PopUps.SwitchCalendarFrame;
 
 import javax.swing.JOptionPane;
 
-
+/**
+ * This class handles the logic for switching between calendars in the user's account.
+ * It allows the user to select a calendar from a dropdown and switch to it.
+ */
 public class SwitchCalendarListener implements ActionListener {
     private SwitchCalendarFrame switchCalendarFrame;    // The frame for switching calendars
     private AccountPage accountPage;                    // The main account page with calendar access

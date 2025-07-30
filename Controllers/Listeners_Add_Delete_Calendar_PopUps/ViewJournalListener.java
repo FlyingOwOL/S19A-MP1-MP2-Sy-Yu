@@ -15,9 +15,9 @@ import Views.Add_Delete_Calendar_PopUps.ViewJournal;
  * Listener class that handles viewing journal entries in a Personal calendar.
  */
 public class ViewJournalListener implements ActionListener {
-    private ViewJournal viewJournal;
-    private AccountPage accountPage;
-    private ArrayList<Journal> availableJournals;
+    private ViewJournal viewJournal;                // The pop-up view for displaying journal entries
+    private AccountPage accountPage;                // The main account page containing the current calendar
+    private ArrayList<Journal> availableJournals;   // List of available journal entries in the Personal calendar
 
     public ViewJournalListener(ViewJournal viewJournal, AccountPage accountPage) {
         this.viewJournal = viewJournal;

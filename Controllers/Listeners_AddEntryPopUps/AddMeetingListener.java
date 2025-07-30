@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
  */
 public class AddMeetingListener implements ActionListener {
 
-    private AddMeeting addMeeting;
-    private AccountPage accountPage;
+    private AddMeeting addMeeting;      // Reference to the AddMeeting pop-up window
+    private AccountPage accountPage;    // Reference to the main AccountPage containing the current calendar    
 
     /**
      * Constructs the listener with the AddMeeting pop-up and AccountPage reference.

@@ -158,7 +158,7 @@ public class EventEntry extends EntryModel {
      * @return true if valid; false otherwise.
      */
     public boolean isValidEndDate(String endDate) {
-        boolean isValid = false;
+        boolean isValid = false;    // Check if the end date is after the start date
         return isValid;
     }
 }

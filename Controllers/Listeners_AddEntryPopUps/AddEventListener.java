@@ -18,12 +18,8 @@ import javax.swing.JOptionPane;
  *
  */
 public class AddEventListener implements ActionListener {
-
-    // Reference to the AddEvent pop-up window
-    private AddEvent addEvent;
-
-    // Reference to the AccountPage from which the pop-up was opened
-    private AccountPage accountPage;
+    private AddEvent addEvent;          // Reference to the AddEvent pop-up window
+    private AccountPage accountPage;     // Reference to the AccountPage from which the pop-up was opened
 
     /**
      * Constructs a listener for handling event submission.
@@ -53,6 +49,7 @@ public class AddEventListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addEvent.getSubmitButton()) {
             try {
+                // Retrieve user inputs from the AddEvent pop-up
                 String title = addEvent.getTitleField().getText();
                 String organizer = addEvent.getOrganizerField().getText();
                 String venue = addEvent.getVenueField().getText();

@@ -16,24 +16,37 @@ import javax.swing.table.DefaultTableModel;
  * This class extends JFrame and provides a table to display various types of calendar entries.
  */
 public class EntriesDisplayView extends JFrame {
-    private JPanel headerPanel;             
-    private JPanel contentPanel;
-    private JTable entriesTable;
-    private DefaultTableModel tableModel;
-    private JScrollPane scrollPane;
-    private JLabel titleLabel;
-    private JButton closeButton;
-    private JComboBox<EntryModel> entriesBox;
-    private JButton editButton;
+    private JPanel headerPanel;                 // Header panel for the view            
+    private JPanel contentPanel;                // Content panel containing the table of entries
+    private JTable entriesTable;                // Table to display entries
+    private DefaultTableModel tableModel;       // Model for the entries table
+    private JScrollPane scrollPane;             // Scroll pane for the entries table
+    private JLabel titleLabel;                  // Title label for the view
+    private JButton closeButton;                // Button to close the view
+    private JComboBox<EntryModel> entriesBox;   // Combo box to select entries
+    private JButton editButton;                 // Button to edit selected entry
     
+    // Column names for the entries table
     private String[] columnNames = {"Type", "Title", "Date", "Details", "Status/Priority", "Organizer/Creator"};
 
+    /**
+     * Constructor initializes the EntriesDisplayView with the provided calendar model.
+     * It sets up the GUI components, loads entries, and configures the layout.
+     * 
+     * @param calendar The calendar model containing entries to display.
+     */
     public EntriesDisplayView(CalendarParentModel calendar) {
         initializeComponents(calendar);
         loadEntries(calendar);
         setupLayout();
     }
 
+    /**
+     * Initializes the GUI components for the EntriesDisplayView.
+     * Sets up the header, content panel, and table model.
+     * 
+     * @param calendar The calendar model to load entries from.
+     */
     private void initializeComponents(CalendarParentModel calendar) {
         this.setTitle("Calendar Entries");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -85,6 +98,10 @@ public class EntriesDisplayView extends JFrame {
         closeButton.addActionListener(e -> dispose());
     }
 
+    /**
+     * Sets up the layout of the EntriesDisplayView.
+     * Adds components to the header and content panels, and configures the frame.
+     */
     private void setupLayout() {
         // Header layout
         headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -239,8 +256,10 @@ public class EntriesDisplayView extends JFrame {
     }
 
     /**
+     * Updates the GUI components based on the provided calendar model.
+     * This method refreshes the entries and revalidates the layout.
      * 
-     * 
+     * @param calendar The calendar model to update the view with.
      */
     public void updateGUI(CalendarParentModel calendar){
         refreshEntries(calendar);
