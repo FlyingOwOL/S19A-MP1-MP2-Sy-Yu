@@ -1,17 +1,26 @@
 package Controllers.Listeners_AddEntryPopUps;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JOptionPane;
-
 import Models.Entry.Journal;
 import Views.AddEntryPopUps.AddJournal;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
+/**
+ * Handles editing an existing Journal entry from the AddJournal pop-up.
+ * Updates the journal details and displays a confirmation message.
+ */
 public class EditJournalListener implements ActionListener {
+    
     private AddJournal popUp;
-    private Journal entry; // Change to Journal
+    private Journal entry;
 
+    /**
+     * Constructs the listener for editing a journal entry.
+     *
+     * @param popUp the journal editing form
+     * @param entry the journal entry to be edited
+     */
     public EditJournalListener(AddJournal popUp, Journal entry) {
         this.popUp = popUp;
         this.entry = entry;
@@ -21,21 +30,25 @@ public class EditJournalListener implements ActionListener {
         this.popUp.updateGUI();
     }
 
+    /**
+     * Updates the journal entry when the user confirms changes.
+     * Displays a success message and closes the form.
+     *
+     * @param e the triggered action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        try{
+        try {
             String newDetails = popUp.getDetailArea().getText().trim();
-
             entry.setDetails(newDetails);
 
             JOptionPane.showMessageDialog(popUp, 
-            "Edit Successful", 
-            "Changes", 
-            JOptionPane.INFORMATION_MESSAGE);
+                "Edit Successful", 
+                "Changes", 
+                JOptionPane.INFORMATION_MESSAGE);
             popUp.dispose();
-        }catch(Exception ex){
-
+        } catch (Exception ex) {
+            // You can add error logging here if needed
         }
     }
 }
-

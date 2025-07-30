@@ -1,24 +1,46 @@
 package Controllers.Listeners_Controllers;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JOptionPane;
-
 import Controllers.CalendarDateController;
 import Views.AccountPage;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
+/**
+ * Listener for the "Jump to Date" functionality.
+ * 
+ * Prompts the user to enter a date in MM/yyyy format and navigates
+ * the calendar to the specified month and year.
+ */
 public class JumpDateListener implements ActionListener {
+    // The account page view instance 
     private AccountPage accountPage;
+
+    // Controller responsible for managing calendar date navigation 
     private CalendarDateController dateController;
 
+    /**
+     * Constructs a JumpDateListener with references to the AccountPage
+     * and CalendarDateController.
+     *
+     * @param accountPage the account page view where the calendar is displayed
+     * @param dateController the controller managing calendar date logic
+     */
     public JumpDateListener(AccountPage accountPage, CalendarDateController dateController) {
         this.accountPage = accountPage;
         this.dateController = dateController;
     }
 
+    /**
+     * Handles the action event triggered when the user clicks the "Jump" button.
+     * Prompts for a date in MM/yyyy format, validates the input, and calls
+     * the controller to jump to that date if valid.
+     *
+     * @param e the action event triggered by the user
+     */
     public void actionPerformed(ActionEvent e) {
         try {
+            // Prompt the user for a date in MM/yyyy format
             String input = JOptionPane.showInputDialog(
                 accountPage,
                 "Enter date (MM/yyyy format):",
@@ -26,6 +48,7 @@ public class JumpDateListener implements ActionListener {
                 JOptionPane.QUESTION_MESSAGE
             );
 
+            // Check if input is not null and not empty
             if (input != null && !input.trim().isEmpty()) {
                 String[] parts = input.trim().split("/");
                 if (parts.length == 2) {
