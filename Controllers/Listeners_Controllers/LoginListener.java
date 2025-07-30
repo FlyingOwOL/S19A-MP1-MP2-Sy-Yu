@@ -6,6 +6,7 @@ import Views.AccountLoginPage;
 import Views.AccountPage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 /**
  * Handles login and account creation events from the AccountLoginPage.
@@ -38,38 +39,37 @@ public class LoginListener implements ActionListener {
         String enteredPassword = accountLoginPage.getPassword();
 
         if (enteredName.isEmpty() || enteredPassword.isEmpty()) {
-            System.out.println("Please enter username and password.");
-            return;
-        }
-
-        if (e.getSource() == accountLoginPage.getLoginButton()) {
-            AccountModel foundAccount = MainController.getAccountByName(enteredName);
-            if (foundAccount == null) {
-                System.out.println("Account not found");
-            } else {
-                if (foundAccount.checkAuthority(enteredPassword)) {
-                    AccountPage newAccountPage = new AccountPage(foundAccount);
-                    foundAccount.setAccountPage(newAccountPage);
-                    MainController.setupFeatureControllers(newAccountPage);
-                    accountLoginPage.dispose();                    
+            JOptionPane.showMessageDialog(accountLoginPage, "Please enter username and password.", "Input Error", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (e.getSource() == accountLoginPage.getLoginButton()) {
+                AccountModel foundAccount = MainController.getAccountByName(enteredName);
+                if (foundAccount == null) {
+                    JOptionPane.showMessageDialog(accountLoginPage, "Account not found.", "Login Failed", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    System.out.println("Incorrect password. Please try again.");
+                    if (foundAccount.checkAuthority(enteredPassword)) {
+                        AccountPage newAccountPage = new AccountPage(foundAccount);
+                        foundAccount.setAccountPage(newAccountPage);
+                        MainController.setupFeatureControllers(newAccountPage);
+                        accountLoginPage.dispose();                    
+                    } else {
+                        JOptionPane.showMessageDialog(accountLoginPage, "Incorrect password. Please try again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-            }
 
-        } else if (e.getSource() == accountLoginPage.getCreateAccountButton()) {
-            boolean isTaken = MainController.accountExists(enteredName);
-            if (!isTaken) {
-                AccountModel newAccount = new AccountModel(enteredName, enteredPassword);
-                AccountPage newAccountPage = new AccountPage(newAccount);
-                newAccount.setAccountPage(newAccountPage);
-                MainController.setupFeatureControllers(newAccountPage);
-                MainController.accounts.add(newAccount);
+            } else if (e.getSource() == accountLoginPage.getCreateAccountButton()) {
+                boolean isTaken = MainController.accountExists(enteredName);
+                if (!isTaken) {
+                    AccountModel newAccount = new AccountModel(enteredName, enteredPassword);
+                    AccountPage newAccountPage = new AccountPage(newAccount);
+                    newAccount.setAccountPage(newAccountPage);
+                    MainController.setupFeatureControllers(newAccountPage);
+                    MainController.accounts.add(newAccount);
 
-                accountLoginPage.dispose();
-                System.out.println("Account created successfully.");
-            } else {
-                System.out.println("Account name is already taken.");
+                    accountLoginPage.dispose();
+                    JOptionPane.showMessageDialog(null, "Account created successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(accountLoginPage, "Account name is already taken.", "Account Creation Failed", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
