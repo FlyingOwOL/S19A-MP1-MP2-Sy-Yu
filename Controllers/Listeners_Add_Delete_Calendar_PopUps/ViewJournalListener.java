@@ -2,7 +2,6 @@ package Controllers.Listeners_Add_Delete_Calendar_PopUps;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import Models.Entry.EntryModel;
@@ -11,7 +10,6 @@ import Models.Calendar.Personal;
 import Views.AccountPage;
 import Views.Add_Delete_Calendar_PopUps.ViewJournal;
 
-import javax.swing.JOptionPane;
 
 public class ViewJournalListener implements ActionListener {
     private ViewJournal viewJournal;

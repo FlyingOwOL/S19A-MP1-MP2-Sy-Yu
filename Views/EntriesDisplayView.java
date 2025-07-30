@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class EntriesDisplayView extends JFrame {
     private JPanel headerPanel;
@@ -23,8 +24,6 @@ public class EntriesDisplayView extends JFrame {
     private JButton editButton;
     
     private String[] columnNames = {"Type", "Title", "Date", "Details", "Status/Priority", "Organizer/Creator"};
-
-    //TODO entries should be sorted from Task >> Meeting >> Event. Task is High to Low the others is any. 
 
     public EntriesDisplayView(CalendarParentModel calendar) {
         initializeComponents(calendar);
@@ -105,7 +104,6 @@ public class EntriesDisplayView extends JFrame {
         this.setVisible(true);
     }
 
-
     private void loadEntries(CalendarParentModel calendar) {
         ArrayList<EntryModel> entries = calendar.getEntries();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
@@ -113,6 +111,47 @@ public class EntriesDisplayView extends JFrame {
         // Clear existing data
         tableModel.setRowCount(0);
         
+        // Sort entries with a single return comparator
+        entries.sort((e1, e2) -> {
+            int result = 0;
+
+            // 1. Separate Tasks from other types (Tasks come first)
+            boolean isTask1 = e1 instanceof Task;
+            boolean isTask2 = e2 instanceof Task;
+
+            if (isTask1 && !isTask2) {
+                result = -1;  // e1 comes first
+            } else if (!isTask1 && isTask2) {
+                result = 1;   // e2 comes first
+            } else if (isTask1) { // Both are Tasks
+                Task task1 = (Task) e1;
+                Task task2 = (Task) e2;
+
+                // 2. "Done" tasks go to bottom
+                boolean isDone1 = "Done".equals(task1.getStatus());
+                boolean isDone2 = "Done".equals(task2.getStatus());
+
+                if (isDone1 && !isDone2) {
+                    result = 1;  // Done comes after Pending
+                } else if (!isDone1 && isDone2) {
+                    result = -1; // Pending comes before Done
+                } else { // Same status - compare priority
+                    // Using enum-like ordering for priorities
+                    Map<String, Integer> priorityOrder = Map.of(
+                        "High", 0,
+                        "Medium", 1,
+                        "Low", 2
+                    );
+                    int priority1 = priorityOrder.getOrDefault(task1.getPriority(), 3);
+                    int priority2 = priorityOrder.getOrDefault(task2.getPriority(), 3);
+                    result = Integer.compare(priority1, priority2);
+                }
+            }
+            // The result variable will be returned at the end of the lambda
+            return result;
+        });
+
+        // Populate the table with sorted entries
         for (EntryModel entry : entries) {
             String[] rowData = new String[6];
             
@@ -158,29 +197,27 @@ public class EntriesDisplayView extends JFrame {
             
             tableModel.addRow(rowData);
         }
-        
-        // Sort entries by date (newest first)
-        // You can implement custom sorting here if needed
     }
 
     public void refreshEntries(CalendarParentModel calendar) {
         loadEntries(calendar);
     }
 
-    //getters
-    public JButton getEdiButton(){
+    // Getters
+    public JButton getEditButton() {
         return this.editButton;
     }
-    public JComboBox<EntryModel> getEntriesBox(){
+
+    public JComboBox<EntryModel> getEntriesBox() {
         return this.entriesBox;
     }
 
-    //setters
-    public void setButtonActionListener (ActionListener actionListener){
+    // Setters
+    public void setButtonActionListener(ActionListener actionListener) {
         this.editButton.addActionListener(actionListener);
     }
 
-    public void updateGUI(){
+    public void updateGUI() {
         this.revalidate();
         this.repaint();
     }

@@ -28,7 +28,7 @@ public class AccountSelectionListener implements ActionListener {
                 case "View Entries":
                     popUp = new EntriesDisplayView(this.accountPage.getCurrentCalendar());
                     accountPage.setEntriesDisplayView((EntriesDisplayView)popUp);
-                    accountPage.getEntriesDisplayView().getEdiButton().addActionListener(new EditEntryListener(accountPage));
+                    accountPage.getEntriesDisplayView().getEditButton().addActionListener(new EditEntryListener(accountPage));
                     break;
                 case "Switch":
                     popUp = new SwitchCalendarFrame();
