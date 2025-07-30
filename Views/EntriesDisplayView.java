@@ -1,18 +1,21 @@
 package Views;
 
-import Utilities.FixedValues;
-import Models.Entry.*;
 import Models.Calendar.CalendarParentModel;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import Models.Entry.*;
+import Utilities.FixedValues;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
+/**
+ * Displays a view for calendar entries, allowing users to view and edit entries.
+ * This class extends JFrame and provides a table to display various types of calendar entries.
+ */
 public class EntriesDisplayView extends JFrame {
-    private JPanel headerPanel;
+    private JPanel headerPanel;             
     private JPanel contentPanel;
     private JTable entriesTable;
     private DefaultTableModel tableModel;
