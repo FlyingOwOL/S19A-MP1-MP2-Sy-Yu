@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
  * and deletes the selected one after confirmation.
  */
 public class DeleteCalendarListener implements ActionListener {
-    private DeleteCalendarFrame deleteCalendarFrame;
-    private AccountPage accountPage;
+    private DeleteCalendarFrame deleteCalendarFrame;    // The pop-up window for deleting calendars
+    private AccountPage accountPage;                    // The main user interface page where the calendar is displayed
 
     /**
      * Sets up the delete calendar listener.

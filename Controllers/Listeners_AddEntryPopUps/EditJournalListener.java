@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
  */
 public class EditJournalListener implements ActionListener {
     
-    private AddJournal popUp;
-    private Journal entry;
+    private AddJournal popUp;   // The pop-up window for editing the journal entry
+    private Journal entry;      // The journal entry being edited
 
     /**
      * Constructs the listener for editing a journal entry.
@@ -48,7 +48,7 @@ public class EditJournalListener implements ActionListener {
                 JOptionPane.INFORMATION_MESSAGE);
             popUp.dispose();
         } catch (Exception ex) {
-            // You can add error logging here if needed
+            System.out.println("Error editing journal entry: " + ex.getMessage());
         }
     }
 }

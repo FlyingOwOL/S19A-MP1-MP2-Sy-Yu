@@ -4,17 +4,34 @@ import Controllers.MainController;
 import Models.Account.AccountModel;
 import Views.AccountLoginPage;
 import Views.AccountPage;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Handles login and account creation events from the AccountLoginPage.
+ * 
+ * Depending on the button pressed, this listener either attempts to log in the user
+ * or create a new account, performing validation and updating the interface accordingly.
+ */
 public class LoginListener implements ActionListener {
-    private AccountLoginPage accountLoginPage;
+    private AccountLoginPage accountLoginPage; // The login view where users input credentials
 
+    /**
+     * Constructs a LoginListener with a reference to the login page view.
+     *
+     * @param accountLoginPage the login interface used to retrieve input and interact with
+     */
     public LoginListener(AccountLoginPage accountLoginPage) {
         this.accountLoginPage = accountLoginPage;
     }
 
+    /**
+     * Responds to button clicks on the login screen.
+     * If the login button is pressed, it attempts to authenticate the user.
+     * If the create account button is pressed, it attempts to register a new account.
+     *
+     * @param e the ActionEvent triggered by button interaction
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String enteredName = accountLoginPage.getUsername();
@@ -30,7 +47,7 @@ public class LoginListener implements ActionListener {
             if (foundAccount == null) {
                 System.out.println("Account not found");
             } else {
-                if (foundAccount.checkAuthority(enteredPassword)){
+                if (foundAccount.checkAuthority(enteredPassword)) {
                     AccountPage newAccountPage = new AccountPage(foundAccount);
                     foundAccount.setAccountPage(newAccountPage);
                     MainController.setupFeatureControllers(newAccountPage);
@@ -38,7 +55,6 @@ public class LoginListener implements ActionListener {
                 } else {
                     System.out.println("Incorrect password. Please try again.");
                 }
-
             }
 
         } else if (e.getSource() == accountLoginPage.getCreateAccountButton()) {
