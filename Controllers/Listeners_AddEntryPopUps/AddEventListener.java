@@ -94,7 +94,7 @@ public class AddEventListener implements ActionListener {
 
             } catch (DateTimeParseException ex) {
                 JOptionPane.showMessageDialog(addEvent,
-                    "The date format is incorrect. Please use the format '2025-03-07' for dates.",
+                    "The date format is incorrect. Please use the format 'YYYY-MM-DD' for dates.",
                     "Invalid Date Format",
                     JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {

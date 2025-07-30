@@ -4,6 +4,7 @@ import Controllers.CalendarDateController;
 import Views.AccountPage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 public class PreviousDateListener implements ActionListener {
     private AccountPage accountPage;               // The view that displays the calendar and user interface
@@ -36,7 +37,10 @@ public class PreviousDateListener implements ActionListener {
                 dateController.navigateToPreviousMonth();
             }
         } catch (Exception ex) {
-            System.out.println("Error navigating to previous date: " + ex.getMessage());
+            JOptionPane.showMessageDialog(accountPage,
+                "An error occurred while navigating to the previous date:\n\n" + ex.getMessage(),
+                "Navigation Error",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 }

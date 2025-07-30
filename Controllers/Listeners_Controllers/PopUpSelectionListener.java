@@ -9,6 +9,7 @@ import Views.AddEntryPopUps.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * This class handles the logic for showing the appropriate pop-up
@@ -66,7 +67,10 @@ public class PopUpSelectionListener implements ActionListener {
                 popUp.setVisible(true); // Show the popup
             }
         } catch (Exception ex) {
-            System.out.println("Error in selecting entry type: " + ex.getMessage());
+            JOptionPane.showMessageDialog(accountPage,
+                "An error occurred while selecting entry type:\n\n" + ex.getMessage(),
+                "Navigation Error",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 

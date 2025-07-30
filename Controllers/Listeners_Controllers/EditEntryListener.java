@@ -1,15 +1,13 @@
 package Controllers.Listeners_Controllers;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import Controllers.Listeners_AddEntryPopUps.*;
 import Models.Entry.*;
 import Views.AccountPage;
 import Views.AddEntryPopUps.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 public class EditEntryListener implements ActionListener{
@@ -60,7 +58,10 @@ public class EditEntryListener implements ActionListener{
                 }
                 accountPage.getEntriesDisplayView().updateGUI();
             } catch (Exception ex) {
-                System.out.println("Error in account selection: " + ex.getMessage());
+                JOptionPane.showMessageDialog(accountPage,
+                "An error occurred while editing the entry:\n\n" + ex.getMessage(),
+                "Edit Entry Error",
+                JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace(); // This will help debug
             }
         } else {
