@@ -64,9 +64,9 @@ public class EditTaskListener implements ActionListener {
                 JOptionPane.INFORMATION_MESSAGE);
             popUp.dispose();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(popUp, 
-                "Error editing task entry:\n" + ex.getMessage(), 
-                "Edit Failed", 
+            JOptionPane.showMessageDialog(popUp,
+                "An error occurred while editing the task entry: " + ex.getMessage(),
+                "Edit Failed",
                 JOptionPane.ERROR_MESSAGE);
         }
     }

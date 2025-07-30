@@ -48,7 +48,10 @@ public class EditJournalListener implements ActionListener {
                 JOptionPane.INFORMATION_MESSAGE);
             popUp.dispose();
         } catch (Exception ex) {
-            System.out.println("Error editing journal entry: " + ex.getMessage());
+           JOptionPane.showMessageDialog(popUp,
+                "An error occurred while editing the journal entry: " + ex.getMessage(),
+                "Edit Failed",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 }
