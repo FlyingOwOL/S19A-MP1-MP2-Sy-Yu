@@ -31,11 +31,13 @@ public class AddTask extends PopUpFormat {
     private JLabel statusLabel = new JLabel("Status:");
     private JLabel createdByLabel = new JLabel("Created By:");
     private JLabel finishedByLabel = new JLabel("Finished By:");
+    private JLabel dateLabel = new JLabel("Date:");
 
     // Input fields
     private JTextField createdByField = new JTextField();
     private JTextField finishedByField = new JTextField();
     private JTextField titleField = new JTextField();
+    private JTextField dateField = new JTextField();
 
     // Combo boxes
     private String[] priorityTypes = {"High", "Medium", "Low"};
@@ -72,32 +74,37 @@ public class AddTask extends PopUpFormat {
         // Field positions
         titleField.setBounds(20, 20, 350, 20);
 
-        priorityLabel.setBounds(20, 45, 100, 20);
-        priorityBox.setBounds(120, 45, 250, 25);
+        dateLabel.setBounds(20, 45, 100, 20);
+        dateField.setBounds(120, 45, 250, 25);
 
-        statusLabel.setBounds(20, 75, 100, 20);
-        statusBox.setBounds(120, 75, 250, 25);
+        priorityLabel.setBounds(20, 75, 100, 20);
+        priorityBox.setBounds(120, 75, 250, 25);
 
-        createdByLabel.setBounds(20, 105, 100, 20);
-        createdByField.setBounds(120, 105, 250, 25);
+        statusLabel.setBounds(20, 105, 100, 20);
+        statusBox.setBounds(120, 105, 250, 25);
 
-        finishedByLabel.setBounds(20, 135, 100, 20);
-        finishedByField.setBounds(120, 135, 250, 25);
+        createdByLabel.setBounds(20, 135, 100, 20);
+        createdByField.setBounds(120, 135, 250, 25);
+
+        finishedByLabel.setBounds(20, 165, 100, 20);
+        finishedByField.setBounds(120, 165, 250, 25);
 
         // Detail area setup
         detailArea.setLineWrap(true);
         detailArea.setWrapStyleWord(true);
         detailArea.setEditable(true);
-        detailScrollPane.setBounds(20, 165, 350, 100);
+        detailScrollPane.setBounds(20, 195, 350, 100);
         contentPanel.add(detailScrollPane);
 
         // Submit button setup
         submitButton.setFocusable(false);
-        submitButton.setBounds(150, 280, 100, 30);
+        submitButton.setBounds(150, 310, 100, 30);
         contentPanel.add(submitButton);
 
         // Add all remaining components
         contentPanel.add(titleField);
+        contentPanel.add(dateLabel);
+        contentPanel.add(dateField);
         contentPanel.add(priorityLabel);
         contentPanel.add(priorityBox);
         contentPanel.add(statusLabel);
@@ -135,6 +142,10 @@ public class AddTask extends PopUpFormat {
      */
     public JComboBox<String> getStatusBox() {
         return statusBox;
+    }
+
+    public JTextField getDateField(){
+        return dateField;
     }
 
     /**
@@ -234,6 +245,10 @@ public class AddTask extends PopUpFormat {
      */
     public void setStatus(String status) {
         this.statusBox.setSelectedItem(status);
+    }
+
+    public void setDate(String date){
+        this.dateField.setText(date);
     }
 
     /**

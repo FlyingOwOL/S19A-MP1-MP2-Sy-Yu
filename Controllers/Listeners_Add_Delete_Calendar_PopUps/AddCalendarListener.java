@@ -128,53 +128,57 @@ public class AddCalendarListener implements ActionListener {
         String calendarName = addCalendarFrame.getCalendarNameField().getText().trim();
         String selectedType = (String) addCalendarFrame.getCalendarTypeBox().getSelectedItem();
 
+        boolean stop = false;
         if (calendarName.isEmpty()) {
             JOptionPane.showMessageDialog(addCalendarFrame,
                     "Please enter a calendar name",
                     "Name Required", JOptionPane.WARNING_MESSAGE);
-            return;
+            stop = true;
         }
 
         // Check if calendar name already exists for this account
-        if (accountPage.getCalendarByName(calendarName) != null) {
+        if (accountPage.getCalendarByName(calendarName) != null && !stop) {
             JOptionPane.showMessageDialog(addCalendarFrame,
                     "A calendar with this name already exists",
                     "Duplicate Name", JOptionPane.ERROR_MESSAGE);
-            return;
+            stop = true;
         }
 
-        CalendarParentModel newCalendar = null;
-        AccountModel currentAccount = accountPage.getCurrentAccount();
+        if (!stop){
+            CalendarParentModel newCalendar = null;
+            AccountModel currentAccount = accountPage.getCurrentAccount();
 
-        switch (selectedType) {
-            case "Personal":
-                newCalendar = new Personal(calendarName, currentAccount);
-                break;
-            case "Normal":
-                newCalendar = new Normal(calendarName, currentAccount);
-                MainController.publicCalendars.add(newCalendar);
-                break;
-            case "Family":
-                String accessCode = addCalendarFrame.getCalendarPasswordField().getText().trim();
-                if (accessCode.isEmpty()) {
-                    JOptionPane.showMessageDialog(addCalendarFrame,
-                            "Family calendars require an access code",
-                            "Access Code Required", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                newCalendar = new Family(calendarName, currentAccount, accessCode);
-                MainController.publicCalendars.add(newCalendar);
-                break;
-        }
+            switch (selectedType) {
+                case "Personal":
+                    newCalendar = new Personal(calendarName, currentAccount);
+                    break;
+                case "Normal":
+                    newCalendar = new Normal(calendarName, currentAccount);
+                    MainController.publicCalendars.add(newCalendar);
+                    break;
+                case "Family":
+                    String accessCode = addCalendarFrame.getCalendarPasswordField().getText().trim();
+                    if (accessCode.isEmpty()) {
+                        JOptionPane.showMessageDialog(addCalendarFrame,
+                                "Family calendars require an access code",
+                                "Access Code Required", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    newCalendar = new Family(calendarName, currentAccount, accessCode);
+                    MainController.publicCalendars.add(newCalendar);
+                    break;
+            }
 
-        if (newCalendar != null) {
-            currentAccount.getCalendars().add(newCalendar);
-            JOptionPane.showMessageDialog(addCalendarFrame,
-                    "Calendar created successfully!",
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
-            addCalendarFrame.dispose();
-            accountPage.updateGUI(); // Refresh the account page
+            if (newCalendar != null) {
+                currentAccount.getCalendars().add(newCalendar);
+                JOptionPane.showMessageDialog(addCalendarFrame,
+                        "Calendar created successfully!",
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+                addCalendarFrame.dispose();
+                accountPage.updateGUI(); // Refresh the account page
+            }
         }
+        
     }
 
     /**

@@ -31,6 +31,7 @@ public class EditTaskListener implements ActionListener {
         this.popUp.setPriority(entry.getPriority());
         this.popUp.setStatus(entry.getStatus());
         this.popUp.setDetailArea(entry.getDetails());
+        this.popUp.setDate(entry.getDate().toString());
         this.popUp.updateGUI();
     }
 

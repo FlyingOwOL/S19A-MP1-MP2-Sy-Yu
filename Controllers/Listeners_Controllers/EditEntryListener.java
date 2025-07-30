@@ -3,6 +3,7 @@ package Controllers.Listeners_Controllers;
 import Controllers.Listeners_AddEntryPopUps.*;
 import Models.Entry.*;
 import Views.AccountPage;
+import Views.EntriesDisplayView;
 import Views.AddEntryPopUps.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,10 +14,12 @@ import javax.swing.JOptionPane;
 public class EditEntryListener implements ActionListener{
     private AccountPage accountPage;
     private EntryModel entry;
+    private EntriesDisplayView entriesDisplayView;
 
-    public EditEntryListener(AccountPage accountPage){
+    public EditEntryListener(AccountPage accountPage, EntriesDisplayView popUp){
         this.accountPage = accountPage;
-        this.entry = (EntryModel)accountPage.getEntriesDisplayView().getEntriesBox().getSelectedItem();
+        this.entriesDisplayView = popUp;
+        this.entry = (EntryModel)popUp.getEntriesBox().getSelectedItem();
     }
 
     @Override
@@ -52,12 +55,13 @@ public class EditEntryListener implements ActionListener{
                             EditJournal ((AddJournal)popUp, (Journal)entry);
                             break;
                     }
-
+                    
                     if (popUp != null) {
                         popUp.setLocationRelativeTo(accountPage);
                         popUp.setVisible(true);
+                        entriesDisplayView.updateGUI(accountPage.getCurrentCalendar());
                     }
-                    accountPage.getEntriesDisplayView().updateGUI();
+                    
                 } catch (Exception ex) {
                     System.out.println("Error in account selection: " + ex.getMessage());
                     ex.printStackTrace(); // This will help debug

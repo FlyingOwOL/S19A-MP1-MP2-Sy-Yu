@@ -1,10 +1,13 @@
 package Models.Entry;
 
+import java.time.LocalDate;
+
 public class Task extends EntryModel {
     private String priority;        // The priority of the task (e.g., High, Medium, Low)
     private String status;          // The status of the task (e.g., Pending, Completed)
     private String createdBy;       // The name of the person who created the task
     private String finishedBy;      // The name of the person who finished the task
+    private LocalDate date;
 
     /**
      * Constructs a new Task with the given title, priority, status, and creator.
@@ -56,6 +59,14 @@ public class Task extends EntryModel {
      */
     public String getCreatedBy() {
         return this.createdBy;
+    }
+
+    public LocalDate getDate(){
+        return this.date;
+    }
+
+    public void setDate(String date){
+        this.date = LocalDate.parse(date);
     }
 
     /**

@@ -42,27 +42,28 @@ public class AddJournalListener implements ActionListener {
             String details = addJournal.getDetailArea().getText().trim();
 
             // Validation
-            if (month == null || month.isEmpty()) {
+            boolean stop = false;
+            if ((month == null || month.isEmpty()) && !stop) {
                 JOptionPane.showMessageDialog(addJournal,
                         "Please enter a month.",
                         "Month Required", JOptionPane.WARNING_MESSAGE);
-                return;
+                stop = true;
             }
 
             // If details are empty, show a warning
-            if (details.isEmpty()) {
+            if (details.isEmpty() && !stop) {
                 JOptionPane.showMessageDialog(addJournal,
                         "Please enter journal details.",
                         "Details Required", JOptionPane.WARNING_MESSAGE);
-                return;
+                stop = true;
             }
 
             // Calendar type check
-            if (!(accountPage.getCurrentCalendar() instanceof Personal)) {
+            if (!(accountPage.getCurrentCalendar() instanceof Personal) && !stop) {
                 JOptionPane.showMessageDialog(addJournal,
                         "Journals can only be created in Personal calendars.\nPlease switch to a Personal calendar first.",
                         "Invalid Calendar Type", JOptionPane.ERROR_MESSAGE);
-                return;
+                stop = true;
             }
 
             // Check for existing journal for that month
@@ -71,23 +72,25 @@ public class AddJournalListener implements ActionListener {
                     .map(entry -> (Journal) entry)
                     .anyMatch(journal -> journal.getMonth().equalsIgnoreCase(month));
 
-            if (journalExists) {
+            if (journalExists && !stop) {
                 JOptionPane.showMessageDialog(addJournal,
                         "A journal for '" + month + "' already exists.\nOnly one journal per month is allowed.",
                         "Journal Already Exists", JOptionPane.ERROR_MESSAGE);
-                return;
+                stop = true;
             }
 
             // Add new journal
-            String title = "This " + month + " Journal";
-            Journal newJournal = new Journal(title, details, month);
-            accountPage.getCurrentCalendar().addEntry(newJournal);
+            if (!stop){
+                String title = "This " + month + " Journal";
+                Journal newJournal = new Journal(title, details, month);
+                accountPage.getCurrentCalendar().addEntry(newJournal);
 
-            JOptionPane.showMessageDialog(addJournal,
-                    "Journal for '" + month + "' created successfully!",
-                    "Journal Created", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(addJournal,
+                        "Journal for '" + month + "' created successfully!",
+                        "Journal Created", JOptionPane.INFORMATION_MESSAGE);
 
-            addJournal.dispose();
+                addJournal.dispose();                
+            }
         }
     }
 }

@@ -188,7 +188,7 @@ public class ViewJournalListener implements ActionListener {
      *
      * @param e the action event triggered by the user
      */
-    @Override
+    @Override //so far this is just here to make sure the listener works
     public void actionPerformed(ActionEvent e) {
         // This method can be used for additional actions if needed
         // Currently, specific actions are handled by the individual listeners set up above

@@ -5,6 +5,9 @@ import Views.AccountPage;
 import Views.AddEntryPopUps.AddTask;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.format.DateTimeParseException;
+
+import javax.swing.JOptionPane;
 
 /**
  * Listener class for handling the "Submit" action in the AddTask pop-up window.
@@ -37,27 +40,57 @@ public class AddTaskListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // Check if the event source is the Submit button
         if (e.getSource() == addTask.getSubmitButton()) {
+            try{
+                // Retrieve text input fields
+                String title = addTask.getTitleField().getText();
+                String createdBy = addTask.getCreatedByField().getText();
+                String date = addTask.getDateField().getText();
 
-            // Retrieve text input fields
-            String title = addTask.getTitleField().getText();
-            String createdBy = addTask.getCreatedByField().getText();
+                // Retrieve selected items from combo boxes
+                String priority = (String) addTask.getPriorityBox().getSelectedItem();
+                String status = (String) addTask.getStatusBox().getSelectedItem();
 
-            // Retrieve selected items from combo boxes
-            String priority = (String) addTask.getPriorityBox().getSelectedItem();
-            String status = (String) addTask.getStatusBox().getSelectedItem();
+                // Retrieve the content from the text area
+                String details = addTask.getDetailArea().getText();
 
-            // Retrieve the content from the text area
-            String details = addTask.getDetailArea().getText();
+                boolean stop = false;
+                if (createdBy.isEmpty()){
+                    JOptionPane.showMessageDialog(accountPage, 
+                                        "Missing created by person name", 
+                                        "Task", JOptionPane.ERROR_MESSAGE);
+                    stop = true;
+                }
 
-            // Create and populate the new Task entry
-            Task newTask = new Task(title, priority, status, createdBy);
-            newTask.setDetails(details);
+                if (title.isEmpty() && !stop){
+                    JOptionPane.showMessageDialog(accountPage,
+                                        "Missing title", 
+                                            "Task", JOptionPane.ERROR_MESSAGE);
+                    stop = true;
+                }
 
-            // Add the task to the current calendar
-            accountPage.getCurrentCalendar().addEntry(newTask);
+                if (date.isEmpty() && !stop){
+                    JOptionPane.showMessageDialog(accountPage, 
+                                        "Missing date", 
+                                            "Task", JOptionPane.ERROR_MESSAGE);
+                }
 
-            // Close the AddTask pop-up window
-            addTask.dispose();
+                if(!stop){
+                    // Create and populate the new Task entry
+                    Task newTask = new Task(title, priority, status, createdBy);
+                    newTask.setDetails(details);
+                    newTask.setDate(date);
+
+                    // Add the task to the current calendar
+                    accountPage.getCurrentCalendar().addEntry(newTask);
+
+                    // Close the AddTask pop-up window
+                    addTask.dispose();
+                }
+            } catch (DateTimeParseException ex){
+                JOptionPane.showMessageDialog(accountPage, 
+                                 "date format should be like '2025-06-03", 
+                                    "Wrong date format", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }
