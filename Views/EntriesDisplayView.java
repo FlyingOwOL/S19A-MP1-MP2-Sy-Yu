@@ -108,7 +108,11 @@ public class EntriesDisplayView extends JFrame {
         this.setVisible(true);
     }
 
-
+    /**
+     * Loads entries from the calendar model into the table.
+     * 
+     * @param calendar
+     */
     private void loadEntries(CalendarParentModel calendar) {
         ArrayList<EntryModel> entries = calendar.getEntries();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
@@ -166,11 +170,20 @@ public class EntriesDisplayView extends JFrame {
         // You can implement custom sorting here if needed
     }
 
+    /**
+     * Refreshes the entries displayed in this view.
+     * 
+     * @param calendar
+     */
     public void refreshEntries(CalendarParentModel calendar) {
         loadEntries(calendar);
     }
 
-    //getters
+    /**
+     * Gets the edit button for this view.
+     * 
+     * @return the edit button
+     */
     public JButton getEdiButton(){
         return this.editButton;
     }
@@ -178,11 +191,19 @@ public class EntriesDisplayView extends JFrame {
         return this.entriesBox;
     }
 
-    //setters
+    /**
+     * Sets the action listener for the edit button.
+     * 
+     * @param actionListener
+     */
     public void setButtonActionListener (ActionListener actionListener){
         this.editButton.addActionListener(actionListener);
     }
 
+    /**
+     * 
+     * 
+     */
     public void updateGUI(){
         this.revalidate();
         this.repaint();
