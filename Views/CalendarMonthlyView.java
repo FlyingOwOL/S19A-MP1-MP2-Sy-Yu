@@ -16,8 +16,6 @@ public class CalendarMonthlyView extends JPanel {
     private String[] dayNames = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     private LocalDate currentDate;  // The current date
 
-    //TODO entries should also be shown in the monthly view
-
     /**
      * Default constructor that initializes the calendar to the current date.
      * Sets the preferred size and layout for the calendar panel.

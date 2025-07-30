@@ -23,8 +23,6 @@ public class CalendarWeeklyView extends JScrollPane {
     private JPanel calendarPanel = new JPanel();            // Main panel for the calendar
     private ArrayList<JPanel> dayPanel = new ArrayList<>(); // Panels for each day of the week
 
-    //TODO entries should also be shown in the weekly view
-
     /**
      * Default constructor that initializes the calendar to the current date.
      * Sets the preferred size and layout for the calendar panel.

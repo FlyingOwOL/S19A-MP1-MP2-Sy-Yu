@@ -242,7 +242,8 @@ public class EntriesDisplayView extends JFrame {
      * 
      * 
      */
-    public void updateGUI(){
+    public void updateGUI(CalendarParentModel calendar){
+        refreshEntries(calendar);
         this.revalidate();
         this.repaint();
     }
