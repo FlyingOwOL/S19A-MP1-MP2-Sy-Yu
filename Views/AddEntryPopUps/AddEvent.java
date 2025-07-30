@@ -2,27 +2,24 @@ package Views.AddEntryPopUps;
 
 import Utilities.FixedValues;
 import Views.PopUpFormat;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
-/**
- * Pop-up window for adding an event entry to the calendar.
- */
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.Dimension;
+import java.awt.Color;
+
 public class AddEvent extends PopUpFormat {
-    // Panels for header and content
     private JPanel headerPanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
-    // Labels for the header and input fields
     private JLabel titleLabel = new JLabel("Add Event");
     private JLabel organizerLabel = new JLabel("Organizer:");
     private JLabel venueLabel = new JLabel("Venue:");
@@ -32,31 +29,25 @@ public class AddEvent extends PopUpFormat {
     private JLabel startTimeLabel = new JLabel("Start time:");
     private JLabel endTimeLabel = new JLabel("End time:");
 
-    // Input fields for event details
     private JTextField titleField = new JTextField("add title");
     private JTextField organizerField = new JTextField();
     private JTextField venueField = new JTextField();
     private JTextField startDateField = new JTextField();
     private JTextField endDateField = new JTextField();
 
-    // Combo boxes for start and end times
     private JComboBox<String> startTimeBox = new JComboBox<>(FixedValues.timeSlots);
     private JComboBox<String> endTimeBox = new JComboBox<>(FixedValues.timeSlots);
     
-    // Text area for additional event details
     private JTextArea detailArea = new JTextArea();
     private JScrollPane detailScrollPane = new JScrollPane(detailArea);
     
-    // Submit button for adding the event
     private JButton submitButton = new JButton("SUBMIT");
 
-    /**
-     * Constructor for the AddEvent pop-up window.
-     * Initializes the layout and components of the pop-up.
-     */
     public AddEvent() {
         this.setTitle("Add Event");
-
+        this.startTimeBox.setSelectedItem("12:00:00");
+        this.endTimeBox.setSelectedItem("13:00:00");
+        
         // Panel set bounds
         headerPanel.setBounds(0, 0, 400, 70);
         headerPanel.setBackground(Color.CYAN);
@@ -128,95 +119,83 @@ public class AddEvent extends PopUpFormat {
         this.add(contentPanel);
         this.setVisible(true);
     }
-    
-        /**
-     * Gets the title text field where the user enters the event title.
-     *
-     * @return the title input field
-     */
+    //getters
     public JTextField getTitleField() {
         return titleField;
     }
 
-    /**
-     * Gets the organizer text field where the user enters the organizer's name.
-     *
-     * @return the organizer input field
-     */
     public JTextField getOrganizerField() {
         return organizerField;
     }
 
-    /**
-     * Gets the venue text field where the user enters the event venue.
-     *
-     * @return the venue input field
-     */
     public JTextField getVenueField() {
         return venueField;
     }
 
-    /**
-     * Gets the start date text field where the user enters the starting date of the event.
-     *
-     * @return the start date input field
-     */
     public JTextField getStartDateField() {
         return startDateField;
     }
 
-    /**
-     * Gets the end date text field where the user enters the ending date of the event.
-     *
-     * @return the end date input field
-     */
     public JTextField getEndDateField() {
         return endDateField;
-    }
+    }  
 
-    /**
-     * Gets the combo box containing the list of start time options for the event.
-     *
-     * @return the start time combo box
-     */
-    public JComboBox<String> getStartTime() {
+    public JComboBox<String> getStartTime(){
         return this.startTimeBox;
     }
 
-    /**
-     * Gets the combo box containing the list of end time options for the event.
-     *
-     * @return the end time combo box
-     */
-    public JComboBox<String> getEndTime() {
+    public JComboBox<String> getEndTime(){
         return this.endTimeBox;
     }
-
-    /**
-     * Gets the text area where the user can type in detailed information about the event.
-     *
-     * @return the detail input text area
-     */
+    
     public JTextArea getDetailArea() {
         return detailArea;
     }
 
-    /**
-     * Gets the submit button used to finalize and submit the event entry.
-     *
-     * @return the submit button
-     */
     public JButton getSubmitButton() {
         return submitButton;
     }
 
-    /**
-     * Sets an action listener for the submit button. This listener handles submit actions.
-     *
-     * @param actionListener the action listener to attach to the submit button
-     */
-    public void setButtonActionListener(ActionListener actionListener) {
+
+    //setters
+    public void setButtonActionListener(ActionListener actionListener){
         this.submitButton.addActionListener(actionListener);
     }
 
+    public void setTitleField(String title) {
+        this.titleField.setText(title);
+    }
+
+    public void setOrganizerField(String organizer) {
+        this.organizerField.setText(organizer);
+    }
+
+    public void setVenueField(String venue) {
+        this.venueField.setText(venue);
+    }
+
+    public void setStartDateField(String startDate) {
+        this.startDateField.setText(startDate);
+    }
+
+    public void setEndDateField(String endDate) {
+        this.endDateField.setText(endDate);
+    }
+
+    public void setDetailArea(String details) {
+        this.detailArea.setText(details);
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTimeBox.setSelectedItem(startTime);
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTimeBox.setSelectedItem(endTime);
+    }
+
+    public void updateGUI(){
+        this.revalidate();
+        this.repaint();
+    }
 }
